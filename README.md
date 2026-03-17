@@ -259,6 +259,20 @@ This project is licensed under the **MIT License**.
 
 ---
 
+## 🙏 Acknowledgements
+
+This project is derived from:
+
+- **Dark Reader** — https://github.com/darkreader/darkreader
+
+Original work © Dark Reader contributors (MIT License).
+
+This repository contains modifications, UI changes, and additional features built on top of the original codebase.
+
+All credit for the core functionality goes to the original project and its contributors.
+
+---
+
 ## 🤝 Contributing
 
 Issues, suggestions, and pull requests are welcome.
