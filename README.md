@@ -1,4 +1,6 @@
-<h1 align="center">🌙 DARK PLEASE!</h1>
+<p align="center">
+  <img src="./src/ui/assets/images/darkplease-type.svg" alt="DARK PLEASE!" width="260" />
+</p>
 
 <p align="center">
   <b>Browser extension that automatically generates dark themes for websites.</b>
