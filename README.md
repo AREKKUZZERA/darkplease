@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-1.9.2-8A2BE2?style=for-the-badge" />
+<img src="https://img.shields.io/github/v/release/AREKKUZZERA/darkplease?style=for-the-badge&color=8A2BE2" />
   <img src="https://img.shields.io/badge/license-MIT-111111?style=for-the-badge" />
   <img src="https://img.shields.io/badge/platform-Chrome%20MV3-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white" />
 </p>
@@ -98,7 +98,7 @@ Rollup · Jest · Karma · ESLint
 ├── tests/
 ├── package.json
 └── README.md
-````
+```
 
 ---
 
@@ -108,24 +108,24 @@ Rollup · Jest · Karma · ESLint
 
 Adjust:
 
-* brightness
-* contrast
-* grayscale
-* sepia
-* font settings
-* text stroke
-* scrollbar color
-* selection color
-* dark / light scheme colors
-* theme engine behavior
+- brightness
+- contrast
+- grayscale
+- sepia
+- font settings
+- text stroke
+- scrollbar color
+- selection color
+- dark / light scheme colors
+- theme engine behavior
 
 ### 🌐 Site-Specific Control
 
 Manage behavior for selected websites with:
 
-* enabled / disabled lists
-* custom site rules
-* per-site theme behavior
+- enabled / disabled lists
+- custom site rules
+- per-site theme behavior
 
 ### ⏱ Automation
 
@@ -135,9 +135,9 @@ Supports configurable automation options, including time-based behavior and syst
 
 Keyboard shortcuts are available for:
 
-* toggling the extension
-* toggling the current site
-* switching theme mode
+- toggling the extension
+- toggling the current site
+- switching theme mode
 
 ---
 
@@ -145,7 +145,7 @@ Keyboard shortcuts are available for:
 
 DARK PLEASE! supports multiple extension targets:
 
-* <img src="https://cdn.simpleicons.org/googlechrome/4285F4" width="16" height="16" /> Chromium Manifest V3
+- <img src="https://cdn.simpleicons.org/googlechrome/4285F4" width="16" height="16" /> Chromium Manifest V3
 
 ---
 
@@ -226,15 +226,15 @@ npm run test:coverage
 
 Default configuration includes:
 
-* theme presets
-* dark and light color schemes
-* automation defaults
-* site list defaults
-* PDF support options
-* context menu toggles
-* sync behavior
-* protected page settings
-* dark theme detection settings
+- theme presets
+- dark and light color schemes
+- automation defaults
+- site list defaults
+- PDF support options
+- context menu toggles
+- sync behavior
+- protected page settings
+- dark theme detection settings
 
 ---
 
@@ -242,10 +242,10 @@ Default configuration includes:
 
 The repository includes multiple test areas:
 
-* `tests/unit`
-* `tests/browser`
-* `tests/inject`
-* `tests/support`
+- `tests/unit`
+- `tests/browser`
+- `tests/inject`
+- `tests/support`
 
 This keeps both UI behavior and injection logic covered.
 
