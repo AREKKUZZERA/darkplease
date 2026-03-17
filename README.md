@@ -7,9 +7,17 @@
 </p>
 
 <p align="center">
-<img src="https://img.shields.io/github/v/release/AREKKUZZERA/darkplease?style=for-the-badge&color=8A2BE2" />
+  <img src="https://img.shields.io/github/v/release/AREKKUZZERA/darkplease?style=for-the-badge&color=111111" />
   <img src="https://img.shields.io/badge/license-MIT-111111?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/platform-Chrome%20MV3-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white" />
+  <img src="https://img.shields.io/badge/status-active-111111?style=for-the-badge" />
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Chrome-111111?style=for-the-badge&logo=googlechrome&logoColor=white" />
+  <img src="https://img.shields.io/badge/Firefox-111111?style=for-the-badge&logo=firefoxbrowser&logoColor=white" />
+  <img src="https://img.shields.io/badge/Safari-111111?style=for-the-badge&logo=safari&logoColor=white" />
+  <img src="https://img.shields.io/badge/Edge-111111?style=for-the-badge&logo=microsoftedge&logoColor=white" />
+  <img src="https://img.shields.io/badge/Thunderbird-111111?style=for-the-badge&logo=thunderbird&logoColor=white" />
 </p>
 
 ---
@@ -25,13 +33,13 @@ Designed for comfort, control, and a cleaner browsing experience.
 
 ## 🚀 Features
 
-- 🌑 Automatic dark theme generation for websites
-- ⚙️ Flexible settings and theme customization
-- 📋 Site list management for per-site behavior
-- ⏰ Automation support
-- ⌨️ Keyboard shortcuts
-- 🎛️ Advanced rendering and appearance controls
-- 🧩 Multi-platform extension targets
+- Automatic dark theme generation for websites
+- Flexible settings and theme customization
+- Site list management for per-site behavior
+- Automation support
+- Keyboard shortcuts
+- Advanced rendering and appearance controls
+- Multi-platform extension targets
 
 ---
 
@@ -40,9 +48,9 @@ Designed for comfort, control, and a cleaner browsing experience.
 ### Core
 
 <p align="left">
-  <img src="https://skillicons.dev/icons?i=ts" width="42" height="42" />
-  <img src="https://skillicons.dev/icons?i=js" width="42" height="42" />
-  <img src="https://skillicons.dev/icons?i=nodejs" width="42" height="42" />
+  <img src="https://img.shields.io/badge/TypeScript-111111?style=for-the-badge&logo=typescript&logoColor=white" />
+  <img src="https://img.shields.io/badge/JavaScript-111111?style=for-the-badge&logo=javascript&logoColor=white" />
+  <img src="https://img.shields.io/badge/Node.js-111111?style=for-the-badge&logo=nodedotjs&logoColor=white" />
 </p>
 
 TypeScript · JavaScript · Node.js
@@ -52,9 +60,10 @@ TypeScript · JavaScript · Node.js
 ### UI & Styling
 
 <p align="left">
-  <img src="https://skillicons.dev/icons?i=html" width="42" height="42" />
-  <img src="https://skillicons.dev/icons?i=css" width="42" height="42" />
-  <img src="https://skillicons.dev/icons?i=less" width="42" height="42" />
+  <img src="https://img.shields.io/badge/HTML-111111?style=for-the-badge&logo=html5&logoColor=white" />
+  <img src="https://img.shields.io/badge/CSS-111111?style=for-the-badge&logo=css3&logoColor=white" />
+  <img src="https://img.shields.io/badge/Less-111111?style=for-the-badge&logo=less&logoColor=white" />
+  <img src="https://img.shields.io/badge/Malevic-111111?style=for-the-badge" />
 </p>
 
 Malevic · Less · Custom UI components
@@ -64,9 +73,10 @@ Malevic · Less · Custom UI components
 ### Tooling & Quality
 
 <p align="left">
-  <img src="https://skillicons.dev/icons?i=rollupjs" width="42" height="42" />
-  <img src="https://skillicons.dev/icons?i=jest" width="42" height="42" />
-  <img src="https://skillicons.dev/icons?i=eslint" width="42" height="42" />
+  <img src="https://img.shields.io/badge/Rollup-111111?style=for-the-badge&logo=rollupdotjs&logoColor=white" />
+  <img src="https://img.shields.io/badge/Jest-111111?style=for-the-badge&logo=jest&logoColor=white" />
+  <img src="https://img.shields.io/badge/Karma-111111?style=for-the-badge&logo=karma&logoColor=white" />
+  <img src="https://img.shields.io/badge/ESLint-111111?style=for-the-badge&logo=eslint&logoColor=white" />
 </p>
 
 Rollup · Jest · Karma · ESLint
@@ -100,7 +110,7 @@ Rollup · Jest · Karma · ESLint
 ├── tests/
 ├── package.json
 └── README.md
-```
+````
 
 ---
 
@@ -110,24 +120,24 @@ Rollup · Jest · Karma · ESLint
 
 Adjust:
 
-- brightness
-- contrast
-- grayscale
-- sepia
-- font settings
-- text stroke
-- scrollbar color
-- selection color
-- dark / light scheme colors
-- theme engine behavior
+* brightness
+* contrast
+* grayscale
+* sepia
+* font settings
+* text stroke
+* scrollbar color
+* selection color
+* dark / light scheme colors
+* theme engine behavior
 
 ### 🌐 Site-Specific Control
 
 Manage behavior for selected websites with:
 
-- enabled / disabled lists
-- custom site rules
-- per-site theme behavior
+* enabled / disabled lists
+* custom site rules
+* per-site theme behavior
 
 ### ⏱ Automation
 
@@ -137,17 +147,19 @@ Supports configurable automation options, including time-based behavior and syst
 
 Keyboard shortcuts are available for:
 
-- toggling the extension
-- toggling the current site
-- switching theme mode
+* toggling the extension
+* toggling the current site
+* switching theme mode
 
 ---
 
 ## 🧱 Build Targets
 
-DARK PLEASE! supports multiple extension targets:
-
-- <img src="https://cdn.simpleicons.org/googlechrome/4285F4" width="16" height="16" /> Chromium Manifest V3
+<p align="left">
+  <img src="https://img.shields.io/badge/Chrome%20MV3-111111?style=for-the-badge&logo=googlechrome&logoColor=white" />
+  <img src="https://img.shields.io/badge/Firefox-111111?style=for-the-badge&logo=firefoxbrowser&logoColor=white" />
+  <img src="https://img.shields.io/badge/Thunderbird-111111?style=for-the-badge&logo=thunderbird&logoColor=white" />
+</p>
 
 ---
 
@@ -228,15 +240,15 @@ npm run test:coverage
 
 Default configuration includes:
 
-- theme presets
-- dark and light color schemes
-- automation defaults
-- site list defaults
-- PDF support options
-- context menu toggles
-- sync behavior
-- protected page settings
-- dark theme detection settings
+* theme presets
+* dark and light color schemes
+* automation defaults
+* site list defaults
+* PDF support options
+* context menu toggles
+* sync behavior
+* protected page settings
+* dark theme detection settings
 
 ---
 
@@ -244,18 +256,12 @@ Default configuration includes:
 
 The repository includes multiple test areas:
 
-- `tests/unit`
-- `tests/browser`
-- `tests/inject`
-- `tests/support`
+* `tests/unit`
+* `tests/browser`
+* `tests/inject`
+* `tests/support`
 
 This keeps both UI behavior and injection logic covered.
-
----
-
-## 📄 License
-
-This project is licensed under the **MIT License**.
 
 ---
 
@@ -263,7 +269,7 @@ This project is licensed under the **MIT License**.
 
 This project is derived from:
 
-- **Dark Reader** — https://github.com/darkreader/darkreader
+* **Dark Reader** — [https://github.com/darkreader/darkreader](https://github.com/darkreader/darkreader)
 
 Original work © Dark Reader contributors (MIT License).
 
@@ -273,15 +279,25 @@ All credit for the core functionality goes to the original project and its contr
 
 ---
 
+## 📄 License
+
+<p align="left">
+  <img src="https://img.shields.io/badge/MIT-111111?style=for-the-badge" />
+</p>
+
+This project is licensed under the **MIT License**.
+
+---
+
 ## 🤝 Contributing
 
 Issues, suggestions, and pull requests are welcome.
 
 <p align="center">
   <a href="https://github.com/AREKKUZZERA/darkplease/issues">
-    <img src="https://img.shields.io/badge/Issues-Open-111111?style=for-the-badge&logo=github&logoColor=white" />
+    <img src="https://img.shields.io/badge/Issues-111111?style=for-the-badge&logo=github&logoColor=white" />
   </a>
   <a href="https://github.com/AREKKUZZERA/darkplease/pulls">
-    <img src="https://img.shields.io/badge/Pull%20Requests-Welcome-8A2BE2?style=for-the-badge&logo=github&logoColor=white" />
+    <img src="https://img.shields.io/badge/Pull%20Requests-111111?style=for-the-badge&logo=github&logoColor=white" />
   </a>
 </p>
