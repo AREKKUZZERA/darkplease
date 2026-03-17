@@ -114,7 +114,7 @@ function Select(props: SelectProps) {
     }
 
     return (
-        <span
+        <div
             class={[
                 'select',
                 state.isExpanded && 'select--expanded',
@@ -122,7 +122,7 @@ function Select(props: SelectProps) {
             ]}
             onrender={onRender}
         >
-            <span class="select__line">
+            <div class="select__line">
                 <TextBox
                     class="select__textbox"
                     value={props.value}
@@ -135,9 +135,9 @@ function Select(props: SelectProps) {
                 >
                     <span class="select__expand__icon"></span>
                 </Button>
-            </span>
+            </div>
             <VirtualScroll
-                root={<span
+                root={<div
                     class={{
                         'select__list': true,
                         'select__list--expanded': state.isExpanded,
@@ -146,18 +146,18 @@ function Select(props: SelectProps) {
                     onclick={onSelectOption}
                 />}
                 items={Object.entries(props.options).map(([value, content]) => (
-                    <span
+                    <div
                         class="select__option"
                         data={value}
                         onrender={(domNode) => saveValueNode(value, domNode)}
                         onremove={() => removeValueNode(value)}
                     >
                         {content}
-                    </span>
+                    </div>
                 ))}
                 scrollToIndex={state.focusedIndex}
             />
-        </span>
+        </div>
     );
 }
 
