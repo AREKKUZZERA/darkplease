@@ -14,10 +14,6 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Chrome-111111?style=for-the-badge&logo=googlechrome&logoColor=white" />
-  <img src="https://img.shields.io/badge/Firefox-111111?style=for-the-badge&logo=firefoxbrowser&logoColor=white" />
-  <img src="https://img.shields.io/badge/Safari-111111?style=for-the-badge&logo=safari&logoColor=white" />
-  <img src="https://img.shields.io/badge/Edge-111111?style=for-the-badge&logo=microsoftedge&logoColor=white" />
-  <img src="https://img.shields.io/badge/Thunderbird-111111?style=for-the-badge&logo=thunderbird&logoColor=white" />
 </p>
 
 ---
