@@ -51,7 +51,6 @@ Designed for comfort, control, and a cleaner browsing experience.
 
 TypeScript · JavaScript · Node.js
 
----
 
 ### UI & Styling
 
@@ -64,7 +63,6 @@ TypeScript · JavaScript · Node.js
 
 Malevic · Less · Custom UI components
 
----
 
 ### Tooling & Quality
 
