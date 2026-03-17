@@ -269,4 +269,3 @@ Issues, suggestions, and pull requests are welcome.
     <img src="https://img.shields.io/badge/Pull%20Requests-Welcome-8A2BE2?style=for-the-badge&logo=github&logoColor=white" />
   </a>
 </p>
-```
