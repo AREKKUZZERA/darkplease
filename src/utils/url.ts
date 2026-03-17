@@ -8,41 +8,96 @@ let anchor: HTMLAnchorElement;
 
 export const parsedURLCache = new Map<string, URL>();
 
-function fixBaseURL($url: string): string {
+function isValidURLCandidate(url: string | null | undefined): url is string {
+    if (typeof url !== 'string') {
+        return false;
+    }
+
+    const value = url.trim();
+
+    if (!value) {
+        return false;
+    }
+
+    if (value === 'null' || value === 'undefined') {
+        return false;
+    }
+
+    return true;
+}
+
+function fixBaseURL($url: string | null | undefined): string | null {
+    if (!isValidURLCandidate($url)) {
+        return null;
+    }
+
     if (!anchor) {
         anchor = document.createElement('a');
     }
+
     anchor.href = $url;
+
+    if (!anchor.href || anchor.href === 'null') {
+        return null;
+    }
+
     return anchor.href;
 }
 
 export function parseURL($url: string, $base: string | null = null): URL {
     const key = `${$url}${$base ? `;${$base}` : ''}`;
+
     if (parsedURLCache.has(key)) {
         return parsedURLCache.get(key)!;
     }
+
     if ($base) {
-        const parsedURL = new URL($url, fixBaseURL($base));
-        parsedURLCache.set(key, parsedURL);
-        return parsedURL;
+        const fixedBase = fixBaseURL($base);
+
+        if (fixedBase) {
+            const parsedURL = new URL($url, fixedBase);
+            parsedURLCache.set(key, parsedURL);
+            return parsedURL;
+        }
     }
-    const parsedURL = new URL(fixBaseURL($url));
-    parsedURLCache.set($url, parsedURL);
+
+    const fixedURL = fixBaseURL($url);
+
+    if (!fixedURL) {
+        throw new Error(`Unable to parse URL: ${String($url)}`);
+    }
+
+    const parsedURL = new URL(fixedURL);
+    parsedURLCache.set(key, parsedURL);
     return parsedURL;
 }
 
 export function getAbsoluteURL($base: string, $relative: string): string {
+    if (!isValidURLCandidate($relative)) {
+        return $base;
+    }
+
     if ($relative.match(/^data\\?\:/)) {
         return $relative;
     }
+
     // Check if relative starts with `//hostname...`.
     // We have to add a protocol to make it absolute.
     if (/^\/\//.test($relative)) {
         return `${location.protocol}${$relative}`;
     }
-    const b = parseURL($base);
-    const a = parseURL($relative, b.href);
-    return a.href;
+
+    const fixedBase = fixBaseURL($base);
+    if (!fixedBase) {
+        return $relative;
+    }
+
+    try {
+        return new URL($relative, fixedBase).href;
+    } catch (error) {
+        const fixedRelative = fixBaseURL($relative);
+        return fixedRelative || $relative;
+    }
 }
 
 // Check if any relative URL is on the window.location;
@@ -54,7 +109,13 @@ export function isRelativeHrefOnAbsolutePath(href: string): boolean {
     if (href.startsWith('data:')) {
         return true;
     }
-    const url = parseURL(href);
+
+    let url: URL;
+    try {
+        url = parseURL(href);
+    } catch (error) {
+        return false;
+    }
 
     if (url.protocol !== location.protocol) {
         return false;
