@@ -1,22 +1,77 @@
-# DARK PLEASE!
+<h1 align="center">🌙 DARK PLEASE!</h1>
 
-**DARK PLEASE!** is a browser extension that automatically generates dark themes for websites. It ships with a browser UI, content-script based page theming, configurable defaults, automation options, and multi-target build support for Chromium MV3, Firefox, and Thunderbird. :contentReference[oaicite:0]{index=0}
+<p align="center">
+  <b>Browser extension that automatically generates dark themes for websites.</b>
+</p>
 
-## Overview
+<p align="center">
+  <img src="https://img.shields.io/badge/version-1.9.1-8A2BE2?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/license-MIT-111111?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/platform-Chrome%20MV3-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white" />
+</p>
 
-DARK PLEASE! injects dark mode behavior into web pages and exposes extension UI through a popup/options page. The source tree includes dedicated modules for background logic, content injection, configuration, UI, generators, utilities, icons, and localization. The repository also contains build tooling, tests, and a small docs section for internal config formats. :contentReference[oaicite:1]{index=1}
+---
 
-## Features
+## ✨ Overview
 
-- **Automatic dark mode for websites** with configurable theme defaults. :contentReference[oaicite:2]{index=2}
-- **Configurable theme parameters** including brightness, contrast, grayscale, sepia, font settings, text stroke, scrollbar color, selection color, dark/light scheme colors, and theme engine selection. :contentReference[oaicite:3]{index=3}
-- **Site-specific behavior** via built-in custom themes for selected sites and separate enabled/disabled site lists in default settings. :contentReference[oaicite:4]{index=4}
-- **Automation support** with time-based and system-based behavior in settings defaults. :contentReference[oaicite:5]{index=5}
-- **Keyboard commands** for toggling the extension, toggling the current site, and switching theme generation mode. :contentReference[oaicite:6]{index=6}
-- **Chrome MV3 popup/options UI** exposed through the extension action and options page. :contentReference[oaicite:7]{index=7}
-- **Cross-target manifests** for Chromium, Firefox, and Thunderbird builds. :contentReference[oaicite:8]{index=8}
+**DARK PLEASE!** is a browser extension that applies dark mode to websites automatically.  
+It includes a full extension UI, configurable theme behavior, automation settings, site list management, hotkeys, and advanced customization options.
 
-## Project Structure
+Designed for comfort, control, and a cleaner browsing experience.
+
+---
+
+## 🚀 Features
+
+- 🌑 Automatic dark theme generation for websites
+- ⚙️ Flexible settings and theme customization
+- 📋 Site list management for per-site behavior
+- ⏰ Automation support
+- ⌨️ Keyboard shortcuts
+- 🎛️ Advanced rendering and appearance controls
+- 🧩 Multi-platform extension targets
+
+---
+
+## 🛠️ Tech Stack
+
+### Core
+
+<p align="left">
+  <img src="https://skillicons.dev/icons?i=ts" width="42" height="42" />
+  <img src="https://skillicons.dev/icons?i=js" width="42" height="42" />
+  <img src="https://skillicons.dev/icons?i=nodejs" width="42" height="42" />
+</p>
+
+TypeScript · JavaScript · Node.js
+
+---
+
+### UI & Styling
+
+<p align="left">
+  <img src="https://skillicons.dev/icons?i=html" width="42" height="42" />
+  <img src="https://skillicons.dev/icons?i=css" width="42" height="42" />
+  <img src="https://skillicons.dev/icons?i=less" width="42" height="42" />
+</p>
+
+Malevic · Less · Custom UI components
+
+---
+
+### Tooling & Quality
+
+<p align="left">
+  <img src="https://skillicons.dev/icons?i=rollupjs" width="42" height="42" />
+  <img src="https://skillicons.dev/icons?i=jest" width="42" height="42" />
+  <img src="https://skillicons.dev/icons?i=eslint" width="42" height="42" />
+</p>
+
+Rollup · Jest · Karma · ESLint
+
+---
+
+## 📦 Project Structure
 
 ```text
 .
@@ -45,64 +100,80 @@ DARK PLEASE! injects dark mode behavior into web pages and exposes extension UI 
 └── README.md
 ````
 
-This layout indicates a fairly standard extension architecture:
+---
 
-* `src/background` for extension background logic
-* `src/inject` for page injection/content scripts
-* `src/ui` for popup/options interface
-* `src/generators` for theme generation logic
-* `src/config` and `src/defaults.ts` for default behavior and config formats
-* `tasks` for the custom build pipeline
-* `tests` for unit, browser, and injection testing ([GitHub][1])
+## ⚡ Highlights
 
-## Build Targets
+### 🎨 Theme Customization
 
-The repository includes support for multiple output targets:
+Adjust:
 
-* **Chromium Manifest V3**
-* **Firefox Manifest V2**
-* **Thunderbird**
-* **API/library build** for packaging as a separate artifact ([GitHub][1])
+* brightness
+* contrast
+* grayscale
+* sepia
+* font settings
+* text stroke
+* scrollbar color
+* selection color
+* dark / light scheme colors
+* theme engine behavior
 
-The Chrome MV3 manifest defines:
+### 🌐 Site-Specific Control
 
-* an extension action popup
-* an options UI page
-* a background service worker
-* injected scripts running at `document_start` and `document_idle`
-* permissions such as `alarms`, `fontSettings`, `scripting`, and `storage`
-* broad host permissions for web page coverage ([GitHub][2])
+Manage behavior for selected websites with:
 
-## Requirements
+* enabled / disabled lists
+* custom site rules
+* per-site theme behavior
 
-* **Node.js**
-* **npm**
+### ⏱ Automation
 
-The project uses TypeScript, Rollup, Less, Jest, Karma, ESLint, and Malevic. These are declared in `package.json` dependencies and devDependencies. ([GitHub][3])
+Supports configurable automation options, including time-based behavior and system-aware settings.
 
-## Installation
+### ⌨️ Commands
 
-Install dependencies:
+Keyboard shortcuts are available for:
+
+* toggling the extension
+* toggling the current site
+* switching theme mode
+
+---
+
+## 🧱 Build Targets
+
+DARK PLEASE! supports multiple extension targets:
+
+* <img src="https://cdn.simpleicons.org/googlechrome/4285F4" width="16" height="16" /> Chromium Manifest V3
+
+---
+
+## 📥 Installation
+
+### From source
 
 ```bash
+git clone https://github.com/AREKKUZZERA/darkplease.git
+cd darkplease
 npm install
 ```
 
-Run a development build for Chrome MV3:
+### Development build
 
 ```bash
 npm run debug
 ```
 
-Build a release bundle for Chrome MV3:
+### Production build
 
 ```bash
 npm run build
 ```
 
-Additional supported build commands include Firefox, plus builds, API builds, and watch/debug variants. ([GitHub][4])
+---
 
-## Available Scripts
+## 🧪 Available Scripts
 
 ### Development
 
@@ -113,7 +184,7 @@ npm run debug:watch:mv3
 npm run debug:watch:plus
 ```
 
-### Production builds
+### Production
 
 ```bash
 npm run build
@@ -124,7 +195,7 @@ npm run api
 npm run release
 ```
 
-### Quality and testing
+### Testing & Linting
 
 ```bash
 npm run lint
@@ -138,62 +209,64 @@ npm run test:inject
 npm run test:coverage
 ```
 
-These scripts are declared directly in `package.json`. ([GitHub][3])
+---
 
-## Loading the Extension Locally
+## 🧭 Load Extension Locally
 
-After building, load the unpacked extension from the generated build output in your browser’s extensions page.
-
-For Chromium browsers:
+### Chrome / Chromium
 
 1. Open `chrome://extensions`
 2. Enable **Developer mode**
 3. Click **Load unpacked**
-4. Select the appropriate generated build directory
+4. Select the generated build folder
 
-The exact output folder naming is controlled by the custom build pipeline under `tasks/`. The repo’s build entry point is `tasks/cli.js`, which delegates to the project build system and supports flags such as `--chrome-mv3`, `--firefox`, `--release`, `--debug`, and `--watch`. ([GitHub][5])
+---
 
-## Configuration
+## ⚙️ Configuration
 
-Default behavior is defined in `src/defaults.ts`. Out of the box, the project includes:
+Default configuration includes:
 
-* dark and light default color pairs
-* a default theme object with engine, color, font, and rendering preferences
-* built-in site-specific filter-mode themes for selected productivity domains
+* theme presets
+* dark and light color schemes
 * automation defaults
-* time-based activation/deactivation defaults
-* toggles for syncing settings, PDF support, protected pages, context menus, and dark theme detection ([GitHub][6])
+* site list defaults
+* PDF support options
+* context menu toggles
+* sync behavior
+* protected page settings
+* dark theme detection settings
 
-The repo also contains a documented spec for `src/config/color-schemes.drconf`, describing how custom light/dark color scheme sections are structured. ([GitHub][7])
+---
 
-## Testing
+## 🧪 Testing
 
-Testing is organized into several areas:
+The repository includes multiple test areas:
 
 * `tests/unit`
 * `tests/browser`
 * `tests/inject`
-* `tests/support` ([GitHub][8])
+* `tests/support`
 
-The project uses:
+This keeps both UI behavior and injection logic covered.
 
-* **Jest** for unit and browser-oriented test flows
-* **Karma** for injection tests ([GitHub][3])
+---
 
-## Tech Stack
+## 📄 License
 
-* **TypeScript**
-* **JavaScript**
-* **Less**
-* **Malevic** for UI rendering
-* **Rollup** for bundling
-* **Jest** and **Karma** for testing
-* **ESLint** for linting ([GitHub][4])
+This project is licensed under the **MIT License**.
 
-## Repository Metadata
+---
 
-* **Repository:** `AREKKUZZERA/darkplease`
-* **License:** MIT
-* **Homepage:** GitHub repository
-* **Issues:** GitHub Issues
-* **Current public releases:** none published on the repository page at the time of inspection ([GitHub][4])
+## 🤝 Contributing
+
+Issues, suggestions, and pull requests are welcome.
+
+<p align="center">
+  <a href="https://github.com/AREKKUZZERA/darkplease/issues">
+    <img src="https://img.shields.io/badge/Issues-Open-111111?style=for-the-badge&logo=github&logoColor=white" />
+  </a>
+  <a href="https://github.com/AREKKUZZERA/darkplease/pulls">
+    <img src="https://img.shields.io/badge/Pull%20Requests-Welcome-8A2BE2?style=for-the-badge&logo=github&logoColor=white" />
+  </a>
+</p>
+```
