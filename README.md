@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-1.9.1-8A2BE2?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/version-1.9.2-8A2BE2?style=for-the-badge" />
   <img src="https://img.shields.io/badge/license-MIT-111111?style=for-the-badge" />
   <img src="https://img.shields.io/badge/platform-Chrome%20MV3-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white" />
 </p>
