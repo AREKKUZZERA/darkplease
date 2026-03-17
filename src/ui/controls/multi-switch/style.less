@@ -1,0 +1,53 @@
+@import "../../theme";
+
+.multi-switch {
+    background-color: @color-control-back;
+    border: @size-border solid @color-border;
+    border-radius: 999rem;
+    box-sizing: content-box;
+    color: @color-control-fore;
+    display: inline-flex;
+    height: @size-control-inner;
+    overflow: hidden;
+    position: relative;
+    user-select: none;
+
+    &__option {
+        align-items: center;
+        color: @color-control-fore-inactive;
+        cursor: pointer;
+        display: inline-flex;
+        justify-content: center;
+        height: 100%;
+        overflow: hidden;
+        position: relative;
+        transition: color @time-fast;
+        white-space: nowrap;
+        width: 50%;
+        z-index: 1;
+
+        &:hover:not(&--selected) {
+            color: @color-control-fore;
+        }
+
+        &--selected {
+            color: @color-control-fore;
+        }
+
+        &--selected:hover {
+            color: @color-control-fore;
+        }
+    }
+
+    &__highlight {
+        background-color: @color-control-active;
+        border-radius: 999rem;
+        display: inline-block;
+        height: calc(100% - 0.25rem);
+        left: 0.125rem;
+        position: absolute;
+        top: 0.125rem;
+        transition: left @time-fast, width @time-fast;
+        width: 0;
+    }
+}

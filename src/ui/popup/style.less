@@ -1,0 +1,120 @@
+@import "../theme";
+@import "../shared";
+
+@popup-content-width: 15rem;
+@popup-content-height: 30rem;
+@popup-content-padding: 1rem;
+
+@import "./components/custom-settings-toggle/style";
+@import "./components/engine-switch/style";
+@import "./components/filter-settings/style";
+@import "./components/font-settings/style";
+@import "./components/header/style";
+@import "./components/loader/style";
+@import "./components/more-settings/style";
+@import "./components/site-list-settings/style";
+@import "./components/site-toggle/style";
+
+body {
+    align-items: stretch;
+    background-color: @color-back;
+    box-sizing: content-box;
+    display: flex;
+    flex-direction: column;
+    height: @popup-content-height;
+    margin: 0 auto;
+    padding: @popup-content-padding;
+    position: relative;
+    width: @popup-content-width;
+}
+
+.header {
+    flex: none;
+}
+
+.tab-panel {
+    flex: auto;
+    margin-top: @indent-large;
+}
+
+
+
+.footer-links {
+    align-items: stretch;
+    display: flex;
+    flex: none;
+    justify-content: center;
+    margin-bottom: @indent-small;
+
+    &__link {
+        color: @color-fore;
+        line-height: @size-text-normal-height;
+        text-align: center;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    > :not(:first-child) {
+        margin-left: @indent-small;
+    }
+}
+
+.footer-buttons {
+    align-items: stretch;
+    display: flex;
+    flex-direction: row;
+    justify-content: stretch;
+    width: 100%;
+
+    > * {
+        flex: auto;
+    }
+
+    > :not(:first-child) {
+        margin-left: @indent-small;
+    }
+}
+
+
+.dev-tools-button {
+    overflow: visible;
+    position: relative;
+}
+
+.ext-disabled {
+    .site-toggle--disabled {
+        opacity: 1;
+    }
+
+    .header__site-toggle,
+    .tab-panel {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    .tab-panel__tab--active {
+        pointer-events: none;
+    }
+}
+
+
+
+
+
+
+//
+// Make popup borders the same
+// across platforms and browser versions
+
+html:not(.mobile):not(.preview) body.ext-tall {
+    height: @popup-content-height + 4rem;
+}
+
+@import "./body/style";
+
+/* @plus-start */
+@import "../../plus/popup/plus-body.less";
+/* @plus-end */

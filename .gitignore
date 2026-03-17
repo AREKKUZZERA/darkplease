@@ -1,0 +1,43 @@
+# Build files
+build/
+dist/
+release/
+darkplease.js
+darkplease.mjs
+debug.log
+src/plus
+
+# Archives
+*.zip
+
+# Node.js modules
+node_modules/
+
+# Test results
+test-results-*.json
+
+# Code coverage reports
+tests/coverage/
+tests/browser/coverage/
+tests/inject/coverage/
+coverage/
+
+# IDE and editor configs
+.idea/
+.vscode/
+.log/
+*.code-workspace
+
+# Cache files
+.eslintcache
+
+# Logs
+*.log
+isolate-*-v8.log
+
+# Deno
+deno.lock
+deno.json
+
+# System files
+.DS_Store

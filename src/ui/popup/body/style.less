@@ -1,0 +1,133 @@
+.mobile {
+    body {
+        border: none;
+        height: auto;
+        position: relative;
+    }
+}
+
+.mobile,
+.preview {
+    .m-section {
+        width: 100%;
+
+        &:not(:first-child) {
+            margin-top: @indent-large;
+        }
+
+        > :not(:first-child) {
+            margin-top: @indent-small;
+        }
+    }
+
+    .pages-section {
+        height: 24.4375rem;
+    }
+
+    .m-logo {
+        background-image: url('../assets/images/darkplease-type.svg');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        display: inline-block;
+        height: 1.8rem;
+        margin: 0 auto;
+        outline: none;
+        text-indent: -999rem;
+        width: 9rem;
+    }
+
+
+
+    .darkplease-version {
+        display: inline-block;
+        font-size: @size-text-small;
+        line-height: @size-text-small-height;
+        text-align: center;
+        -moz-user-select: none;
+        user-select: none;
+        width: 100%;
+    }
+
+    .darkplease-version {
+        bottom: 0;
+        margin-bottom: 0.125rem;
+        position: absolute;
+        right: 0;
+    }
+}
+
+.mobile {
+    .darkplease-version {
+        position: relative;
+    }
+}
+
+.preview .dev-tools-button {
+    overflow: visible;
+    position: relative;
+    width: calc(100% - 2 * 0.125rem);
+}
+
+.mobile,
+.preview {
+    @import "../main-page/style.less";
+    @import "../page-viewer/style.less";
+    @import "../theme/controls/theme-control.less";
+    @import "../theme/controls/mode.less";
+    @import "../theme/page/style.less";
+    @import "../theme/preset-picker/style.less";
+}
+
+.mobile.firefox {
+    * {
+        font-family: Inter, Open Sans, Segoe UI, Helvetica Neue, Ubuntu, sans-serif;
+    }
+
+    a,
+    a *,
+    button,
+    button * {
+        font-family: Metropolis, Open Sans, Segoe UI, Helvetica Neue, Ubuntu, sans-serif;
+    }
+}
+
+@media screen and (min-width: 21.25rem) {
+    .mobile {
+        font-size: 20px;
+    }
+}
+
+@media screen and (min-width: 25.5rem) {
+    .mobile {
+        font-size: 24px;
+    }
+}
+
+@media screen and (min-resolution: 29.75rem) {
+    .mobile {
+        font-size: 28px;
+    }
+}
+
+@media screen and (min-width: 34rem) {
+    .mobile {
+        font-size: 32px;
+    }
+}
+
+.firefox {
+    .darkplease-version {
+        display: none;
+    }
+}
+
+.preview:not(.mobile) {
+    body {
+        border-color: mix(@color-back, @color-control-fore);
+    }
+}
+
+html:not(.mobile) {
+    width: calc(@popup-content-width + 2 * @popup-content-padding);
+}

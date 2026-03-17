@@ -1,0 +1,16 @@
+# normalize text files
+* text=auto
+
+# windows specific config
+src/config/*.json text eol=crlf
+
+# binary assets
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.svg binary
+*.ico binary
+*.ttf binary
+*.woff binary
+*.woff2 binary

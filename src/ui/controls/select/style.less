@@ -1,0 +1,100 @@
+@import "../../theme";
+
+.select {
+    display: inline-flex;
+    flex-direction: column;
+    min-width: 0;
+    position: relative;
+
+    &__line {
+        display: inline-flex;
+        flex-direction: row;
+        width: 100%;
+    }
+
+    &__textbox.textbox {
+        border-radius: 0.5rem 0 0 0.5rem;
+        border-right: none;
+        flex: auto;
+        min-width: 0;
+        width: 100%;
+    }
+
+    &__expand {
+        border-left: @size-border solid @color-border;
+        border-radius: 0 0.5rem 0.5rem 0;
+        flex: none;
+        width: @size-control-inner;
+
+        &__icon {
+            display: inline-block;
+            height: 100%;
+            position: relative;
+            width: 100%;
+
+            &::before,
+            &::after {
+                background-color: @color-control-fore;
+                content: "";
+                display: inline-block;
+                height: @size-control-inner * 0.125;
+                position: absolute;
+                top: @size-control-inner * 0.5;
+                width: @size-control-inner * 0.28;
+                z-index: 1;
+            }
+
+            &::before {
+                left: @size-control-inner * 0.22;
+                transform: skewY(45deg);
+            }
+
+            &::after {
+                left: @size-control-inner * 0.48;
+                transform: skewY(-45deg);
+            }
+        }
+    }
+
+    &__list {
+        background-color: @color-control-back;
+        border: @size-border solid @color-border;
+        border-radius: 0.5rem;
+        margin-top: 0.25rem;
+        box-sizing: border-box;
+        left: 0;
+        max-height: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+        position: absolute;
+        top: 100%;
+        transition: max-height @time-fast;
+        width: 100%;
+        z-index: 999;
+        box-shadow: 0 0.375rem 0.875rem fadeout(black, 60%);
+
+        &--expanded {
+            max-height: 12rem;
+            transition: max-height @time-slow * 2;
+        }
+
+        &--short {
+            overflow: hidden;
+        }
+    }
+
+    &__option {
+        align-items: center;
+        background-color: @color-control-back;
+        cursor: pointer;
+        display: flex;
+        flex: none;
+        min-height: @size-control-inner;
+        flex-direction: row;
+        padding-left: @size-control-inner / 2 - @size-text-normal / 2;
+
+        &:hover {
+            background-color: @color-control-hover;
+        }
+    }
+}
