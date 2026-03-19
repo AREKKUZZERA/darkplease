@@ -21,7 +21,6 @@ import DevTools from './devtools';
 import IconManager from './icon-manager';
 import type {ExtensionAdapter} from './messenger';
 import Messenger from './messenger';
-import Newsmaker from './newsmaker';
 import TabManager from './tab-manager';
 import UIHighlights from './ui-highlights';
 import UserStorage from './user-storage';
@@ -260,7 +259,6 @@ export class Extension {
             TabManager.updateContentScript({runOnProtectedPages: UserStorage.settings.enableForProtectedPages});
         }
 
-        UserStorage.settings.fetchNews && Newsmaker.subscribe();
         Extension.startBarrier!.resolve();
     }
 
@@ -275,8 +273,6 @@ export class Extension {
             changeSettings: Extension.changeSettings,
             setTheme: Extension.setTheme,
             toggleActiveTab: Extension.toggleActiveTab,
-            markNewsAsRead: Newsmaker.markAsRead,
-            markNewsAsDisplayed: Newsmaker.markAsDisplayed,
             loadConfig: ConfigManager.load,
             applyDevDynamicThemeFixes: DevTools.applyDynamicThemeFixes,
             resetDevDynamicThemeFixes: DevTools.resetDynamicThemeFixes,
@@ -397,13 +393,11 @@ export class Extension {
     static async collectData(): Promise<ExtensionData> {
         await Extension.loadData();
         const [
-            news,
             shortcuts,
             activeTab,
             isAllowedFileSchemeAccess,
             uiHighlights,
         ] = await Promise.all([
-            Newsmaker.getLatest(),
             Extension.getShortcuts(),
             Extension.getActiveTabInfo(),
             new Promise<boolean>((r) => chrome.extension.isAllowedFileSchemeAccess(r)),
@@ -414,7 +408,6 @@ export class Extension {
             isReady: true,
             isAllowedFileSchemeAccess,
             settings: UserStorage.settings,
-            news,
             shortcuts,
             colorScheme: ConfigManager.COLOR_SCHEMES_RAW!,
             forcedScheme: Extension.autoState === 'scheme-dark' ? 'dark' : Extension.autoState === 'scheme-light' ? 'light' : null,
@@ -537,9 +530,6 @@ export class Extension {
             } else {
                 resetWindowTheme();
             }
-        }
-        if (prev.fetchNews !== UserStorage.settings.fetchNews) {
-            UserStorage.settings.fetchNews ? Newsmaker.subscribe() : Newsmaker.unSubscribe();
         }
 
         if (prev.enableContextMenus !== UserStorage.settings.enableContextMenus) {
