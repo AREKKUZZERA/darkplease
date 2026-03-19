@@ -16,16 +16,12 @@
   <img src="https://img.shields.io/badge/Chrome-111111?style=for-the-badge&logo=googlechrome&logoColor=white" />
 </p>
 
----
-
 ## ✨ Overview
 
 **DARK PLEASE!** is a browser extension that applies dark mode to websites automatically.  
 It includes a full extension UI, configurable theme behavior, automation settings, site list management, hotkeys, and advanced customization options.
 
 Designed for comfort, control, and a cleaner browsing experience.
-
----
 
 ## 🚀 Features
 
@@ -36,8 +32,6 @@ Designed for comfort, control, and a cleaner browsing experience.
 - Keyboard shortcuts
 - Advanced rendering and appearance controls
 - Multi-platform extension targets
-
----
 
 ## 🛠️ Tech Stack
 
@@ -51,8 +45,6 @@ Designed for comfort, control, and a cleaner browsing experience.
 
 TypeScript · JavaScript · Node.js
 
----
-
 ### UI & Styling
 
 <p align="left">
@@ -64,8 +56,6 @@ TypeScript · JavaScript · Node.js
 
 Malevic · Less · Custom UI components
 
----
-
 ### Tooling & Quality
 
 <p align="left">
@@ -76,8 +66,6 @@ Malevic · Less · Custom UI components
 </p>
 
 Rollup · Jest · Karma · ESLint
-
----
 
 ## 📦 Project Structure
 
@@ -107,8 +95,6 @@ Rollup · Jest · Karma · ESLint
 ├── package.json
 └── README.md
 ````
-
----
 
 ## ⚡ Highlights
 
@@ -147,8 +133,6 @@ Keyboard shortcuts are available for:
 * toggling the current site
 * switching theme mode
 
----
-
 ## 🧱 Build Targets
 
 <p align="left">
@@ -156,8 +140,6 @@ Keyboard shortcuts are available for:
   <img src="https://img.shields.io/badge/Firefox-111111?style=for-the-badge&logo=firefoxbrowser&logoColor=white" />
   <img src="https://img.shields.io/badge/Thunderbird-111111?style=for-the-badge&logo=thunderbird&logoColor=white" />
 </p>
-
----
 
 ## 📥 Installation
 
@@ -180,8 +162,6 @@ npm run debug
 ```bash
 npm run build
 ```
-
----
 
 ## 🧪 Available Scripts
 
@@ -219,8 +199,6 @@ npm run test:inject
 npm run test:coverage
 ```
 
----
-
 ## 🧭 Load Extension Locally
 
 ### Chrome / Chromium
@@ -229,8 +207,6 @@ npm run test:coverage
 2. Enable **Developer mode**
 3. Click **Load unpacked**
 4. Select the generated build folder
-
----
 
 ## ⚙️ Configuration
 
@@ -246,8 +222,6 @@ Default configuration includes:
 * protected page settings
 * dark theme detection settings
 
----
-
 ## 🧪 Testing
 
 The repository includes multiple test areas:
@@ -258,8 +232,6 @@ The repository includes multiple test areas:
 * `tests/support`
 
 This keeps both UI behavior and injection logic covered.
-
----
 
 ## 🙏 Acknowledgements
 
@@ -273,8 +245,6 @@ This repository contains modifications, UI changes, and additional features buil
 
 All credit for the core functionality goes to the original project and its contributors.
 
----
-
 ## 📄 License
 
 <p align="left">
@@ -282,8 +252,6 @@ All credit for the core functionality goes to the original project and its contr
 </p>
 
 This project is licensed under the **MIT License**.
-
----
 
 ## 🤝 Contributing
 
