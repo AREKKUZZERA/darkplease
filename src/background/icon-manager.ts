@@ -23,17 +23,7 @@ export default class IconManager {
             19: '../icons/dp_active_light_19.png',
             38: '../icons/dp_active_light_38.png',
         },
-        // Temporary disable the gray icon
-        /*
-        inactiveDark: {
-            19: '../icons/dp_inactive_dark_19.png',
-            38: '../icons/dp_inactive_dark_38.png',
-        },
-        inactiveLight: {
-            19: '../icons/dp_inactive_light_19.png',
-            38: '../icons/dp_inactive_light_38.png',
-        },
-        */
+
     };
 
     private static readonly iconState: IconState = {
@@ -42,18 +32,9 @@ export default class IconManager {
     };
 
     private static onStartup() {
-        /**
-         * This empty listener invokes extension background if extension has non-default
-         * icon or badge. It is empty because all icon customizations will be initiated by
-         * Extension class.
-         * TODO: eventually, avoid running the whole Extension class on startup.
-         */
+
     }
 
-    /**
-     * This method registers onStartup listener only if we are in non-persistent world and
-     * icon is in non-default configuration.
-     */
     private static handleUpdate() {
         if (!isNonPersistent) {
             return;
@@ -65,13 +46,11 @@ export default class IconManager {
         }
     }
 
-    static setIcon({isActive = this.iconState.active, colorScheme = 'dark', tabId}: IconOptions): void {
+    static setIcon({isActive = this.iconState.active, tabId}: IconOptions): void {
         if (__THUNDERBIRD__ || !chrome.browserAction.setIcon) {
             return;
         }
 
-        if (colorScheme === 'dark') {
-        }
         if (tabId) {
             return;
         }

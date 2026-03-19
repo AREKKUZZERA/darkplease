@@ -148,7 +148,6 @@ export default class UserStorage {
 
     static async saveSettings(): Promise<void> {
         if (!UserStorage.settings) {
-
             logWarn('Could not save settings into storage because the settings are missing.');
             return;
         }
@@ -193,7 +192,6 @@ export default class UserStorage {
 
     static set($settings: Partial<UserSettings>): void {
         if (!UserStorage.settings) {
-
             logWarn('Could not modify settings because the settings are missing.');
             return;
         }
