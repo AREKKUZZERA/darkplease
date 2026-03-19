@@ -2,11 +2,11 @@ import {createNodeAsap, removeNode} from './utils/dom';
 
 export function createOrUpdateStyle(css: string, type: string): void {
     createNodeAsap({
-        selectNode: () => document.getElementById('dark-reader-style')!,
+        selectNode: () => document.getElementById('darkplease-style')!,
         createNode: (target) => {
             document.documentElement.setAttribute('data-darkplease-mode', type);
             const style = document.createElement('style');
-            style.id = 'dark-reader-style';
+            style.id = 'darkplease-style';
             style.classList.add('darkplease');
             style.type = 'text/css';
             style.textContent = css;
@@ -28,6 +28,6 @@ export function createOrUpdateStyle(css: string, type: string): void {
 }
 
 export function removeStyle(): void {
-    removeNode(document.getElementById('dark-reader-style'));
+    removeNode(document.getElementById('darkplease-style'));
     document.documentElement.removeAttribute('data-darkplease-mode');
 }

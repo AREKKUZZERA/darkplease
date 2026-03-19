@@ -2,7 +2,7 @@ import {createNodeAsap, removeNode} from './utils/dom';
 
 export function createOrUpdateSVGFilter(svgMatrix: string, svgReverseMatrix: string): void {
     createNodeAsap({
-        selectNode: () => document.getElementById('dark-reader-svg')!,
+        selectNode: () => document.getElementById('darkplease-svg')!,
         createNode: (target) => {
             const SVG_NS = 'http://www.w3.org/2000/svg';
             const createMatrixFilter = (id: string, matrix: string) => {
@@ -10,7 +10,6 @@ export function createOrUpdateSVGFilter(svgMatrix: string, svgReverseMatrix: str
                 filter.id = id;
                 filter.style.colorInterpolationFilters = 'sRGB';
 
-                // Fix displaying dynamic content https://bugs.chromium.org/p/chromium/issues/detail?id=647437
                 filter.setAttribute('x', '0');
                 filter.setAttribute('y', '0');
                 filter.setAttribute('width', '99999');
@@ -28,11 +27,11 @@ export function createOrUpdateSVGFilter(svgMatrix: string, svgReverseMatrix: str
             };
 
             const svg = document.createElementNS(SVG_NS, 'svg');
-            svg.id = 'dark-reader-svg';
+            svg.id = 'darkplease-svg';
             svg.style.height = '0';
             svg.style.width = '0';
-            svg.appendChild(createMatrixFilter('dark-reader-filter', svgMatrix));
-            svg.appendChild(createMatrixFilter('dark-reader-reverse-filter', svgReverseMatrix));
+            svg.appendChild(createMatrixFilter('darkplease-filter', svgMatrix));
+            svg.appendChild(createMatrixFilter('darkplease-reverse-filter', svgReverseMatrix));
             target.appendChild(svg);
         },
         updateNode: (existing) => {
@@ -40,8 +39,7 @@ export function createOrUpdateSVGFilter(svgMatrix: string, svgReverseMatrix: str
             if (existingMatrix.getAttribute('values') !== svgMatrix) {
                 existingMatrix.setAttribute('values', svgMatrix);
 
-                // Fix not triggering repaint
-                const style = document.getElementById('dark-reader-style')!;
+                const style = document.getElementById('darkplease-style')!;
                 const css = style.textContent;
                 style.textContent = '';
                 style.textContent = css;
@@ -58,5 +56,5 @@ export function createOrUpdateSVGFilter(svgMatrix: string, svgReverseMatrix: str
 }
 
 export function removeSVGFilter(): void {
-    removeNode(document.getElementById('dark-reader-svg'));
+    removeNode(document.getElementById('darkplease-svg'));
 }

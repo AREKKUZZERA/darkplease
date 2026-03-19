@@ -8,8 +8,8 @@
     "browser_action": {
         "default_title": "DARK PLEASE!",
         "default_icon": {
-            "38": "icons/dr_active_38.png",
-            "19": "icons/dr_active_19.png"
+            "38": "icons/dp_active_38.png",
+            "19": "icons/dp_active_19.png"
         },
         "default_popup": "ui/popup/index.html"
     },

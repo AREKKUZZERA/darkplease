@@ -16,22 +16,22 @@ interface IconOptions {
 export default class IconManager {
     private static readonly ICON_PATHS = {
         activeDark: {
-            19: '../icons/dr_active_19.png',
-            38: '../icons/dr_active_38.png',
+            19: '../icons/dp_active_19.png',
+            38: '../icons/dp_active_38.png',
         },
         activeLight: {
-            19: '../icons/dr_active_light_19.png',
-            38: '../icons/dr_active_light_38.png',
+            19: '../icons/dp_active_light_19.png',
+            38: '../icons/dp_active_light_38.png',
         },
         // Temporary disable the gray icon
         /*
         inactiveDark: {
-            19: '../icons/dr_inactive_dark_19.png',
-            38: '../icons/dr_inactive_dark_38.png',
+            19: '../icons/dp_inactive_dark_19.png',
+            38: '../icons/dp_inactive_dark_38.png',
         },
         inactiveLight: {
-            19: '../icons/dr_inactive_light_19.png',
-            38: '../icons/dr_inactive_light_38.png',
+            19: '../icons/dp_inactive_light_19.png',
+            38: '../icons/dp_inactive_light_38.png',
         },
         */
     };

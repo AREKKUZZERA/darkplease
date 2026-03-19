@@ -13,15 +13,15 @@ export function createSVGFilterStylesheet(config: Theme, url: string, isTopFrame
         reverseFilterValue = getEmbeddedSVGFilterValue(getSVGReverseFilterMatrixValue());
     } else {
         // Chrome fails with "Unsafe attempt to load URL ... Domains, protocols and ports must match.
-        filterValue = 'url(#dark-reader-filter)';
-        reverseFilterValue = 'url(#dark-reader-reverse-filter)';
+        filterValue = 'url(#darkplease-filter)';
+        reverseFilterValue = 'url(#darkplease-reverse-filter)';
     }
     const filterRoot = isFirefox ? 'body' : 'html';
     return cssFilterStyleSheetTemplate(filterRoot, filterValue, reverseFilterValue, config, url, isTopFrame, fixes, index);
 }
 
 function getEmbeddedSVGFilterValue(matrixValue: string): string {
-    const id = 'dark-reader-filter';
+    const id = 'darkplease-filter';
     const svg = [
         '<svg xmlns="http://www.w3.org/2000/svg">',
         `<filter id="${id}" style="color-interpolation-filters: sRGB;">`,
