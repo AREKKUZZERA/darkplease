@@ -14,70 +14,142 @@ interface IconOptions {
 }
 
 export default class IconManager {
-    private static readonly ICON_PATHS = {
-        activeDark: {
-            19: '../icons/dp_active_19.png',
-            38: '../icons/dp_active_38.png',
-        },
-        activeLight: {
-            19: '../icons/dp_active_light_19.png',
-            38: '../icons/dp_active_light_38.png',
-        },
-
-    };
-
     private static readonly iconState: IconState = {
         badgeText: '',
         active: true,
     };
 
-    private static onStartup() {
+    private static get actionApi() {
+        return chrome.action;
+    }
 
+    private static getIconPaths(isActive: boolean): Record<number, string> {
+        return isActive
+            ? {
+                  19: chrome.runtime.getURL('icons/dp_active_19.png'),
+                  38: chrome.runtime.getURL('icons/dp_active_38.png'),
+              }
+            : {
+                  19: chrome.runtime.getURL('icons/dp_active_light_19.png'),
+                  38: chrome.runtime.getURL('icons/dp_active_light_38.png'),
+              };
+    }
+
+    private static onStartup() {
+        const action = IconManager.actionApi;
+        if (!action) {
+            return;
+        }
+
+        const path = IconManager.getIconPaths(IconManager.iconState.active);
+
+        action.setIcon({path}, () => {
+            if (chrome.runtime.lastError) {
+                console.error('Failed to restore icon on startup:', chrome.runtime.lastError.message, path);
+            }
+        });
+
+        action.setBadgeText({text: IconManager.iconState.badgeText}, () => {
+            if (chrome.runtime.lastError) {
+                console.error('Failed to restore badge text on startup:', chrome.runtime.lastError.message);
+            }
+        });
+
+        if (IconManager.iconState.badgeText) {
+            action.setBadgeBackgroundColor({color: '#e96c4c'}, () => {
+                if (chrome.runtime.lastError) {
+                    console.error('Failed to restore badge color on startup:', chrome.runtime.lastError.message);
+                }
+            });
+        }
     }
 
     private static handleUpdate() {
         if (!isNonPersistent) {
             return;
         }
+
+        chrome.runtime.onStartup.removeListener(IconManager.onStartup);
+
         if (IconManager.iconState.badgeText !== '' || !IconManager.iconState.active) {
             chrome.runtime.onStartup.addListener(IconManager.onStartup);
-        } else {
-            chrome.runtime.onStartup.removeListener(IconManager.onStartup);
         }
     }
 
     static setIcon({isActive = this.iconState.active, tabId}: IconOptions): void {
-        if (__THUNDERBIRD__ || !chrome.browserAction.setIcon) {
+        if (__THUNDERBIRD__) {
             return;
         }
 
-        if (tabId) {
+        const action = this.actionApi;
+        if (!action?.setIcon) {
             return;
         }
 
         this.iconState.active = isActive;
 
-        let path = this.ICON_PATHS.activeDark;
-        if (isActive) {
-            path = IconManager.ICON_PATHS.activeDark;
-        } else {
-            path = IconManager.ICON_PATHS.activeLight;
-        }
+        const path = this.getIconPaths(isActive);
 
-        chrome.browserAction.setIcon({path});
+        action.setIcon(
+            {
+                path,
+                ...(tabId !== undefined ? {tabId} : {}),
+            },
+            () => {
+                if (chrome.runtime.lastError) {
+                    console.error('Failed to set icon:', chrome.runtime.lastError.message, path);
+                }
+            },
+        );
+
         IconManager.handleUpdate();
     }
 
     static showBadge(text: string): void {
+        if (__THUNDERBIRD__) {
+            return;
+        }
+
+        const action = this.actionApi;
+        if (!action?.setBadgeText || !action?.setBadgeBackgroundColor) {
+            return;
+        }
+
         IconManager.iconState.badgeText = text;
-        chrome.browserAction.setBadgeBackgroundColor({color: '#e96c4c'});
-        chrome.browserAction.setBadgeText({text});
+
+        action.setBadgeBackgroundColor({color: '#e96c4c'}, () => {
+            if (chrome.runtime.lastError) {
+                console.error('Failed to set badge background color:', chrome.runtime.lastError.message);
+            }
+        });
+
+        action.setBadgeText({text}, () => {
+            if (chrome.runtime.lastError) {
+                console.error('Failed to set badge text:', chrome.runtime.lastError.message, text);
+            }
+        });
+
         IconManager.handleUpdate();
     }
 
     static hideBadge(): void {
+        if (__THUNDERBIRD__) {
+            return;
+        }
+
+        const action = this.actionApi;
+        if (!action?.setBadgeText) {
+            return;
+        }
+
         IconManager.iconState.badgeText = '';
-        chrome.browserAction.setBadgeText({text: ''});
+
+        action.setBadgeText({text: ''}, () => {
+            if (chrome.runtime.lastError) {
+                console.error('Failed to clear badge text:', chrome.runtime.lastError.message);
+            }
+        });
+
         IconManager.handleUpdate();
     }
 }
