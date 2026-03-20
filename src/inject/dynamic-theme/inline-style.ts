@@ -377,7 +377,7 @@ export function overrideInlineStyle(element: HTMLElement, theme: Theme, ignoreIn
             ignoreImageSelectors,
             null,
         );
-        if (!mod) {
+        if (!mod || Array.isArray(mod)) {
             return;
         }
 
