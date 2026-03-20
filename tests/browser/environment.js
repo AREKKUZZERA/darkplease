@@ -3,50 +3,64 @@ import {launch, connect} from 'puppeteer-core';
 import {WebSocketServer} from 'ws';
 
 import {generateHTMLCoverageReports} from './coverage.js';
-import {getChromePath, getFirefoxPath, chromeExtensionDebugDir, chromeMV3ExtensionDebugDir, chromePlusExtensionDebugDir, firefoxExtensionDebugDir, getEdgePath} from './paths.js';
+import {
+    getChromePath,
+    getFirefoxPath,
+    chromeExtensionDebugDir,
+    chromeMV3ExtensionDebugDir,
+    chromePlusExtensionDebugDir,
+    firefoxExtensionDebugDir,
+    getEdgePath,
+} from './paths.js';
 import {createTestServer, generateRandomId} from './server.js';
 
 const TEST_SERVER_PORT = 8891;
 const CORS_SERVER_PORT = 8892;
 const FIREFOX_DEVTOOLS_PORT = 8893;
 const POPUP_TEST_PORT = 8894;
+const MESSAGE_SERVER_STARTUP_TIMEOUT_MS = 15000;
 
 export default class CustomJestEnvironment extends TestEnvironment {
-    /** @type {() => void} */
+    /** @type {Array<() => void>} */
     extensionStartListeners = [];
     pageEventListeners = new Map();
 
-    /** @type {Browser} */
+    /** @type {import('puppeteer-core').Browser | undefined} */
     browser;
-    /** @type {WebSocketServer} */
+    /** @type {WebSocketServer | undefined} */
     messageServer;
+    /** @type {ReturnType<typeof createTestServer> | undefined} */
+    testServer;
+    /** @type {ReturnType<typeof createTestServer> | undefined} */
+    corsServer;
+    /** @type {import('puppeteer-core').Page | undefined} */
+    page;
+    /** @type {string | undefined} */
+    extensionOrigin;
 
     async setup() {
         await super.setup();
 
-        const promises1 = [
-            this.createMessageServer(),
-            this.launchBrowser(),
-        ];
-        const promises2 = [
+        const messageServerPromise = this.createMessageServer();
+        const browserPromise = this.launchBrowser();
+
+        const [messageServer, browser] = await Promise.all([
+            messageServerPromise,
+            browserPromise,
+        ]);
+
+        this.messageServer = messageServer;
+        this.browser = browser;
+
+        const [testServer, corsServer, page] = await Promise.all([
             createTestServer(TEST_SERVER_PORT),
             createTestServer(CORS_SERVER_PORT),
-        ];
-
-        const results1 = await Promise.all(promises1);
-        this.messageServer = results1[0];
-        this.browser = results1[1];
-
-        promises2.push(
             this.createTestPage(),
-        );
+        ]);
 
-        const results2 = await Promise.all(promises2);
-        this.testServer = results2[0];
-        this.corsServer = results2[1];
-        this.page = results2[2];
-
-        // Wait for tabs to load?
+        this.testServer = testServer;
+        this.corsServer = corsServer;
+        this.page = page;
 
         this.assignTestGlobals(this.global, this.testServer, this.corsServer, this.page);
     }
@@ -55,13 +69,14 @@ export default class CustomJestEnvironment extends TestEnvironment {
      * @returns {Promise<void>}
      */
     async waitForStartup() {
-        if (!this.extensionOrigin) {
-            return new Promise((ready) => this.extensionStartListeners.push(ready));
+        if (this.extensionOrigin) {
+            return;
         }
+        return new Promise((ready) => this.extensionStartListeners.push(ready));
     }
 
     /**
-     * @returns {Promise<Browser>}
+     * @returns {Promise<import('puppeteer-core').Browser>}
      */
     async launchBrowser() {
         let browser;
@@ -73,14 +88,16 @@ export default class CustomJestEnvironment extends TestEnvironment {
             browser = await this.launchChromeMV2();
         } else if (this.global.product === 'firefox') {
             browser = await this.launchFirefox();
+        } else {
+            throw new Error(`Unsupported product: ${this.global.product}`);
         }
-        // Wait for the extension to start
+
         await this.waitForStartup();
         return browser;
     }
 
     /**
-     * @returns {Promise<Browser>}
+     * @returns {Promise<import('puppeteer-core').Browser>}
      */
     async launchChrome() {
         const extensionDir = chromeMV3ExtensionDebugDir;
@@ -90,8 +107,7 @@ export default class CustomJestEnvironment extends TestEnvironment {
         } catch (e) {
             console.error(e);
         }
-        // Explanation of these options:
-        // https://pptr.dev/guides/chrome-extensions
+
         return await launch({
             args: [
                 '--show-component-extension-options',
@@ -104,7 +120,7 @@ export default class CustomJestEnvironment extends TestEnvironment {
     }
 
     /**
-     * @returns {Promise<Browser>}
+     * @returns {Promise<import('puppeteer-core').Browser>}
      */
     async launchChromeMV2() {
         const extensionDir = chromeExtensionDebugDir;
@@ -114,6 +130,7 @@ export default class CustomJestEnvironment extends TestEnvironment {
         } catch (e) {
             console.error(e);
         }
+
         return await launch({
             args: [
                 '--show-component-extension-options',
@@ -126,7 +143,7 @@ export default class CustomJestEnvironment extends TestEnvironment {
     }
 
     /**
-     * @returns {Promise<Browser>}
+     * @returns {Promise<import('puppeteer-core').Browser>}
      */
     async launchEdge() {
         const extensionDir = chromePlusExtensionDebugDir;
@@ -136,6 +153,7 @@ export default class CustomJestEnvironment extends TestEnvironment {
         } catch (e) {
             console.error(e);
         }
+
         return await launch({
             args: [
                 '--show-component-extension-options',
@@ -148,11 +166,12 @@ export default class CustomJestEnvironment extends TestEnvironment {
     }
 
     /**
-     * @returns {Promise<Browser>}
+     * @returns {Promise<import('puppeteer-core').Browser>}
      */
     async launchFirefoxPuppeteer() {
         const retries = 10;
         const retryIntervalInMs = 500;
+
         for (let i = 0; i < retries; i++) {
             await new Promise((resolve) => setTimeout(resolve, retryIntervalInMs));
             try {
@@ -160,20 +179,20 @@ export default class CustomJestEnvironment extends TestEnvironment {
                     browserURL: `http://localhost:${FIREFOX_DEVTOOLS_PORT}`,
                 });
             } catch (err) {
-                console.log(`Firefox connection attempt ${i + 1} failed:`, e);
+                console.log(`Firefox connection attempt ${i + 1} failed:`, err);
             }
         }
+
         throw new Error('Failed to connect to Puppeteer');
     }
 
     /**
-     * @returns {Promise<Browser>}
+     * @returns {Promise<import('puppeteer-core').Browser>}
      */
     async launchFirefox() {
-        // We need to manually launch Firefox via cmd.run() to install extension
-        // because Firefox does not support installing via CLI arguments
         const firefox = await getFirefoxPath();
         const {cmd} = await import('web-ext');
+
         await cmd.run({
             sourceDir: firefoxExtensionDebugDir,
             firefox,
@@ -182,13 +201,15 @@ export default class CustomJestEnvironment extends TestEnvironment {
         }, {
             shouldExitProgram: false,
         });
+
         return await this.launchFirefoxPuppeteer();
     }
 
     async createTestPage() {
         if (this.global.product === 'firefox') {
-            return;
+            return undefined;
         }
+
         const page = await this.browser.newPage();
         page.on('pageerror', (err) => process.emit('uncaughtException', err));
         await page.coverage.startJSCoverage();
@@ -196,8 +217,6 @@ export default class CustomJestEnvironment extends TestEnvironment {
     }
 
     async getURL(path) {
-        // By this point browser should be loaded and extension should be started, but
-        // let's wait anuway
         await this.waitForStartup();
         const url = new URL(path, this.extensionOrigin);
         return url.href;
@@ -220,24 +239,21 @@ export default class CustomJestEnvironment extends TestEnvironment {
     }
 
     /**
-     * @param {Page} page
+     * @param {import('puppeteer-core').Page} page
      * @param {string} url
-     * @param {WaitForOptions} gotoOptions
-     * @returns Promise which resolves when page loads
+     * @param {import('puppeteer-core').WaitForOptions} gotoOptions
+     * @returns {Promise<void>}
      */
     async pageGoto(url, gotoOptions) {
-        // Normalize URL
         const pathname = new URL(url).pathname;
-        // Depending on external circumstances, page may connect to server before page.goto() reolves
         const promise = this.awaitForEvent(`ready-${pathname}`);
-        // Firefox does not resolve promise returned by page.goto()
-        // Doesn't resolve due to https://github.com/puppeteer/puppeteer/issues/6616
-        // TODO(anton): remove this once Firefox supports tab.eval() via WebDriver BiDi
+
         if (this.global.product !== 'firefox') {
             await this.page.goto(url, gotoOptions);
         } else {
             await this.global.backgroundUtils.createTab(url);
         }
+
         await promise;
     }
 
@@ -265,6 +281,7 @@ export default class CustomJestEnvironment extends TestEnvironment {
             const [selector, cssAttributeName, expectedValue] = expectation;
             const selector_ = Array.isArray(selector) ? selector : [selector];
             let element = document;
+
             for (const part of selector_) {
                 if (element instanceof HTMLIFrameElement) {
                     element = element.contentDocument;
@@ -281,6 +298,7 @@ export default class CustomJestEnvironment extends TestEnvironment {
                     return `Could not find element ${part}`;
                 }
             }
+
             const style = getComputedStyle(element);
             if (style[cssAttributeName] !== expectedValue) {
                 return `Expected ${selector_.join(' ')} '${cssAttributeName}' to be '${expectedValue}', but got '${style[cssAttributeName]}'`;
@@ -288,7 +306,7 @@ export default class CustomJestEnvironment extends TestEnvironment {
         };
 
         const checkAll = () => {
-            /** @type{Array<[number, string]>} */
+            /** @type {string[]} */
             const errors = [];
             for (let i = 0; i < expectations.length; i++) {
                 const error = checkOne(expectations[i]);
@@ -301,7 +319,7 @@ export default class CustomJestEnvironment extends TestEnvironment {
 
         let timeout = 10;
         let errors = checkAll();
-        for (let i = 0; (errors.length !== 0) && (i < 10); i++) {
+        for (let i = 0; errors.length !== 0 && i < 10; i++) {
             timeout *= 2;
             await new Promise((r) => requestIdleCallback(r, {timeout}));
             errors = checkAll();
@@ -334,9 +352,11 @@ export default class CustomJestEnvironment extends TestEnvironment {
                 expect(errors.length).toBe(0);
                 return;
             }
+
             if (!Array.isArray(expectations[0])) {
                 expectations = [expectations];
             }
+
             const errors = await page.evaluate(this.checkPageStylesInBrowserContext, expectations);
             expect(errors.join('\n')).toBe('');
         };
@@ -352,10 +372,11 @@ export default class CustomJestEnvironment extends TestEnvironment {
                 }
                 return;
             }
+
             await page.emulateMediaFeatures([{name: 'prefers-color-scheme', value: colorScheme}]);
             if (global.product === 'edge') {
-                const page = await this.getChromiumMV2BackgroundPage();
-                await page.emulateMediaFeatures([{name: 'prefers-color-scheme', value: colorScheme}]);
+                const bgPage = await this.getChromiumMV2BackgroundPage();
+                await bgPage.emulateMediaFeatures([{name: 'prefers-color-scheme', value: colorScheme}]);
             }
         };
 
@@ -371,15 +392,57 @@ export default class CustomJestEnvironment extends TestEnvironment {
 
     /**
      * Creates a server and returns once extension connects to it
-     * @returns {Promise<WebSocketServer>} server
+     * @returns {Promise<WebSocketServer>}
      */
     async createMessageServer() {
+        if (this.messageServer) {
+            return this.messageServer;
+        }
+
         const awaitForEvent = this.awaitForEvent.bind(this);
 
-        // Puppeteer cannot evaluate scripts in moz-extension:// pages
-        // https://github.com/puppeteer/puppeteer/issues/6616
-        return new Promise((resolve) => {
-            const wsServer = new WebSocketServer({port: POPUP_TEST_PORT});
+        return new Promise((resolve, reject) => {
+            let settled = false;
+
+            const fail = (error) => {
+                if (settled) {
+                    return;
+                }
+                settled = true;
+                reject(error);
+            };
+
+            const succeed = (server) => {
+                if (settled) {
+                    return;
+                }
+                settled = true;
+                clearTimeout(startupTimeout);
+                resolve(server);
+            };
+
+            let wsServer;
+            try {
+                wsServer = new WebSocketServer({port: POPUP_TEST_PORT});
+            } catch (error) {
+                fail(error);
+                return;
+            }
+
+            const startupTimeout = setTimeout(() => {
+                try {
+                    wsServer.close();
+                } catch {
+                    // ignore
+                }
+                fail(new Error(`Timed out waiting for extension background to connect on port ${POPUP_TEST_PORT}`));
+            }, MESSAGE_SERVER_STARTUP_TIMEOUT_MS);
+
+            wsServer.on('error', (error) => {
+                clearTimeout(startupTimeout);
+                fail(error);
+            });
+
             let backgroundSocket = null;
             let devToolsSocket = null;
             const popupSockets = new Set();
@@ -391,28 +454,40 @@ export default class CustomJestEnvironment extends TestEnvironment {
 
             wsServer.on('connection', async (ws) => {
                 ws.on('message', (data) => {
-                    const message = JSON.parse(data);
+                    let message;
+                    try {
+                        message = JSON.parse(data);
+                    } catch (error) {
+                        console.error('Failed to parse WebSocket message:', error);
+                        return;
+                    }
+
                     if (message.id === null && message.data && message.data.type === 'background' && message.data.extensionOrigin) {
-                        // This is the initial message which contains extension's URL origin
-                        // and signals that extenstion is ready
                         this.extensionOrigin = message.data.extensionOrigin;
                         this.extensionStartListeners.forEach((ready) => ready());
-                        ws.on('close', () => backgroundSocket = null);
+                        this.extensionStartListeners = [];
+                        ws.on('close', () => {
+                            backgroundSocket = null;
+                        });
                         backgroundSocket = ws;
-                        resolve(wsServer);
+                        succeed(wsServer);
                     } else if (message.id === null && message.data && message.data.type === 'devtools') {
-                        ws.on('close', () => devToolsSocket = null);
+                        ws.on('close', () => {
+                            devToolsSocket = null;
+                        });
                         devToolsSocket = ws;
                         this.onPageEventResponse(message.data.uuid);
                     } else if (message.id === null && message.data && message.data.type === 'popup') {
-                        ws.on('close', () => popupSockets.delete(ws));
+                        ws.on('close', () => {
+                            popupSockets.delete(ws);
+                        });
                         popupSockets.add(ws);
                         this.onPageEventResponse(message.data.uuid);
                     } else if (message.id === null && message.data && message.data.type === 'page') {
                         if (message.data.message === 'page-ready') {
-                            ws.on('close', () => pageSockets.delete(ws));
-                            // Filter out non-top frames
-                            // this is to simplify expectPageStyle implementation
+                            ws.on('close', () => {
+                                pageSockets.delete(ws);
+                            });
                             if (message.data.uuid === 'ready-/') {
                                 pageSockets.add(ws);
                             }
@@ -423,26 +498,64 @@ export default class CustomJestEnvironment extends TestEnvironment {
                             onDownloadCallback(message.data);
                         }
                     } else if (message.error) {
-                        const reject = rejectors.get(message.id);
-                        reject(message.error);
+                        const rejectMessage = rejectors.get(message.id);
+                        if (rejectMessage) {
+                            rejectMessage(message.error);
+                        }
+                        resolvers.delete(message.id);
+                        rejectors.delete(message.id);
                     } else {
-                        const resolve = resolvers.get(message.id);
-                        resolve(message.data);
+                        const resolveMessage = resolvers.get(message.id);
+                        if (resolveMessage) {
+                            resolveMessage(message.data);
+                        }
+                        resolvers.delete(message.id);
+                        rejectors.delete(message.id);
                     }
-                    resolvers.delete(message.id);
-                    rejectors.delete(message.id);
+                });
+
+                ws.on('error', (error) => {
+                    console.error('WebSocket connection error:', error);
                 });
             });
 
-
             function sendToContext(sockets, type, data) {
                 return new Promise((resolve, reject) => {
+                    const validSockets = sockets.filter(Boolean);
+
+                    if (validSockets.length === 0) {
+                        reject(new Error(`No active socket available for message type "${type}"`));
+                        return;
+                    }
+
                     const id = generateRandomId();
                     resolvers.set(id, resolve);
                     rejectors.set(id, reject);
+
                     const json = JSON.stringify({type, data, id});
-                    for (const ws of sockets) {
-                        ws.send(json);
+
+                    let pending = validSockets.length;
+                    let sendFailed = false;
+
+                    for (const ws of validSockets) {
+                        ws.send(json, (error) => {
+                            if (sendFailed) {
+                                return;
+                            }
+
+                            if (error) {
+                                sendFailed = true;
+                                resolvers.delete(id);
+                                rejectors.delete(id);
+                                reject(error);
+                                return;
+                            }
+
+                            pending -= 1;
+                            if (pending === 0) {
+                                // Wait for response message to resolve promise
+                            }
+                        });
                     }
                 });
             }
@@ -509,7 +622,9 @@ export default class CustomJestEnvironment extends TestEnvironment {
                     await sendToBackground('firefox-emulateColorScheme', colorScheme);
                 },
                 setNews: async (news) => await sendToBackground('setNews', news),
-                onDownload: (callback) => onDownloadCallback = callback,
+                onDownload: (callback) => {
+                    onDownloadCallback = callback;
+                },
             };
 
             this.global.pageUtils = {
@@ -532,25 +647,46 @@ export default class CustomJestEnvironment extends TestEnvironment {
      * @returns {Promise<void>}
      */
     async teardown() {
-        await super.teardown();
-
         const promises = [];
-        if (this.global.product !== 'firefox' && this.page?.coverage) {
-            const coverage = await this.page.coverage.stopJSCoverage();
-            const dir = './tests/browser/coverage/';
-            const promise = generateHTMLCoverageReports(dir, coverage);
-            promise.then(() => console.info('Coverage reports generated in', dir));
-            promises.push(promise);
+
+        try {
+            if (this.global.product !== 'firefox' && this.page?.coverage) {
+                const coverage = await this.page.coverage.stopJSCoverage();
+                const dir = './tests/browser/coverage/';
+                const promise = generateHTMLCoverageReports(dir, coverage);
+                promise.then(() => console.info('Coverage reports generated in', dir));
+                promises.push(promise);
+            }
+        } catch (error) {
+            console.error('Failed to generate coverage reports:', error);
         }
 
-        // Note: this.browser.close() will close all tabs, so no need to close them
-        // explicitly
-        promises.push([
-            this.testServer?.close(),
-            this.corsServer?.close(),
-            this.messageServer?.close(),
-            this.browser?.close(),
-        ]);
-        await Promise.all(promises);
+        if (this.testServer) {
+            promises.push(Promise.resolve(this.testServer.close()));
+        }
+
+        if (this.corsServer) {
+            promises.push(Promise.resolve(this.corsServer.close()));
+        }
+
+        if (this.messageServer) {
+            promises.push(new Promise((resolve, reject) => {
+                this.messageServer.close((error) => {
+                    if (error) {
+                        reject(error);
+                    } else {
+                        resolve();
+                    }
+                });
+            }));
+        }
+
+        if (this.browser) {
+            promises.push(this.browser.close());
+        }
+
+        await Promise.allSettled(promises);
+
+        await super.teardown();
     }
 }
