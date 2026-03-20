@@ -1,3 +1,5 @@
+import net from 'node:net';
+
 import {TestEnvironment} from 'jest-environment-node';
 import {launch, connect} from 'puppeteer-core';
 import {WebSocketServer} from 'ws';
@@ -17,8 +19,34 @@ import {createTestServer, generateRandomId} from './server.js';
 const TEST_SERVER_PORT = 8891;
 const CORS_SERVER_PORT = 8892;
 const FIREFOX_DEVTOOLS_PORT = 8893;
-const POPUP_TEST_PORT = 8894;
 const MESSAGE_SERVER_STARTUP_TIMEOUT_MS = 15000;
+
+async function getFreePort() {
+    return await new Promise((resolve, reject) => {
+        const server = net.createServer();
+
+        server.unref();
+
+        server.on('error', reject);
+
+        server.listen(0, '127.0.0.1', () => {
+            const address = server.address();
+            if (!address || typeof address === 'string') {
+                server.close(() => reject(new Error('Failed to determine free port')));
+                return;
+            }
+
+            const {port} = address;
+            server.close((err) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(port);
+                }
+            });
+        });
+    });
+}
 
 export default class CustomJestEnvironment extends TestEnvironment {
     /** @type {Array<() => void>} */
@@ -37,9 +65,17 @@ export default class CustomJestEnvironment extends TestEnvironment {
     page;
     /** @type {string | undefined} */
     extensionOrigin;
+    /** @type {number | undefined} */
+    popupTestPort;
 
     async setup() {
         await super.setup();
+
+        this.popupTestPort = await getFreePort();
+
+        // Делаем порт доступным тестам и коду, который стартует браузер/расширение.
+        this.global.__POPUP_TEST_PORT__ = this.popupTestPort;
+        process.env.POPUP_TEST_PORT = String(this.popupTestPort);
 
         const messageServerPromise = this.createMessageServer();
         const browserPromise = this.launchBrowser();
@@ -80,6 +116,7 @@ export default class CustomJestEnvironment extends TestEnvironment {
      */
     async launchBrowser() {
         let browser;
+
         if (this.global.product === 'edge') {
             browser = await this.launchEdge();
         } else if (this.global.product === 'chrome-mv3') {
@@ -102,6 +139,7 @@ export default class CustomJestEnvironment extends TestEnvironment {
     async launchChrome() {
         const extensionDir = chromeMV3ExtensionDebugDir;
         let executablePath;
+
         try {
             executablePath = await getChromePath();
         } catch (e) {
@@ -116,6 +154,10 @@ export default class CustomJestEnvironment extends TestEnvironment {
             executablePath,
             headless: false,
             pipe: true,
+            env: {
+                ...process.env,
+                POPUP_TEST_PORT: String(this.popupTestPort),
+            },
         });
     }
 
@@ -125,6 +167,7 @@ export default class CustomJestEnvironment extends TestEnvironment {
     async launchChromeMV2() {
         const extensionDir = chromeExtensionDebugDir;
         let executablePath;
+
         try {
             executablePath = await getChromePath();
         } catch (e) {
@@ -139,6 +182,10 @@ export default class CustomJestEnvironment extends TestEnvironment {
             executablePath,
             headless: false,
             pipe: true,
+            env: {
+                ...process.env,
+                POPUP_TEST_PORT: String(this.popupTestPort),
+            },
         });
     }
 
@@ -148,6 +195,7 @@ export default class CustomJestEnvironment extends TestEnvironment {
     async launchEdge() {
         const extensionDir = chromePlusExtensionDebugDir;
         let executablePath;
+
         try {
             executablePath = await getEdgePath();
         } catch (e) {
@@ -162,6 +210,10 @@ export default class CustomJestEnvironment extends TestEnvironment {
             executablePath,
             headless: false,
             pipe: true,
+            env: {
+                ...process.env,
+                POPUP_TEST_PORT: String(this.popupTestPort),
+            },
         });
     }
 
@@ -200,6 +252,10 @@ export default class CustomJestEnvironment extends TestEnvironment {
             args: ['--remote-debugging-port', FIREFOX_DEVTOOLS_PORT],
         }, {
             shouldExitProgram: false,
+            env: {
+                ...process.env,
+                POPUP_TEST_PORT: String(this.popupTestPort),
+            },
         });
 
         return await this.launchFirefoxPuppeteer();
@@ -388,6 +444,7 @@ export default class CustomJestEnvironment extends TestEnvironment {
         };
 
         global.corsURL = corsServer.url;
+        global.popupTestPort = this.popupTestPort;
     }
 
     /**
@@ -423,7 +480,10 @@ export default class CustomJestEnvironment extends TestEnvironment {
 
             let wsServer;
             try {
-                wsServer = new WebSocketServer({port: POPUP_TEST_PORT});
+                wsServer = new WebSocketServer({
+                    host: '127.0.0.1',
+                    port: this.popupTestPort,
+                });
             } catch (error) {
                 fail(error);
                 return;
@@ -435,7 +495,7 @@ export default class CustomJestEnvironment extends TestEnvironment {
                 } catch {
                     // ignore
                 }
-                fail(new Error(`Timed out waiting for extension background to connect on port ${POPUP_TEST_PORT}`));
+                fail(new Error(`Timed out waiting for extension background to connect on port ${this.popupTestPort}`));
             }, MESSAGE_SERVER_STARTUP_TIMEOUT_MS);
 
             wsServer.on('error', (error) => {
@@ -534,26 +594,17 @@ export default class CustomJestEnvironment extends TestEnvironment {
 
                     const json = JSON.stringify({type, data, id});
 
-                    let pending = validSockets.length;
-                    let sendFailed = false;
-
+                    let failed = false;
                     for (const ws of validSockets) {
                         ws.send(json, (error) => {
-                            if (sendFailed) {
+                            if (failed) {
                                 return;
                             }
-
                             if (error) {
-                                sendFailed = true;
+                                failed = true;
                                 resolvers.delete(id);
                                 rejectors.delete(id);
                                 reject(error);
-                                return;
-                            }
-
-                            pending -= 1;
-                            if (pending === 0) {
-                                // Wait for response message to resolve promise
                             }
                         });
                     }
@@ -686,6 +737,8 @@ export default class CustomJestEnvironment extends TestEnvironment {
         }
 
         await Promise.allSettled(promises);
+
+        delete process.env.POPUP_TEST_PORT;
 
         await super.teardown();
     }

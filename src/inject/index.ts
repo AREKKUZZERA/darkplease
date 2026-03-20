@@ -18,17 +18,37 @@ declare const __DEBUG__: boolean;
 declare const __PLUS__: boolean;
 declare const __TEST__: boolean;
 
-let unloaded = false;
-
-let darkpleaseDynamicThemeStateForTesting: 'loading' | 'ready' = 'loading';
-
 declare const __CHROMIUM_MV2__: boolean;
 declare const __CHROMIUM_MV3__: boolean;
 declare const __THUNDERBIRD__: boolean;
 declare const __FIREFOX_MV2__: boolean;
 
+/**
+ * Optional build-time/test-time constant.
+ */
+declare const __POPUP_TEST_PORT__: number | undefined;
+
+let unloaded = false;
+let darkpleaseDynamicThemeStateForTesting: 'loading' | 'ready' = 'loading';
+
 // Identifier for this particular script instance. It is used as an alternative to chrome.runtime.MessageSender.documentId
 const scriptId = generateUID();
+
+function getPopupTestPort(): number {
+    const globalPort =
+        typeof globalThis !== 'undefined' &&
+        '__POPUP_TEST_PORT__' in globalThis &&
+        typeof (globalThis as {__POPUP_TEST_PORT__?: unknown}).__POPUP_TEST_PORT__ === 'number'
+            ? (globalThis as {__POPUP_TEST_PORT__?: number}).__POPUP_TEST_PORT__
+            : undefined;
+
+    const definedPort =
+        typeof __POPUP_TEST_PORT__ !== 'undefined' && typeof __POPUP_TEST_PORT__ === 'number'
+            ? __POPUP_TEST_PORT__
+            : undefined;
+
+    return globalPort ?? definedPort ?? 8894;
+}
 
 function cleanup() {
     unloaded = true;
@@ -49,8 +69,8 @@ function sendMessage(message: MessageCStoBG | MessageCStoUI): true | undefined {
         cleanup();
         return;
     }
+
     const responseHandler = (response: MessageBGtoCS | 'unsupportedSender' | undefined) => {
-        // Vivaldi bug workaround. See TabManager for details.
         if (response === 'unsupportedSender' || response?.type === MessageTypeBGtoCS.UNSUPPORTED_SENDER) {
             removeStyle();
             removeSVGFilter();
@@ -97,6 +117,7 @@ function onMessage(message: MessageBGtoCS | MessageUItoCS | DebugMessageBGtoCS) 
     }
 
     logInfoCollapsed(`onMessage[${message.type}]`, message);
+
     switch (message.type) {
         case MessageTypeBGtoCS.ADD_CSS_FILTER:
         case MessageTypeBGtoCS.ADD_STATIC_THEME: {
@@ -114,6 +135,7 @@ function onMessage(message: MessageBGtoCS | MessageUItoCS | DebugMessageBGtoCS) 
             }
             break;
         }
+
         case MessageTypeBGtoCS.ADD_SVG_FILTER: {
             const {css, svgMatrix, svgReverseMatrix, detectDarkTheme, detectorHints} = message.data;
             removeDynamicTheme();
@@ -131,6 +153,7 @@ function onMessage(message: MessageBGtoCS | MessageUItoCS | DebugMessageBGtoCS) 
             }
             break;
         }
+
         case MessageTypeBGtoCS.ADD_DYNAMIC_THEME: {
             const {theme, fixes, isIFrame, detectDarkTheme, detectorHints} = message.data;
             removeStyle();
@@ -151,9 +174,11 @@ function onMessage(message: MessageBGtoCS | MessageUItoCS | DebugMessageBGtoCS) 
             }
             break;
         }
+
         case MessageTypeUItoCS.EXPORT_CSS:
             collectCSS().then((collectedCSS) => sendMessage({type: MessageTypeCStoUI.EXPORT_CSS_RESPONSE, data: collectedCSS}));
             break;
+
         case MessageTypeBGtoCS.UNSUPPORTED_SENDER:
         case MessageTypeBGtoCS.CLEAN_UP:
             removeStyle();
@@ -162,23 +187,23 @@ function onMessage(message: MessageBGtoCS | MessageUItoCS | DebugMessageBGtoCS) 
             stopDarkThemeDetector();
             writeEnabledForHost(false);
             break;
+
         default:
             break;
     }
 }
 
 function sendConnectionOrResumeMessage(type: MessageTypeCStoBG.DOCUMENT_CONNECT | MessageTypeCStoBG.DOCUMENT_RESUME) {
-    sendMessage(
-        {
-            type,
-            scriptId,
-            data: (__CHROMIUM_MV2__ || __CHROMIUM_MV3__) ? {
-                isDark: isSystemDarkModeEnabled(),
-                isTopFrame: window === window.top,
-            } : {
-                isDark: isSystemDarkModeEnabled(),
-            },
-        });
+    sendMessage({
+        type,
+        scriptId,
+        data: (__CHROMIUM_MV2__ || __CHROMIUM_MV3__) ? {
+            isDark: isSystemDarkModeEnabled(),
+            isTopFrame: window === window.top,
+        } : {
+            isDark: isSystemDarkModeEnabled(),
+        },
+    });
 }
 
 runColorSchemeChangeDetector((isDark) =>
@@ -194,6 +219,7 @@ if (isExtensionContextValid()) {
         }
     }
 }
+
 sendConnectionOrResumeMessage(MessageTypeCStoBG.DOCUMENT_CONNECT);
 
 function onPageHide(e: PageTransitionEvent) {
@@ -234,10 +260,12 @@ if (__PLUS__) {
 }
 
 if (__TEST__) {
+    const popupTestPort = getPopupTestPort();
+
     async function awaitDOMContentLoaded() {
         if (document.readyState === 'loading') {
             return new Promise<void>((resolve) => {
-                addEventListener('DOMContentLoaded', () => resolve(), {passive: true});
+                addEventListener('DOMContentLoaded', () => resolve(), {passive: true, once: true});
             });
         }
     }
@@ -245,32 +273,36 @@ if (__TEST__) {
     async function awaitDarkPleaseReady() {
         if (darkpleaseDynamicThemeStateForTesting !== 'ready') {
             return new Promise<void>((resolve) => {
-                document.addEventListener('test-message', (event: CustomEvent) => {
-                    const message = event.detail;
+                const listener = (event: Event) => {
+                    const customEvent = event as CustomEvent;
+                    const message = customEvent.detail;
                     if (message === 'darkplease-dynamic-theme-ready' && darkpleaseDynamicThemeStateForTesting === 'ready') {
+                        document.removeEventListener('test-message', listener as EventListener);
                         resolve();
                     }
-                }, {passive: true});
+                };
+                document.addEventListener('test-message', listener as EventListener, {passive: true});
             });
         }
     }
 
-    const socket = new WebSocket(`ws://localhost:8894`);
+    const socket = new WebSocket(`ws://localhost:${popupTestPort}`);
+
     socket.onopen = async () => {
-        document.addEventListener('test-message', (e: CustomEvent) => {
+        document.addEventListener('test-message', (e: Event) => {
+            const customEvent = e as CustomEvent;
             socket.send(JSON.stringify({
                 data: {
                     type: 'page',
-                    uuid: e.detail,
+                    uuid: customEvent.detail,
                 },
                 id: null,
             }));
         }, {passive: true});
 
-        // Wait for DOM to be complete
-        // Note that here we wait only for DOM parsing and not for sub-resource load
         await awaitDOMContentLoaded();
         await awaitDarkPleaseReady();
+
         socket.send(JSON.stringify({
             data: {
                 type: 'page',
@@ -288,6 +320,7 @@ if (__TEST__) {
                 const [selector, cssAttributeName, expectedValue] = expectation;
                 const selector_ = Array.isArray(selector) ? selector : [selector];
                 let element = document as any;
+
                 for (const part of selector_) {
                     if (element instanceof HTMLIFrameElement) {
                         element = element.contentDocument;
@@ -304,6 +337,7 @@ if (__TEST__) {
                         return `Could not find element ${part}`;
                     }
                 }
+
                 const style = getComputedStyle(element);
                 if (style[cssAttributeName] !== expectedValue) {
                     return `Got ${style[cssAttributeName]}`;
@@ -312,12 +346,14 @@ if (__TEST__) {
 
             const errors: Array<[number, string]> = [];
             const expectations = Array.isArray(data[0]) ? data : [data];
+
             for (let i = 0; i < expectations.length; i++) {
                 const error = checkOne(expectations[i]);
                 if (error) {
                     errors.push([i, error]);
                 }
             }
+
             return errors;
         }
 
@@ -327,6 +363,7 @@ if (__TEST__) {
             }
 
             const {id, data, type} = JSON.parse(e.data);
+
             switch (type) {
                 case 'firefox-eval': {
                     const result = eval(data);
@@ -337,9 +374,8 @@ if (__TEST__) {
                     }
                     break;
                 }
+
                 case 'firefox-expectPageStyles': {
-                    // Styles may not have been applied to the document yet,
-                    // so we check once immediately and then on an interval.
                     function checkPageStylesNow() {
                         const errors = expectPageStyles(data);
                         if (errors.length === 0) {
@@ -348,19 +384,19 @@ if (__TEST__) {
                         }
                     }
 
-                    const interval: number = setInterval(checkPageStylesNow, 200);
+                    const interval: number = setInterval(checkPageStylesNow, 200) as unknown as number;
                     checkPageStylesNow();
                     break;
                 }
-                case 'firefox-getColorScheme': {
+
+                case 'firefox-getColorScheme':
                     respond(isSystemDarkModeEnabled() ? 'dark' : 'light');
                     break;
-                }
-                case 'firefox-emulateColorScheme': {
+
+                case 'firefox-emulateColorScheme':
                     emulateColorScheme(data);
                     respond(undefined);
                     break;
-                }
             }
         };
     }
