@@ -21,5 +21,5 @@ if (!chrome.runtime.hasOwnProperty('sendMessage')) {
     // Provide a no-op stub so isExtensionContextValid() returns true.
     // Individual tests that need messaging behaviour replace this via
     // stubChromeRuntimeMessage() in background-stub.ts.
-(chrome.runtime as any).sendMessage = (() : void => {}) as any;
+    (chrome.runtime as any).sendMessage = (() : void => {}) as any;
 }
