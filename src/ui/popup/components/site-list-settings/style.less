@@ -4,20 +4,61 @@
     align-items: stretch;
     display: flex;
     flex-direction: column;
+    gap: @indent-small;
     min-height: 0;
     width: 100%;
 
     &__toggle {
-        border-bottom: none;
         flex: none;
+        /* Override border to pill style */
+        border-bottom: @size-border solid @color-border;
     }
 
     &__shortcut {
         flex: none;
         white-space: nowrap;
+        font-size: @size-text-small;
+        color: @color-control-fore-inactive;
+        text-align: center;
+        padding: 4px 0;
+        display: block;
     }
 
     &__text-list {
         flex: initial;
+    }
+}
+
+/* Redesigned text-list */
+.text-list {
+    border: @size-border solid @color-border2;
+    border-radius: @dp-radius-xs;
+    overflow: hidden;
+    background-color: @dp-surface2;
+
+    &__textbox.textbox {
+        border: none;
+        border-bottom: @size-border solid @color-border;
+        border-radius: 0;
+        box-sizing: border-box;
+        flex: none;
+        height: @size-control-inner;
+        width: 100%;
+        background-color: transparent;
+        font-size: @size-text-small;
+        transition: background-color @time-fast;
+
+        &:focus {
+            background-color: @dp-surface3;
+            border-bottom-color: @color-control-active;
+        }
+
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+
+    &::-webkit-scrollbar {
+        width: @size-scrollbar-thickness;
     }
 }

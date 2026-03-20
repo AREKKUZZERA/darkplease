@@ -3,34 +3,68 @@
 .font-settings {
     display: flex;
     flex-direction: column;
+    gap: @indent-small;
     width: 100%;
 
     &__font-select-container {
         display: flex;
         flex-direction: column;
+        gap: 4px;
 
         &__line {
             display: flex;
             flex-direction: row;
+            gap: @indent-small;
+            align-items: center;
 
-            > :not(:first-child) {
-                margin-left: @indent-small;
+            .checkbox {
+                flex-shrink: 0;
             }
 
             .select {
                 flex: 1;
+                min-width: 0;
             }
         }
 
         &__label {
             font-size: @size-text-small;
             line-height: @size-text-small-height;
-            text-align: left;
-            white-space: nowrap;
+            text-align: center;
+            color: @color-control-fore-inactive;
+            width: 100%;
+            display: block;
         }
     }
 
-    > :not(:first-child) {
-        margin-top: @indent-small;
+    &__stroke-row {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding: 0 2px;
+    }
+
+    &__stroke-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &__stroke-label {
+        font-size: @size-text-small;
+        font-weight: 500;
+        color: @color-control-fore-inactive;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        user-select: none;
+    }
+
+    &__stroke-value {
+        font-size: @size-text-small;
+        font-weight: 500;
+        font-family: @font-mono;
+        color: @color-fore;
+        min-width: 2rem;
+        text-align: right;
     }
 }

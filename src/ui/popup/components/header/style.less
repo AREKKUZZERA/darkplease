@@ -1,7 +1,5 @@
 @import "../../../theme";
 
-@more-settings-line-height: 2 * @size-border + @size-control-inner + @size-text-small-height;
-
 .header {
     display: flex;
     flex-direction: column;
@@ -10,7 +8,7 @@
     border: @size-border solid @color-border2;
     border-radius: @dp-radius;
     padding: @indent-small;
-    gap: @indent-small;
+    gap: 6px;
     width: 100%;
 
     &__top-row {
@@ -24,15 +22,13 @@
         background-position: left center;
         background-repeat: no-repeat;
         background-size: contain;
-        height: 1.5rem;
+        height: 1.25rem;
         outline: none;
         text-indent: -999rem;
-        width: 7.5rem;
+        width: 7rem;
         transition: filter @time-fast;
 
-        &:hover {
-            filter: brightness(1.1);
-        }
+        &:hover { filter: brightness(1.1); }
     }
 
     &__status {
@@ -42,8 +38,7 @@
     }
 
     &__status-dot {
-        width: 7px;
-        height: 7px;
+        width: 6px; height: 6px;
         border-radius: 50%;
         background: @dp-green;
         box-shadow: 0 0 0 2px @dp-green-dim;
@@ -57,9 +52,11 @@
     }
 
     &__status-text {
-        font-size: @size-text-small;
+        font-size: 0.625rem;
         font-weight: 500;
         color: @color-control-fore-inactive;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
     }
 
     &__controls-row {
@@ -71,13 +68,11 @@
     &__control {
         display: flex;
         flex-direction: column;
-        gap: 4px;
+        gap: 3px;
         min-width: 0;
     }
 
-    &__site-toggle {
-        grid-column: 1;
-    }
+    &__site-toggle { grid-column: 1; }
 
     &__app-toggle {
         grid-column: 2;
@@ -97,16 +92,14 @@
             transition: opacity @time-slow @time-slow;
             width: @size-text-small-height;
 
-            &--active {
-                display: inline-block;
-            }
+            &--active { display: inline-block; }
         }
     }
 
     &__more-settings-button {
         color: @color-control-fore-inactive;
         cursor: pointer;
-        font-size: @size-text-small;
+        font-size: 0.625rem;
         line-height: @size-text-small-height;
         text-align: left;
         user-select: none;
@@ -115,43 +108,27 @@
         overflow: hidden;
         text-overflow: ellipsis;
 
-        &:hover {
-            color: @color-fore;
-        }
+        &:hover { color: @color-fore; }
 
         &__icon {
-            height: @size-text-small;
-            margin-right: 0.125rem;
+            height: 0.625rem;
+            margin-right: 0.1rem;
             position: relative;
-            top: 0.0625rem;
-            width: @size-text-small;
+            top: 0.05rem;
+            width: 0.625rem;
 
-            g {
-                fill: @color-control-fore-inactive;
-                transition: fill @time-fast;
-            }
+            g { fill: @color-control-fore-inactive; transition: fill @time-fast; }
         }
 
-        &:hover &__icon g {
-            fill: @color-fore;
-        }
+        &:hover &__icon g { fill: @color-fore; }
 
-        &--off {
-            color: @color-heading;
-        }
-
-        &--off &__icon g {
-            fill: @color-heading;
-        }
+        &--off { color: @color-heading; }
+        &--off &__icon g { fill: @color-heading; }
     }
 
-    &__more-site-settings {
-        height: 14.5rem;
-    }
-
-    &__more-toggle-settings {
-        height: 18rem;
-    }
+    /* More-settings dropdown overlay - unchanged from original logic */
+    &__more-site-settings { height: 14rem; }
+    &__more-toggle-settings { height: 17rem; }
 
     &__more-settings {
         background-color: fadeout(@color-back, 5%);
@@ -161,7 +138,7 @@
         flex-direction: column;
         left: 0;
         position: absolute;
-        top: @popup-content-padding + 2 * @size-control-inner + @size-border + 2 * @size-text-small-height + 2 * @indent-small + 1.5rem + @indent-small;
+        top: 5.5rem;
         transition: all @time-slow;
         width: 100%;
         z-index: 999;
@@ -186,6 +163,9 @@
             &__text {
                 line-height: @size-text-large-height;
                 font-weight: 500;
+                font-size: @size-text-small;
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
             }
 
             &__close {
@@ -201,17 +181,17 @@
                 border-radius: @dp-radius-xs;
                 transition: background-color @time-fast;
 
-                &:hover {
-                    background-color: @dp-accent-dim;
-                }
+                &:hover { background-color: @dp-accent-dim; }
             }
         }
 
         &__content {
             flex: auto;
             overflow: hidden;
-            padding: @indent-large @popup-content-padding;
-            transition: padding @time-slow;
+            padding: @indent-small @popup-content-padding @indent-large;
+            display: flex;
+            flex-direction: column;
+            gap: @indent-small;
         }
 
         &__line {
@@ -228,7 +208,8 @@
             }
         }
 
-        &__description {
+        &__description,
+        &__location-description {
             font-size: @size-text-small;
             line-height: @size-text-small-height;
             margin: 0;
@@ -246,15 +227,6 @@
             color: @color-heading;
         }
 
-        &__location-description {
-            font-size: @size-text-small;
-            line-height: @size-text-small-height;
-            margin: 0;
-            text-align: center;
-            white-space: nowrap;
-            color: @color-control-fore-inactive;
-        }
-
         &::after {
             background-image: linear-gradient(to bottom, fadeout(@color-back, 5%), fadeout(@color-back, 100%));
             content: "";
@@ -265,15 +237,13 @@
             pointer-events: none;
             position: absolute;
             top: 100%;
-            transition: height @time-slow;
             width: 100%;
         }
 
         &__location {
             margin-top: @indent-small;
 
-            &__latitude,
-            &__longitude {
+            &__latitude, &__longitude {
                 flex: auto;
                 text-align: center;
                 text-indent: 0;
@@ -290,36 +260,30 @@
             }
         }
 
-        &__system-dark-mode {
+        &__system-dark-mode,
+        &__enabled-by-default,
+        &__detect-dark-theme {
             display: flex;
             flex-direction: row;
-            margin-top: @indent-small;
+            gap: 0;
 
             &__checkbox { flex: none; }
 
             &__button {
                 border-left-width: @size-border;
                 flex: auto;
-
-                &:not(&--active) {
-                    color: @color-input-fore;
-                }
+                &:not(&--active) { color: @color-input-fore; }
             }
 
             &:hover &__button,
-            &:hover &__checkbox {
-                background-color: @dp-surface3;
-            }
+            &:hover &__checkbox { background-color: @dp-surface3; }
 
-            &:hover &__button--active {
-                background-color: lighten(@color-control-active, 3%);
-            }
+            &:hover &__button--active { background-color: lighten(@color-control-active, 3%); }
         }
 
         &__shortcut-wrapper {
             display: inline-block;
             height: @size-control-inner + 2 * @size-border;
-            margin-top: @indent-small;
             position: relative;
             width: 100%;
 
@@ -334,9 +298,7 @@
                 width: @size-control-inner;
             }
 
-            &--set svg {
-                --icon-color: @color-control-fore;
-            }
+            &--set svg { --icon-color: @color-control-fore; }
         }
 
         &__shortcut {
@@ -352,50 +314,18 @@
             white-space: nowrap;
             width: calc(100% - 2 * @size-border - @size-control-inner);
 
-            &:hover {
-                background-color: @dp-surface3;
-                text-decoration: none;
-            }
-        }
-
-        &__enabled-by-default,
-        &__detect-dark-theme {
-            display: flex;
-            flex-direction: row;
-            margin-top: @indent-small;
-
-            &__checkbox { flex: none; }
-
-            &__button {
-                border-left-width: @size-border;
-                flex: auto;
-
-                &:not(&--active) {
-                    color: @color-input-fore;
-                }
-            }
-
-            &:hover &__button,
-            &:hover &__checkbox {
-                background-color: @dp-surface3;
-            }
-
-            &:hover &__button--active {
-                background-color: lighten(@color-control-active, 3%);
-            }
+            &:hover { background-color: @dp-surface3; }
         }
     }
 
-    .shortcut {
-        overflow: hidden;
-    }
+    .shortcut { overflow: hidden; }
 
     &__more-new-highlight {
         height: 2rem;
         pointer-events: none;
         position: absolute;
-        right: 0rem;
-        top: 5.75rem;
+        right: 0;
+        top: 5.5rem;
         width: 17rem;
 
         &__text {

@@ -1,32 +1,40 @@
 @import "../../theme";
 
 .text-list {
-    border-top: @size-border solid @color-border2;
-    margin-bottom: @size-border - @size-border-inner;
-    min-width: @size-scrollbar-thickness + @indent-small + 2 * @size-border; // Fix scrollTop when animation starts, without this it becomes 0 after focus()
+    border: @size-border solid @color-border2;
+    border-radius: @dp-radius-xs;
+    margin-bottom: 0;
+    min-width: 0;
     overflow-x: hidden;
     overflow-y: auto;
 
     &__textbox.textbox {
-        border-bottom: @size-border-inner solid @color-border2;
-        border-left: @size-border solid @color-border2;
-        border-right: @size-border solid @color-border2;
-        border-top: none;
+        border: none;
+        border-bottom: @size-border solid @color-border;
+        border-radius: 0;
         box-sizing: border-box;
         flex: none;
-        height: @size-control-inner + @size-border-inner;
+        height: @size-control-inner;
         width: 100%;
+        background-color: transparent;
+        font-size: @size-text-small;
+        transition: background-color @time-fast;
+
+        &:focus {
+            background-color: @dp-surface3;
+            border-bottom-color: @color-control-active;
+        }
 
         &:last-child {
-            border-bottom: @size-border solid @color-border2;
+            border-bottom: none;
         }
     }
 
     &::-webkit-scrollbar {
-        width: @size-scrollbar-thickness + @indent-small;
+        width: @size-scrollbar-thickness;
 
         &-thumb {
-            border-left: @indent-small solid @color-back;
+            border-left: none;
         }
     }
 }

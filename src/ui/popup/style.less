@@ -1,9 +1,9 @@
 @import "../theme";
 @import "../shared";
 
-@popup-content-width: 16rem;
-@popup-content-height: 32rem;
-@popup-content-padding: 0.75rem;
+@popup-content-width: 15.5rem;
+@popup-content-height: 31rem;
+@popup-content-padding: 0.625rem;
 
 @import "./components/custom-settings-toggle/style";
 @import "./components/engine-switch/style";
@@ -26,7 +26,7 @@ body {
     padding: @popup-content-padding;
     position: relative;
     width: @popup-content-width;
-    gap: 0.5rem;
+    gap: @indent-small;
 }
 
 .header {
@@ -34,8 +34,11 @@ body {
 }
 
 .tab-panel {
-    flex: auto;
-    margin-top: 0;
+    flex: 1 1 0;
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 .footer-links {
@@ -53,9 +56,7 @@ body {
         text-decoration: none;
         transition: color @time-fast;
 
-        &:hover {
-            color: @color-fore;
-        }
+        &:hover { color: @color-fore; }
     }
 
     > :not(:first-child) {
@@ -71,9 +72,7 @@ body {
     width: 100%;
     gap: @indent-small;
 
-    > * {
-        flex: auto;
-    }
+    > * { flex: auto; }
 }
 
 .dev-tools-button {
@@ -82,9 +81,7 @@ body {
 }
 
 .ext-disabled {
-    .site-toggle--disabled {
-        opacity: 1;
-    }
+    .site-toggle--disabled { opacity: 1; }
 
     .header__site-toggle,
     .tab-panel {
@@ -93,9 +90,7 @@ body {
         transition: opacity @time-slow;
     }
 
-    .tab-panel__tab--active {
-        pointer-events: none;
-    }
+    .tab-panel__tab--active { pointer-events: none; }
 }
 
 html:not(.mobile):not(.preview) body.ext-tall {

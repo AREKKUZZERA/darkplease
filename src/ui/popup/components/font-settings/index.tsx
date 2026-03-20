@@ -2,12 +2,16 @@ import {m} from 'malevic';
 
 import type {Theme} from '../../../../definitions';
 import {getLocalMessage} from '../../../../utils/locales';
-import {CheckBox, UpDown, Select} from '../../../controls';
+import {CheckBox, Slider, Select} from '../../../controls';
 
 interface FontSettingsProps {
     config: Theme;
     fonts: string[];
     onChange: (config: Partial<Theme>) => void;
+}
+
+function formatStroke(v: number) {
+    return `${v}`;
 }
 
 export default function FontSettings({config, fonts, onChange}: FontSettingsProps) {
@@ -41,15 +45,20 @@ export default function FontSettings({config, fonts, onChange}: FontSettingsProp
                     {getLocalMessage('select_font')}
                 </label>
             </div>
-            <UpDown
-                value={config.textStroke}
-                min={0}
-                max={1}
-                step={0.1}
-                default={0}
-                name={getLocalMessage('text_stroke')}
-                onChange={(value) => onChange({textStroke: value})}
-            />
+            <div class="font-settings__stroke-row">
+                <div class="font-settings__stroke-header">
+                    <span class="font-settings__stroke-label">{getLocalMessage('text_stroke')}</span>
+                    <span class="font-settings__stroke-value">{String(config.textStroke)}</span>
+                </div>
+                <Slider
+                    value={config.textStroke}
+                    min={0}
+                    max={1}
+                    step={0.1}
+                    formatValue={formatStroke}
+                    onChange={(value) => onChange({textStroke: value})}
+                />
+            </div>
         </section>
     );
 }
