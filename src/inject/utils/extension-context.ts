@@ -1,4 +1,7 @@
-const EXTENSION_CONTEXT_INVALIDATED_MESSAGE = 'Extension context invalidated';
+const KNOWN_DEAD_CONTEXT_MESSAGES = [
+    'Extension context invalidated',
+    'Could not establish connection. Receiving end does not exist',
+];
 
 export function isExtensionContextValid(): boolean {
     try {
@@ -16,5 +19,6 @@ export function isExtensionContextInvalidatedError(error: unknown): boolean {
     }
 
     const message = typeof error === 'string' ? error : (error as {message?: unknown}).message;
-    return typeof message === 'string' && message.includes(EXTENSION_CONTEXT_INVALIDATED_MESSAGE);
+    return typeof message === 'string' &&
+        KNOWN_DEAD_CONTEXT_MESSAGES.some((m) => message.includes(m));
 }
