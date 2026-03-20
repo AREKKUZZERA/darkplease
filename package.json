@@ -1,6 +1,6 @@
 {
   "name": "dark-please",
-  "version": "1.9.2",
+  "version": "2.0.0",
   "description": "DARK PLEASE! - dark mode for every website",
   "scripts": {
     "api": "node --max-old-space-size=3072 tasks/cli.js build --api",
