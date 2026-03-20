@@ -4,7 +4,7 @@
     align-items: stretch;
     display: flex;
     flex-direction: column;
-    gap: 0.625rem;
+    gap: 0.5rem;
     width: 100%;
     padding-bottom: @indent-small;
 
@@ -15,17 +15,39 @@
         flex-direction: column;
         justify-content: center;
     }
+
+    &__reset-btn {
+        width: 100%;
+        background-color: @dp-surface2;
+        border-color: @color-border2;
+        color: @color-control-fore-inactive;
+        font-size: @size-text-small;
+        transition: all @time-fast, opacity @time-slow;
+
+        &:hover {
+            border-color: @color-control-active;
+            color: @color-control-active;
+        }
+
+        &--hidden {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+    }
 }
 
+/* Slider rows with consistent spacing */
 .filter-slider-row {
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    gap: 2px;
+    padding: 0 1px;
 
     &__header {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        padding: 0 2px;
     }
 
     &__label {
@@ -42,30 +64,32 @@
         font-weight: 500;
         font-family: @font-mono;
         color: @color-fore;
-        min-width: 1.75rem;
+        min-width: 2rem;
         text-align: right;
+        transition: color @time-fast;
+
+        &--default {
+            color: @color-control-fore-inactive;
+        }
     }
 
-    /* Hide the internal thumb value label - we show it in header */
+    /* Hide internal thumb label since we show value in header */
     .slider__thumb__value { display: none; }
     .slider__value { display: none; }
 
-    /* Per-param colored fills */
+    /* Per-parameter colored fills */
     &:nth-child(2) .slider__track__fill,
     &:nth-child(2) .slider__track__fill::before {
-        background: linear-gradient(90deg, #d07000, #ffb300);
+        background: linear-gradient(90deg, #c97000, #ffb300);
     }
-
     &:nth-child(3) .slider__track__fill,
     &:nth-child(3) .slider__track__fill::before {
-        background: linear-gradient(90deg, #7733ee, @color-control-active);
+        background: linear-gradient(90deg, #7733dd, @color-control-active);
     }
-
     &:nth-child(4) .slider__track__fill,
     &:nth-child(4) .slider__track__fill::before {
         background: linear-gradient(90deg, #7a5030, #c09060);
     }
-
     &:nth-child(5) .slider__track__fill,
     &:nth-child(5) .slider__track__fill::before {
         background: linear-gradient(90deg, #444, #999);

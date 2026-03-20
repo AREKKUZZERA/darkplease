@@ -20,8 +20,7 @@
         position: relative;
         width: 100%;
 
-        &::before,
-        &::after {
+        &::before, &::after {
             background-color: @color-control-fore;
             content: "";
             display: inline-block;
@@ -30,46 +29,25 @@
             width: @size-control-inner * 0.1;
         }
 
-        &::before {
-            top: @size-control-inner * 0.125;
-        }
-
-        &::after {
-            top: @size-control-inner * 0.5;
-        }
+        &::before { top: @size-control-inner * 0.125; }
+        &::after  { top: @size-control-inner * 0.5; }
     }
 
     &__icon-up {
-        &::before {
-            left: @size-control-inner * 0.5;
-            transform: skewX(45deg);
-        }
-        &::after {
-            left: @size-control-inner * 0.5;
-            transform: skewX(-45deg);
-        }
+        &::before { left: @size-control-inner * 0.5; transform: skewX(45deg); }
+        &::after  { left: @size-control-inner * 0.5; transform: skewX(-45deg); }
     }
 
     &__icon-down {
-        &::before {
-            left: @size-control-inner * 0.375;
-            transform: skewX(-45deg);
-        }
-        &::after {
-            left: @size-control-inner * 0.375;
-            transform: skewX(45deg);
-        }
+        &::before { left: @size-control-inner * 0.375; transform: skewX(-45deg); }
+        &::after  { left: @size-control-inner * 0.375; transform: skewX(45deg); }
     }
 
     &__button--disabled {
         pointer-events: none;
         opacity: 0.35;
 
-        &:hover,
-        &:active {
-            background-color: @dp-surface2;
-            transform: none;
-        }
+        &:hover, &:active { background-color: @dp-surface2; transform: none; }
     }
 
     &__value-text {
@@ -82,12 +60,14 @@
     }
 }
 
+/* Track bar inside UpDown */
 .track {
     align-items: center;
     background-color: @dp-surface2;
     border: @size-border solid @color-border2;
     border-radius: @dp-radius-xs;
     box-sizing: content-box;
+    cursor: pointer;
     display: inline-flex;
     flex: auto;
     flex-direction: row;
@@ -95,22 +75,12 @@
     justify-content: center;
     overflow: hidden;
     position: relative;
-    transition: background-color @time-fast, border-color @time-fast;
+    transition: background-color @time-fast;
     -moz-user-select: none;
     user-select: none;
 
-    &:hover {
-        background-color: @dp-surface3;
-        border-color: @color-border2;
-    }
-
-    &--clickable {
-        cursor: pointer;
-    }
-
-    &--clickable:active {
-        background-color: @dp-surface3;
-    }
+    &:hover { background-color: @dp-surface3; }
+    &:active { background-color: @dp-surface3; }
 
     &__value {
         background: linear-gradient(90deg, darken(@color-control-active, 8%), @color-control-active);

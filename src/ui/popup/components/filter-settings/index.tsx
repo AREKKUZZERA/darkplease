@@ -3,7 +3,7 @@ import {m} from 'malevic';
 import type {ExtWrapper, Theme} from '../../../../definitions';
 import {getLocalMessage} from '../../../../utils/locales';
 import {isURLInList} from '../../../../utils/url';
-import {Slider} from '../../../controls';
+import {Button, Slider} from '../../../controls';
 import CustomSettingsToggle from '../custom-settings-toggle';
 
 import ModeToggle from './mode-toggle';
@@ -12,12 +12,29 @@ function formatPercent(v: number) {
     return `${v}%`;
 }
 
-function SliderRow(props: {label: string; value: number; min: number; max: number; onChange: (v: number) => void}) {
+const DEFAULTS = {
+    brightness: 100,
+    contrast: 100,
+    sepia: 0,
+    grayscale: 0,
+};
+
+function SliderRow(props: {
+    label: string;
+    value: number;
+    min: number;
+    max: number;
+    defaultVal: number;
+    onChange: (v: number) => void;
+}) {
+    const isDefault = props.value === props.defaultVal;
     return (
         <div class="filter-slider-row">
             <div class="filter-slider-row__header">
                 <span class="filter-slider-row__label">{props.label}</span>
-                <span class="filter-slider-row__value">{String(props.value)}</span>
+                <span class={{'filter-slider-row__value': true, 'filter-slider-row__value--default': isDefault}}>
+                    {String(props.value)}
+                </span>
             </div>
             <Slider
                 value={props.value}
@@ -44,6 +61,16 @@ export default function FilterSettings({data, actions}: ExtWrapper, ...children:
         }
     }
 
+    function resetFilters() {
+        setConfig(DEFAULTS);
+    }
+
+    const isAllDefault =
+        theme.brightness === DEFAULTS.brightness &&
+        theme.contrast === DEFAULTS.contrast &&
+        theme.sepia === DEFAULTS.sepia &&
+        theme.grayscale === DEFAULTS.grayscale;
+
     return (
         <section class="filter-settings">
             <ModeToggle mode={theme.mode} onChange={(mode) => setConfig({mode})} />
@@ -51,26 +78,36 @@ export default function FilterSettings({data, actions}: ExtWrapper, ...children:
                 label={getLocalMessage('brightness')}
                 value={theme.brightness}
                 min={50} max={150}
+                defaultVal={DEFAULTS.brightness}
                 onChange={(v) => setConfig({brightness: v})}
             />
             <SliderRow
                 label={getLocalMessage('contrast')}
                 value={theme.contrast}
                 min={50} max={150}
+                defaultVal={DEFAULTS.contrast}
                 onChange={(v) => setConfig({contrast: v})}
             />
             <SliderRow
                 label={getLocalMessage('sepia')}
                 value={theme.sepia}
                 min={0} max={100}
+                defaultVal={DEFAULTS.sepia}
                 onChange={(v) => setConfig({sepia: v})}
             />
             <SliderRow
                 label={getLocalMessage('grayscale')}
                 value={theme.grayscale}
                 min={0} max={100}
+                defaultVal={DEFAULTS.grayscale}
                 onChange={(v) => setConfig({grayscale: v})}
             />
+            <Button
+                class={{'filter-settings__reset-btn': true, 'filter-settings__reset-btn--hidden': isAllDefault}}
+                onclick={resetFilters}
+            >
+                {'Reset'}
+            </Button>
             <CustomSettingsToggle data={data} actions={actions} />
             <div class="filter-settings__content">
                 {...children}

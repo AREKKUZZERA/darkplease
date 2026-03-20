@@ -11,7 +11,7 @@ interface FontSettingsProps {
 }
 
 function formatStroke(v: number) {
-    return `${v}`;
+    return v.toFixed(1);
 }
 
 export default function FontSettings({config, fonts, onChange}: FontSettingsProps) {
@@ -25,18 +25,9 @@ export default function FontSettings({config, fonts, onChange}: FontSettingsProp
                     />
                     <Select
                         value={config.fontFamily}
-                        onChange={(value) =>
-                            onChange({
-                                fontFamily: value,
-                                useFont: true,
-                            })
-                        }
+                        onChange={(value) => onChange({fontFamily: value, useFont: true})}
                         options={fonts.reduce((map, font) => {
-                            map[font] = (
-                                <div style={{'font-family': font}}>
-                                    {font}
-                                </div>
-                            );
+                            map[font] = <div style={{'font-family': font}}>{font}</div>;
                             return map;
                         }, {} as {[font: string]: Malevic.Spec})}
                     />
@@ -48,7 +39,7 @@ export default function FontSettings({config, fonts, onChange}: FontSettingsProp
             <div class="font-settings__stroke-row">
                 <div class="font-settings__stroke-header">
                     <span class="font-settings__stroke-label">{getLocalMessage('text_stroke')}</span>
-                    <span class="font-settings__stroke-value">{String(config.textStroke)}</span>
+                    <span class="font-settings__stroke-value">{config.textStroke.toFixed(1)}</span>
                 </div>
                 <Slider
                     value={config.textStroke}
