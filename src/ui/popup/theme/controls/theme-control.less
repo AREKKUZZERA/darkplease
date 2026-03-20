@@ -8,12 +8,12 @@
 
     &__label {
         font-size: @size-text-small;
-        font-weight: 500;
+        font-weight: 600;
         line-height: @size-text-normal;
         text-align: left;
         color: @color-control-fore-inactive;
         text-transform: uppercase;
-        letter-spacing: 0.06em;
+        letter-spacing: 0.08em;
         -moz-user-select: none;
         user-select: none;
         width: 42%;
@@ -28,7 +28,9 @@
     margin-bottom: 0;
     margin-top: @indent-small;
     width: 100%;
-    font-weight: 500;
+    font-weight: 600;
+    font-family: @font-family;
+    letter-spacing: 0.04em;
     transition: filter @time-fast, transform 80ms;
 
     &:hover { filter: brightness(1.1); }

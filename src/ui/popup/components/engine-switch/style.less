@@ -13,6 +13,7 @@
         text-align: center;
         white-space: nowrap;
         color: @color-control-fore-inactive;
+        letter-spacing: 0.02em;
     }
 
     &__css-edit-button {
@@ -31,17 +32,13 @@
         top: -@size-text-small-height / 4;
         transition: filter @time-fast;
 
-        &_active {
-            display: inline-block;
-        }
+        &_active { display: inline-block; }
 
         &::before {
             content: "✎";
             line-height: @size-text-small-height;
         }
 
-        &:hover {
-            filter: brightness(1.15);
-        }
+        &:hover { filter: brightness(1.15); }
     }
 }

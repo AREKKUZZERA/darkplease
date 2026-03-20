@@ -7,12 +7,15 @@
     background-size: 0.875rem;
     width: calc(100% - 2 * @size-border);
     font-size: @size-text-small;
-    font-weight: 500;
+    font-weight: 600;
+    letter-spacing: 0.04em;
     color: @color-control-fore-inactive;
     transition: background-color @time-fast, color @time-fast;
+    border-radius: @dp-radius-xs;
 
     &:hover {
         color: @color-fore;
+        background-color: @dp-surface3;
     }
 
     &__content {

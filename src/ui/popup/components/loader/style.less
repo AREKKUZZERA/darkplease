@@ -1,8 +1,8 @@
 @import "../../../theme";
 
-@loading-fade-duration: @time-fast;
-@loading-slide-duration: 2.5s;
-@loading-slide-delay: 2 * @time-slow;
+@loading-fade-duration:  @time-fast;
+@loading-slide-duration: 2.2s;
+@loading-slide-delay:    2 * @time-slow;
 
 .loader {
     background-color: @color-back;
@@ -31,7 +31,7 @@
 
     &::before {
         animation: @loading-slide-duration loading-slide @loading-slide-delay ease-in-out infinite;
-        background: linear-gradient(90deg, @dp-surface3, @color-heading, @dp-surface3);
+        background: linear-gradient(90deg, transparent, @color-heading, @dp-accent-light, @color-heading, transparent);
         border-radius: 999px;
         content: "";
         display: block;
@@ -50,7 +50,8 @@
         position: absolute;
         right: @popup-content-padding;
         bottom: @popup-content-height + @popup-content-padding - @size-control-inner - @indent-small;
-        font-weight: 500;
+        font-weight: 600;
+        letter-spacing: 0.04em;
     }
 
     &__error {

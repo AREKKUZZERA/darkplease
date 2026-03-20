@@ -1,8 +1,8 @@
 @import "../theme";
 @import "../shared";
 
-@popup-content-width: 15.5rem;
-@popup-content-height: 31rem;
+@popup-content-width:   15.5rem;
+@popup-content-height:  31rem;
 @popup-content-padding: 0.625rem;
 
 @import "./components/custom-settings-toggle/style";
@@ -14,6 +14,22 @@
 @import "./components/more-settings/style";
 @import "./components/site-list-settings/style";
 @import "./components/site-toggle/style";
+
+/* ── Keyframes ── */
+@keyframes dp-popup-appear {
+    from { opacity: 0; transform: translateY(6px) scale(0.98); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes dp-tab-in-right {
+    from { opacity: 0; transform: translateX(10px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes dp-tab-in-left {
+    from { opacity: 0; transform: translateX(-10px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
 
 body {
     align-items: stretch;
@@ -27,6 +43,7 @@ body {
     position: relative;
     width: @popup-content-width;
     gap: @indent-small;
+    animation: dp-popup-appear 200ms cubic-bezier(0.2,0,0,1) both;
 }
 
 .header {
@@ -39,6 +56,11 @@ body {
     overflow: hidden;
     display: flex;
     flex-direction: column;
+
+    /* Animated tab transition */
+    &__tab--active {
+        animation: dp-tab-in-right 200ms ease both;
+    }
 }
 
 .footer-links {
@@ -85,7 +107,7 @@ body {
 
     .header__site-toggle,
     .tab-panel {
-        opacity: 0.4;
+        opacity: 0.35;
         pointer-events: none;
         transition: opacity @time-slow;
     }

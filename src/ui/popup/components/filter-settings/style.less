@@ -1,5 +1,10 @@
 @import "../../../theme";
 
+@keyframes dp-section-in {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
 .filter-settings {
     align-items: stretch;
     display: flex;
@@ -22,6 +27,8 @@
         border-color: @color-border2;
         color: @color-control-fore-inactive;
         font-size: @size-text-small;
+        letter-spacing: 0.04em;
+        font-weight: 600;
         transition: all @time-fast, opacity @time-slow;
 
         &:hover {
@@ -36,12 +43,12 @@
     }
 }
 
-/* Slider rows with consistent spacing */
 .filter-slider-row {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 5px;
     padding: 0 1px;
+    animation: dp-section-in 200ms ease both;
 
     &__header {
         display: flex;
@@ -51,11 +58,11 @@
     }
 
     &__label {
-        font-size: @size-text-small;
-        font-weight: 500;
+        font-size: 9px;
+        font-weight: 700;
         color: @color-control-fore-inactive;
         text-transform: uppercase;
-        letter-spacing: 0.05em;
+        letter-spacing: 0.12em;
         user-select: none;
     }
 
@@ -73,26 +80,25 @@
         }
     }
 
-    /* Hide internal thumb label since we show value in header */
     .slider__thumb__value { display: none; }
     .slider__value { display: none; }
 
     /* Per-parameter colored fills */
     &:nth-child(2) .slider__track__fill,
     &:nth-child(2) .slider__track__fill::before {
-        background: linear-gradient(90deg, #c97000, #ffb300);
+        background: linear-gradient(90deg, #b86200, #f5c330);
     }
     &:nth-child(3) .slider__track__fill,
     &:nth-child(3) .slider__track__fill::before {
-        background: linear-gradient(90deg, #7733dd, @color-control-active);
+        background: linear-gradient(90deg, #7c3aed, @color-control-active);
     }
     &:nth-child(4) .slider__track__fill,
     &:nth-child(4) .slider__track__fill::before {
-        background: linear-gradient(90deg, #7a5030, #c09060);
+        background: linear-gradient(90deg, #9e7a40, #d4a86a);
     }
     &:nth-child(5) .slider__track__fill,
     &:nth-child(5) .slider__track__fill::before {
-        background: linear-gradient(90deg, #444, #999);
+        background: linear-gradient(90deg, #383838, #888);
     }
 }
 
@@ -134,5 +140,5 @@
     width: 100%;
 }
 
-.icon--dark-mode { background-image: url(../assets/images/mode-dark-32.svg); }
+.icon--dark-mode  { background-image: url(../assets/images/mode-dark-32.svg); }
 .icon--light-mode { background-image: url(../assets/images/mode-light-32.svg); }

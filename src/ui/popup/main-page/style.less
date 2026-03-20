@@ -1,16 +1,20 @@
 @import "../../theme.less";
 
+@keyframes dp-page-in {
+    from { opacity: 0; transform: translateX(8px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
 .app-switch {
     &__control { width: calc(100% - @size-border * 2); }
 
     &__description {
         color: @color-control-fore-inactive;
         font-size: @size-text-small;
+        letter-spacing: 0.02em;
 
         &--on,
-        &--off {
-            color: @color-control-fore-inactive;
-        }
+        &--off { color: @color-control-fore-inactive; }
     }
 
     &__time {
@@ -46,11 +50,10 @@
     &__description {
         color: @color-control-fore-inactive;
         font-size: @size-text-small;
+        letter-spacing: 0.02em;
 
         &--on,
-        &--off {
-            color: @color-control-fore-inactive;
-        }
+        &--off { color: @color-control-fore-inactive; }
     }
 }
 
@@ -96,6 +99,8 @@
         margin-top: 0;
         width: 100%;
         font-size: @size-text-small;
+        font-weight: 600;
+        letter-spacing: 0.03em;
         color: @color-control-fore-inactive;
         transition: background-color @time-fast, color @time-fast;
 
@@ -120,6 +125,7 @@
     display: flex;
     flex-direction: column;
     gap: @indent-small;
+    animation: dp-page-in 220ms ease both;
 }
 
 .m-theme-controls {

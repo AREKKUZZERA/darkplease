@@ -10,20 +10,19 @@
     font-size: @size-text-normal;
     height: @size-control-inner;
     outline: none;
-    padding: 0 0.5rem;
-    transition: border-color @time-fast, background-color @time-fast;
+    padding: 0 @indent-small;
+    transition: background-color @time-fast, border-color @time-fast;
+    width: 100%;
 
-    &::placeholder {
-        color: @color-input-fore-placeholder;
-    }
+    &::placeholder { color: @color-input-fore-placeholder; }
 
     &:hover {
         background-color: @dp-surface3;
-        border-color: @color-border2;
+        border-color: @color-border3;
     }
 
     &:focus {
-        background-color: @dp-surface3;
+        background-color: @dp-surface2;
         border-color: @color-control-active;
     }
 }

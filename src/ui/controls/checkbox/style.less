@@ -1,5 +1,11 @@
 @import "../../theme";
 
+@keyframes dp-check-pop {
+    0%   { transform: scale(0.85); }
+    60%  { transform: scale(1.08); }
+    100% { transform: scale(1); }
+}
+
 .checkbox {
     align-items: stretch;
     background-color: @dp-surface2;
@@ -15,7 +21,7 @@
 
     &:hover {
         background-color: @dp-surface3;
-        border-color: @color-border2;
+        border-color: @color-border3;
         transition: background-color @time-fast;
     }
 
@@ -42,18 +48,14 @@
             width: @size-control-inner * 0.75;
         }
 
-        &::before {
-            transform: skewY(45deg);
-        }
-
-        &::after {
-            transform: skewY(-45deg);
-        }
+        &::before { transform: skewY(45deg); }
+        &::after  { transform: skewY(-45deg); }
     }
 
     &__input:checked + &__checkmark {
         background-color: @color-control-active;
         border-radius: @dp-radius-xs - 2px;
+        animation: dp-check-pop 200ms ease both;
 
         &::before,
         &::after {

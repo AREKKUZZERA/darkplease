@@ -1,6 +1,10 @@
 @import "./theme.less";
 @import "./icons/icons.less";
 
+/* Google Fonts — Syne + JetBrains Mono */
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* Fallback local fonts */
 @font-face {
     font-family: 'Open Sans';
     src: url('../assets/fonts/OpenSans-Regular.ttf') format('truetype');
@@ -57,11 +61,11 @@ input, button {
     width: @size-scrollbar-thickness;
 
     &-thumb {
-        background-color: @dp-surface3;
+        background-color: @dp-surface4;
         border-radius: 999px;
 
         &:hover {
-            background-color: mix(@dp-surface3, @color-control-active, 60%);
+            background-color: mix(@dp-surface4, @color-control-active, 60%);
         }
 
         &:active {
@@ -75,6 +79,6 @@ input, button {
 }
 
 * {
-    scrollbar-color: @dp-surface3 @color-back;
+    scrollbar-color: @dp-surface4 @color-back;
     scrollbar-width: thin;
 }

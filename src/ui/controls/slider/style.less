@@ -1,14 +1,14 @@
 @import "../../theme";
 
-@slider-height: 2.25rem;
-@slider-track-height: 6px;
-@slider-track-active-height: 7px;
-@slider-thumb-size: 16px;
-@slider-thumb-active-size: 18px;
-@slider-thumb-width: 16px;
-@slider-track-offset: (@slider-height - @slider-track-height) / 2;
-@slider-thumb-offset: (@slider-height - @slider-thumb-size) / 2;
-@slider-track-color: #2a2a2a;
+@slider-height:             2rem;
+@slider-track-height:       4px;
+@slider-track-active-height:5px;
+@slider-thumb-size:         14px;
+@slider-thumb-active-size:  17px;
+@slider-thumb-width:        14px;
+@slider-track-offset:       (@slider-height - @slider-track-height) / 2;
+@slider-thumb-offset:       (@slider-height - @slider-thumb-size) / 2;
+@slider-track-color:        @dp-surface5;
 
 .slider {
     display: block;
@@ -31,7 +31,7 @@
         width: calc(100% - @slider-thumb-width);
 
         &__fill {
-            background: linear-gradient(90deg, darken(@color-control-active, 8%), @color-control-active);
+            background: linear-gradient(90deg, darken(@color-control-active, 6%), @color-control-active);
             border-radius: 999px;
             display: block;
             height: 100%;
@@ -78,7 +78,7 @@
     &__thumb {
         background-color: #ffffff;
         border-radius: 50%;
-        box-shadow: 0 1px 4px rgba(0,0,0,0.5);
+        box-shadow: 0 1px 3px rgba(0,0,0,0.6);
         cursor: grab;
         display: block;
         height: @slider-thumb-size;
@@ -111,7 +111,7 @@
     }
 
     &--active &__thumb {
-        box-shadow: 0 0 0 5px @dp-accent-glow, 0 1px 4px rgba(0,0,0,0.5);
+        box-shadow: 0 0 0 5px @dp-accent-glow, 0 1px 3px rgba(0,0,0,0.6);
         height: @slider-thumb-active-size;
         width: @slider-thumb-active-size;
         margin-left: -(@slider-thumb-active-size / 2);

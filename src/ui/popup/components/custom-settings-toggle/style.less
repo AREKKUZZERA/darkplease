@@ -1,41 +1,27 @@
 @import "../../../theme";
 
 .custom-settings-toggle {
-    color: @color-fore;
-    white-space: normal;
-    border-radius: @dp-radius-xs;
-    transition: background-color @time-fast, color @time-fast, border-color @time-fast, transform 80ms;
-    font-size: @size-text-small;
-    font-weight: 500;
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+    width: 100%;
 
-    &--checked,
-    &:active,
-    &--checked:hover {
-        background-color: @color-control-active;
-        border-color: @color-control-active;
-        color: #fff;
-        transition: background-color @time-fast, color @time-fast;
+    &__info {
+        border-left-width: @size-border;
+        flex: auto;
+        border-radius: 0 @dp-radius-xs @dp-radius-xs 0;
+        font-size: @size-text-small;
+        letter-spacing: 0.02em;
+
+        &:not(&--active) { color: @color-input-fore; }
     }
 
-    &--disabled {
-        opacity: 0.45;
-        pointer-events: none;
+    &:hover &__info,
+    &:hover .checkbox {
+        background-color: @dp-surface3;
     }
 
-    &__url {
-        color: @color-control-fore;
-        -moz-user-select: none;
-        user-select: none;
-    }
-
-    &:active {
-        transform: scale(0.97);
-    }
-
-    .button__wrapper {
-        align-items: center;
-        display: inline-flex;
-        justify-content: center;
-        min-width: @popup-content-width - 2 * @size-border;
+    &:hover &__info--active {
+        background-color: lighten(@color-control-active, 3%);
     }
 }

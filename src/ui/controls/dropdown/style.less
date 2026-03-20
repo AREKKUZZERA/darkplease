@@ -1,6 +1,6 @@
 @import "../../theme";
 
-@dropdown-height: @size-control-inner;
+@dropdown-height:      @size-control-inner;
 @dropdown-item-height: @size-control-inner;
 
 .dropdown {
@@ -30,10 +30,12 @@
         text-align: center;
         transition: background-color @time-fast, border-color @time-fast;
         width: 100%;
+        font-weight: 500;
+        letter-spacing: 0.02em;
 
         &:hover {
             background-color: @dp-surface3;
-            border-color: @color-border2;
+            border-color: @color-border3;
         }
 
         &__text {
@@ -52,7 +54,7 @@
         border-top: none;
         border-top-left-radius: 0;
         border-top-right-radius: 0;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+        box-shadow: 0 12px 32px rgba(0,0,0,0.6);
         box-sizing: border-box;
         display: none;
         margin-top: @dropdown-height;
@@ -72,9 +74,11 @@
             text-align: center;
             transition: background-color @time-fast;
             width: 100%;
+            font-size: @size-text-small;
+            font-weight: 500;
 
             &:hover {
-                background-color: @dp-surface2;
+                background-color: @dp-surface3;
             }
 
             &--selected {

@@ -17,15 +17,17 @@
     text-align: center;
     transition: background-color @time-fast, border-color @time-fast, transform 80ms;
     user-select: none;
-    font-weight: 500;
+    font-weight: 600;
+    font-family: @font-family;
+    letter-spacing: 0.02em;
 
     &:hover {
         background-color: @dp-surface3;
-        border-color: @color-border2;
+        border-color: @color-border3;
     }
 
     &:active {
-        background-color: @dp-surface3;
+        background-color: @dp-surface4;
         transform: scale(0.97);
     }
 
