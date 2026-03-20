@@ -1,10 +1,12 @@
 @import "../theme";
 @import "../shared";
 
+/* ── Popup dimensions ── */
 @popup-content-width:   15.5rem;
 @popup-content-height:  31rem;
 @popup-content-padding: 0.625rem;
 
+/* ── Component imports ── */
 @import "./components/custom-settings-toggle/style";
 @import "./components/engine-switch/style";
 @import "./components/filter-settings/style";
@@ -15,108 +17,95 @@
 @import "./components/site-list-settings/style";
 @import "./components/site-toggle/style";
 
-/* ── Keyframes ── */
-@keyframes dp-popup-appear {
-    from { opacity: 0; transform: translateY(6px) scale(0.98); }
-    to   { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-@keyframes dp-tab-in-right {
-    from { opacity: 0; transform: translateX(10px); }
-    to   { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes dp-tab-in-left {
-    from { opacity: 0; transform: translateX(-10px); }
-    to   { opacity: 1; transform: translateX(0); }
-}
-
+/* ══════════════════════════════════════
+   BODY
+══════════════════════════════════════ */
 body {
-    align-items: stretch;
-    background-color: @color-back;
-    box-sizing: content-box;
-    display: flex;
-    flex-direction: column;
-    height: @popup-content-height;
-    margin: 0 auto;
-    padding: @popup-content-padding;
-    position: relative;
-    width: @popup-content-width;
-    gap: @indent-small;
-    animation: dp-popup-appear 200ms cubic-bezier(0.2,0,0,1) both;
+  align-items: stretch;
+  background-color: @bg;
+  box-sizing: content-box;
+  display: flex;
+  flex-direction: column;
+  height: @popup-content-height;
+  margin: 0 auto;
+  padding: @popup-content-padding;
+  position: relative;
+  width: @popup-content-width;
+  gap: @indent-small;
+  animation: dp-popup-in 200ms cubic-bezier(0.2,0,0,1) both;
 }
 
-.header {
-    flex: none;
-}
+/* ══════════════════════════════════════
+   HEADER (flex: none wrapper)
+══════════════════════════════════════ */
+.header { flex: none; }
 
+/* ══════════════════════════════════════
+   TAB PANEL
+══════════════════════════════════════ */
 .tab-panel {
-    flex: 1 1 0;
-    min-height: 0;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
+  flex: 1 1 0;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 
-    /* Animated tab transition */
-    &__tab--active {
-        animation: dp-tab-in-right 200ms ease both;
-    }
+  &__tab--active {
+    animation: dp-tab-in 200ms cubic-bezier(0.2,0,0,1) both;
+  }
 }
 
+/* ══════════════════════════════════════
+   FOOTER LINKS / BUTTONS
+══════════════════════════════════════ */
 .footer-links {
-    align-items: stretch;
-    display: flex;
-    flex: none;
-    justify-content: center;
-    margin-bottom: @indent-small;
+  align-items: stretch;
+  display: flex;
+  flex: none;
+  justify-content: center;
+  margin-bottom: @indent-small;
 
-    &__link {
-        color: @color-control-fore-inactive;
-        font-size: @size-text-small;
-        line-height: @size-text-normal-height;
-        text-align: center;
-        text-decoration: none;
-        transition: color @time-fast;
-
-        &:hover { color: @color-fore; }
-    }
-
-    > :not(:first-child) {
-        margin-left: @indent-small;
-    }
+  &__link {
+    color: @mut;
+    font-size: @size-text-small;
+    line-height: @size-text-normal-height;
+    text-align: center;
+    text-decoration: none;
+    transition: color @time-fast;
+    &:hover { color: @txt; }
+  }
+  > :not(:first-child) { margin-left: @indent-small; }
 }
 
 .footer-buttons {
-    align-items: stretch;
-    display: flex;
-    flex-direction: row;
-    justify-content: stretch;
-    width: 100%;
-    gap: @indent-small;
-
-    > * { flex: auto; }
+  align-items: stretch;
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+  width: 100%;
+  gap: @indent-small;
+  > * { flex: auto; }
 }
 
-.dev-tools-button {
-    overflow: visible;
-    position: relative;
-}
+.dev-tools-button { overflow: visible; position: relative; }
 
+/* ══════════════════════════════════════
+   DISABLED STATE
+══════════════════════════════════════ */
 .ext-disabled {
-    .site-toggle--disabled { opacity: 1; }
+  .site-toggle--disabled { opacity: 1; }
 
-    .header__site-toggle,
-    .tab-panel {
-        opacity: 0.35;
-        pointer-events: none;
-        transition: opacity @time-slow;
-    }
-
-    .tab-panel__tab--active { pointer-events: none; }
+  .header__site-toggle,
+  .tab-panel {
+    opacity: 0.35;
+    pointer-events: none;
+    transition: opacity @time-slow;
+  }
+  .tab-panel__tab--active { pointer-events: none; }
 }
 
 html:not(.mobile):not(.preview) body.ext-tall {
-    height: @popup-content-height + 4rem;
+  height: @popup-content-height + 4rem;
 }
 
 @import "./body/style";

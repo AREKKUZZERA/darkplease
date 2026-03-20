@@ -1,38 +1,27 @@
 @import "../../theme";
 
 .button {
-    background-color: @dp-surface2;
-    border: @size-border solid @color-border2;
-    border-radius: @dp-radius-xs;
-    box-sizing: content-box;
-    color: @color-control-fore;
-    cursor: pointer;
-    display: inline-block;
-    height: @size-control-inner;
-    line-height: @size-text-normal;
-    min-width: @size-control-inner;
-    outline: none;
-    overflow: hidden;
-    padding: 0;
-    text-align: center;
-    transition: background-color @time-fast, border-color @time-fast, transform 80ms;
-    user-select: none;
-    font-weight: 600;
-    font-family: @font-family;
-    letter-spacing: 0.02em;
+  background-color: @s2;
+  border: 1px solid @b2;
+  border-radius: @dp-radius-xs;
+  box-sizing: content-box;
+  color: @txt;
+  cursor: pointer;
+  display: inline-block;
+  height: @size-control-inner;
+  line-height: @size-text-normal;
+  min-width: @size-control-inner;
+  outline: none;
+  overflow: hidden;
+  padding: 0;
+  text-align: center;
+  transition: background-color @time-fast, border-color @time-fast, transform 80ms;
+  user-select: none;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 
-    &:hover {
-        background-color: @dp-surface3;
-        border-color: @color-border3;
-    }
+  &:hover  { background-color: @s3; border-color: @b3; }
+  &:active { background-color: @s4; transform: scale(0.97); }
 
-    &:active {
-        background-color: @dp-surface4;
-        transform: scale(0.97);
-    }
-
-    &__wrapper {
-        height: 100%;
-        width: 100%;
-    }
+  &__wrapper { height: 100%; width: 100%; }
 }

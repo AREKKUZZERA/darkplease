@@ -1,17 +1,24 @@
 @import "../../../theme";
 
 .site-list-settings {
-    align-items: stretch;
-    display: flex;
-    flex-direction: column;
-    gap: @indent-small;
-    padding-bottom: @indent-small;
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: @indent-small;
+  padding-bottom: @indent-small;
 
-    &__description {
-        color: @color-control-fore-inactive;
-        font-size: @size-text-small;
-        line-height: @size-text-small-height;
-        text-align: center;
-        letter-spacing: 0.02em;
-    }
+  &__toggle { width: calc(100% - 2px); }
+
+  &__text-list {
+    flex: auto;
+    min-height: 3rem;
+  }
+
+  &__shortcut {
+    color: @mut;
+    font-size: @size-text-small;
+    text-align: center;
+    letter-spacing: 0.02em;
+    line-height: 1.4;
+  }
 }

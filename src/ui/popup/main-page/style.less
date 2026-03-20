@@ -1,135 +1,118 @@
 @import "../../theme.less";
 
-@keyframes dp-page-in {
-    from { opacity: 0; transform: translateX(8px); }
-    to   { opacity: 1; transform: translateX(0); }
-}
-
 .app-switch {
-    &__control { width: calc(100% - @size-border * 2); }
+  &__control { width: calc(100% - 2px); }
 
-    &__description {
-        color: @color-control-fore-inactive;
-        font-size: @size-text-small;
-        letter-spacing: 0.02em;
+  &__description {
+    color: @mut;
+    font-size: @size-text-small;
+    letter-spacing: 0.02em;
+    &--on, &--off { color: @mut; }
+  }
 
-        &--on,
-        &--off { color: @color-control-fore-inactive; }
-    }
-
-    &__time {
-        background-color: @color-heading;
-        border-radius: 50%;
-        color: @color-control-fore;
-        cursor: pointer;
-        display: none;
-        height: @size-text-small-height;
-        pointer-events: none;
-        position: absolute;
-        right: calc(33% + @size-border / 3);
-        top: -@size-text-small-height / 4;
-        transition: opacity @time-slow @time-slow;
-        width: @size-text-small-height;
-
-        &--active { display: inline-block; }
-    }
+  &__time {
+    background-color: @acc;
+    border-radius: 50%;
+    color: @txt;
+    cursor: pointer;
+    display: none;
+    height: @size-text-small-height;
+    pointer-events: none;
+    position: absolute;
+    right: calc(33% + 1px / 3);
+    top: -@size-text-small-height / 4;
+    transition: opacity @time-slow @time-slow;
+    width: @size-text-small-height;
+    &--active { display: inline-block; }
+  }
 }
 
 .settings-button-icon {
-    background-image: @icon-settings;
-    background-size: cover;
-    display: inline-block;
-    height: 1rem;
-    margin-right: 0.125rem;
-    width: 1rem;
+  background-image: @icon-settings;
+  background-size: cover;
+  display: inline-block;
+  height: 1rem;
+  margin-right: 0.125rem;
+  width: 1rem;
 }
 
 .site-toggle-group {
-    .site-toggle { width: calc(100% - @size-border * 2); }
+  .site-toggle { width: calc(100% - 2px); }
 
-    &__description {
-        color: @color-control-fore-inactive;
-        font-size: @size-text-small;
-        letter-spacing: 0.02em;
-
-        &--on,
-        &--off { color: @color-control-fore-inactive; }
-    }
+  &__description {
+    color: @mut;
+    font-size: @size-text-small;
+    letter-spacing: 0.02em;
+    &--on, &--off { color: @mut; }
+  }
 }
 
 .theme-group {
-    align-items: stretch;
-    background-color: @dp-surface;
-    border: @size-border solid @color-border2;
-    border-radius: @dp-radius;
+  align-items: stretch;
+  background-color: @s1;
+  border: 1px solid @b2;
+  border-radius: @dp-radius;
+  display: flex;
+  flex-direction: column;
+  padding: @indent-small;
+  gap: @indent-small;
+
+  &__presets-wrapper {
+    background-color: @s2;
+    border: 1px solid @b1;
+    border-radius: @dp-radius-sm;
+    height: @size-control-inner;
+    position: relative;
+    overflow: hidden;
+    &::before { display: none; }
+  }
+
+  &__controls-wrapper {
+    border: none;
+    padding: 0;
     display: flex;
     flex-direction: column;
-    padding: @indent-small;
     gap: @indent-small;
+  }
 
-    &__presets-wrapper {
-        background-color: @dp-surface2;
-        border: @size-border solid @color-border;
-        border-radius: @dp-radius-sm;
-        height: @size-control-inner;
-        position: relative;
-        overflow: hidden;
+  &__more-button {
+    background-color: @s2;
+    background-image: @icon-right;
+    background-position: center right 0.5rem;
+    background-repeat: no-repeat;
+    background-size: 0.875rem;
+    border: 1px solid @b2;
+    border-radius: @dp-radius-xs;
+    height: @size-control-inner;
+    margin: 0;
+    width: 100%;
+    font-size: @size-text-small;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    color: @mut;
+    transition: background-color @time-fast, color @time-fast;
+    &:hover { background-color: @s3; color: @txt; }
+  }
 
-        &::before { display: none; }
-    }
-
-    &__controls-wrapper {
-        border: none;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        gap: @indent-small;
-    }
-
-    &__more-button {
-        background-color: @dp-surface2;
-        background-image: @icon-right;
-        background-position: center right 0.5rem;
-        background-repeat: no-repeat;
-        background-size: 0.875rem;
-        border: @size-border solid @color-border2;
-        border-radius: @dp-radius-xs;
-        height: @size-control-inner;
-        margin-bottom: 0;
-        margin-top: 0;
-        width: 100%;
-        font-size: @size-text-small;
-        font-weight: 600;
-        letter-spacing: 0.03em;
-        color: @color-control-fore-inactive;
-        transition: background-color @time-fast, color @time-fast;
-
-        &:hover {
-            background-color: @dp-surface3;
-            color: @color-fore;
-        }
-    }
-
-    &__description {
-        color: @color-control-fore-inactive;
-        display: inline-block;
-        font-size: @size-text-small;
-        line-height: @size-text-small-height;
-        text-align: center;
-        user-select: none;
-        width: 100%;
-    }
+  &__description {
+    color: @mut;
+    display: inline-block;
+    font-size: @size-text-small;
+    line-height: @size-text-small-height;
+    text-align: center;
+    user-select: none;
+    width: 100%;
+  }
 }
 
 .m-section {
-    display: flex;
-    flex-direction: column;
-    gap: @indent-small;
-    animation: dp-page-in 220ms ease both;
+  display: flex;
+  flex-direction: column;
+  gap: @indent-small;
 }
 
 .m-theme-controls {
-    display: flex;
-    flex-direction: column;
-    gap: @indent-small;
+  display: flex;
+  flex-direction: column;
+  gap: @indent-small;
 }

@@ -1,27 +1,39 @@
 @import "../../../theme";
 
 .custom-settings-toggle {
-    display: flex;
-    flex-direction: row;
-    gap: 0;
+  display: flex;
+  flex-direction: row;
+  gap: 0;
+  width: 100%;
+  background-color: @s2;
+  border: 1px solid @b2;
+  border-radius: @dp-radius-xs;
+  color: @txt2;
+  font-size: @size-text-small;
+  font-weight: 600;
+  height: @size-control-inner;
+  letter-spacing: 0.02em;
+  transition: all @time-fast;
+
+  &:hover { background-color: @s3; border-color: @b3; color: @txt; }
+
+  &--checked {
+    background-color: @acc-d;
+    border-color: @acc;
+    color: @acc-l;
+    &:hover { background-color: lighten(@acc-d, 3%); }
+  }
+
+  &--disabled { opacity: 0.4; pointer-events: none; }
+
+  &__wrapper {
+    align-items: center;
+    display: inline-flex;
+    height: 100%;
+    justify-content: center;
+    padding: 0 @indent-small;
     width: 100%;
+  }
 
-    &__info {
-        border-left-width: @size-border;
-        flex: auto;
-        border-radius: 0 @dp-radius-xs @dp-radius-xs 0;
-        font-size: @size-text-small;
-        letter-spacing: 0.02em;
-
-        &:not(&--active) { color: @color-input-fore; }
-    }
-
-    &:hover &__info,
-    &:hover .checkbox {
-        background-color: @dp-surface3;
-    }
-
-    &:hover &__info--active {
-        background-color: lighten(@color-control-active, 3%);
-    }
+  &__url { color: @acc-l; margin-left: 0.2em; }
 }

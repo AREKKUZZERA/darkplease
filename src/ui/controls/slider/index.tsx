@@ -166,10 +166,6 @@ export default function Slider(props: SliderProps) {
 
     const percent = scale(getValue(), props.min, props.max, 0, 100);
     const thumbPositionStyleValue = `${percent}%`;
-    const shouldFlipText = percent > 75;
-    const formattedValue = props.formatValue(
-        stickToStep(getValue(), props.step)
-    );
 
     function scaleWheelDelta(delta: number) {
         return scale(delta, 0, -1000, 0, props.max - props.min);
@@ -222,18 +218,7 @@ export default function Slider(props: SliderProps) {
                     oncreate={saveThumbNode}
                     style={{left: thumbPositionStyleValue}}
                 >
-                    <span
-                        class={{
-                            'slider__thumb__value': true,
-                            'slider__thumb__value--flip': shouldFlipText,
-                        }}
-                    >
-                        {formattedValue}
-                    </span>
                 </span>
-            </span>
-            <span class="slider__value">
-                {formattedValue}
             </span>
         </span>
     );

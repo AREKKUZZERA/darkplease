@@ -1,60 +1,52 @@
 @import "../../theme";
 
 .multi-switch {
-    background-color: @dp-surface3;
-    border: @size-border solid @color-border;
-    border-radius: 999px;
-    box-sizing: content-box;
-    color: @color-control-fore;
+  background-color: @s3;
+  border: 1px solid @b1;
+  border-radius: 999px;
+  box-sizing: content-box;
+  color: @txt;
+  display: inline-flex;
+  height: @size-control-inner;
+  overflow: hidden;
+  padding: 3px;
+  gap: 2px;
+  position: relative;
+  user-select: none;
+
+  &__option {
+    align-items: center;
+    color: @mut;
+    cursor: pointer;
     display: inline-flex;
-    height: @size-control-inner;
+    justify-content: center;
+    height: 100%;
     overflow: hidden;
-    padding: 3px;
-    gap: 2px;
     position: relative;
-    user-select: none;
+    transition: color @time-fast;
+    white-space: nowrap;
+    z-index: 1;
+    border-radius: 999px;
+    flex: 1;
+    font-size: @size-text-small;
+    font-weight: 600;
+    letter-spacing: 0.02em;
 
-    &__option {
-        align-items: center;
-        color: @color-control-fore-inactive;
-        cursor: pointer;
-        display: inline-flex;
-        justify-content: center;
-        height: 100%;
-        overflow: hidden;
-        position: relative;
-        transition: color @time-fast;
-        white-space: nowrap;
-        z-index: 1;
-        border-radius: 999px;
-        flex: 1;
-        font-size: @size-text-small;
-        font-weight: 600;
-        letter-spacing: 0.02em;
+    &:hover:not(&--selected) { color: @txt; background: @s4; }
+    &--selected              { color: @txt; }
+    &--selected:hover        { color: @txt; }
+  }
 
-        &:hover:not(&--selected) {
-            color: @color-control-fore;
-            background: @dp-surface4;
-        }
-
-        &--selected {
-            color: @color-control-fore;
-        }
-
-        &--selected:hover {
-            color: @color-control-fore;
-        }
-    }
-
-    &__highlight {
-        background-color: @color-control-active;
-        border-radius: 999px;
-        display: inline-block;
-        height: 100%;
-        left: 0;
-        position: absolute;
-        top: 0;
-        transition: left @time-fast cubic-bezier(0.34,1.56,0.64,1), width @time-fast cubic-bezier(0.34,1.56,0.64,1);
-        width: 0;
-    }
+  &__highlight {
+    background-color: @acc;
+    border-radius: 999px;
+    display: inline-block;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    transition: left @time-fast cubic-bezier(0.34,1.56,0.64,1),
+                width @time-fast cubic-bezier(0.34,1.56,0.64,1);
+    width: 0;
+  }
 }

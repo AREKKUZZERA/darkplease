@@ -1,59 +1,51 @@
 @import "../../../theme";
 
-@theme-preset-height:             @size-control-inner;
-@theme-preset-picker-button-size: @size-control-inner;
+@preset-h: @size-control-inner;
+@preset-btn: @size-control-inner;
 
 .theme-preset-picker {
-    .dropdown {
-        &__selected {
-            height: @size-control-inner;
-            margin-top: 0;
-            font-weight: 600;
-            letter-spacing: 0.03em;
-        }
-
-        &__list {
-            border: @size-border solid @color-border2;
-            border-top: none;
-            box-shadow: 0 12px 32px rgba(0,0,0,0.6);
-            border-radius: 0 0 @dp-radius-xs @dp-radius-xs;
-        }
+  .dropdown {
+    &__selected {
+      height: @preset-h;
+      margin-top: 0;
+      font-weight: 600;
     }
+    &__list {
+      border: 1px solid @b2;
+      border-top: none;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+    }
+  }
 
-    &__preset {
-        align-items: center;
-        display: inline-flex;
-        justify-content: center;
-        min-height: @theme-preset-height;
-        position: relative;
-        width: 100%;
+  &__preset {
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    min-height: @preset-h;
+    position: relative;
+    width: 100%;
+    font-size: @size-text-small;
+    font-weight: 500;
+
+    &__remove-button {
+      cursor: pointer;
+      display: inline-block;
+      height: @preset-btn;
+      position: absolute;
+      right: 0; top: 0;
+      width: @preset-btn;
+      border-radius: @dp-radius-xs;
+      transition: background-color @time-fast, color @time-fast;
+
+      &::after {
+        content: "\2715";
+        display: inline-block;
+        line-height: @preset-btn;
+        text-align: center;
         font-size: @size-text-small;
-        font-weight: 500;
-        letter-spacing: 0.02em;
+      }
 
-        &__remove-button {
-            cursor: pointer;
-            display: inline-block;
-            height: @theme-preset-picker-button-size;
-            position: absolute;
-            right: 0;
-            top: 0;
-            width: @theme-preset-picker-button-size;
-            border-radius: @dp-radius-xs;
-            transition: background-color @time-fast, color @time-fast;
-
-            &::after {
-                content: "\2715";
-                display: inline-block;
-                line-height: @theme-preset-picker-button-size;
-                text-align: center;
-                font-size: @size-text-small;
-            }
-
-            &:hover {
-                background-color: @color-control-active;
-                color: #fff;
-            }
-        }
+      &:hover { background-color: @acc; color: #fff; }
     }
+  }
 }

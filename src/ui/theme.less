@@ -1,36 +1,50 @@
-/* ============================================================
-   DARK PLEASE — Redesigned Theme Variables
-   ============================================================ */
+/* ══════════════════════════════════════════════════════
+   DARK PLEASE — Design Tokens
+══════════════════════════════════════════════════════ */
+@bg:       #0a0a0a;
+@s1:       #111111;
+@s2:       #181818;
+@s3:       #202020;
+@s4:       #282828;
+@s5:       #333333;
+@b1:       rgba(255,255,255,0.055);
+@b2:       rgba(255,255,255,0.10);
+@b3:       rgba(255,255,255,0.17);
+@acc:      #f0237a;
+@acc-d:    rgba(240,35,122,0.14);
+@acc-g:    rgba(240,35,122,0.26);
+@acc-l:    #ff6bb5;
+@grn:      #00e676;
+@grn-d:    rgba(0,230,118,0.12);
+@txt:      #eeeeee;
+@txt2:     #aaaaaa;
+@mut:      #666666;
 
-@color-back:                  #090909;
-@color-fore:                  #efefef;
-
-@color-control-back:          #111111;
-@color-control-hover:         #1c1c1c;
-@color-control-active:        #f0237a;
-@color-control-fore:          #efefef;
-@color-control-fore-inactive: #666666;
-
-@color-input-back:            #141414;
-@color-input-hover:           #1c1c1c;
-@color-input-active:          #222222;
-@color-input-fore:            #e0e0e0;
+/* Legacy variable aliases (used by controls/shared) */
+@color-back:                  @bg;
+@color-fore:                  @txt;
+@color-control-back:          @s1;
+@color-control-hover:         @s3;
+@color-control-active:        @acc;
+@color-control-fore:          @txt;
+@color-control-fore-inactive: @mut;
+@color-input-back:            @s2;
+@color-input-hover:           @s3;
+@color-input-active:          @s4;
+@color-input-fore:            @txt2;
 @color-input-fore-active:     #ffffff;
-@color-input-fore-placeholder:#3a3a3a;
-
-@color-border:                rgba(255,255,255,0.055);
-@color-border2:               rgba(255,255,255,0.10);
-@color-border3:               rgba(255,255,255,0.16);
-
-@color-heading:               #f0237a;
-@color-error:                 #e55;
-@color-ok:                    #00e676;
-@color-ok-fore:               #f0f0f0;
-@color-selection-back:        #f0237a;
+@color-input-fore-placeholder:@s5;
+@color-border:                @b1;
+@color-border2:               @b2;
+@color-heading:               @acc;
+@color-error:                 #e55555;
+@color-ok:                    @grn;
+@color-ok-fore:               @txt;
+@color-selection-back:        @acc;
 @color-selection-fore:        #ffffff;
 
-@font-family: 'Syne', 'DM Sans', 'Segoe UI', system-ui, sans-serif;
-@font-mono:   'JetBrains Mono', 'DM Mono', monospace;
+@font-family: system-ui, 'Segoe UI', sans-serif;
+@font-mono:   'Courier New', monospace;
 
 @size-border:              1px;
 @size-border-inner:        1px;
@@ -49,21 +63,18 @@
 @indent-small: 0.5rem;
 
 @time-fast: 150ms;
-@time-slow: 260ms;
+@time-slow:  260ms;
 
-@dp-surface:  #111111;
-@dp-surface2: #171717;
-@dp-surface3: #1f1f1f;
-@dp-surface4: #272727;
-@dp-surface5: #313131;
-
-@dp-accent-dim:   rgba(240,35,122,0.13);
-@dp-accent-glow:  rgba(240,35,122,0.24);
-@dp-accent-light: #ff6bb5;
-
-@dp-green:     #00e676;
-@dp-green-dim: rgba(0,230,118,0.12);
-
-@dp-radius:    14px;
-@dp-radius-sm: 10px;
-@dp-radius-xs: 7px;
+@dp-surface:  @s1;
+@dp-surface2: @s2;
+@dp-surface3: @s3;
+@dp-surface4: @s4;
+@dp-surface5: @s5;
+@dp-accent-dim:   @acc-d;
+@dp-accent-glow:  @acc-g;
+@dp-green:     @grn;
+@dp-green-dim: @grn-d;
+@dp-radius:    13px;
+@dp-radius-sm: 9px;
+@dp-radius-xs: 6px;
+@dp-surface:  @s1;

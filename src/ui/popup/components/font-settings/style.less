@@ -1,74 +1,59 @@
 @import "../../../theme";
 
 .font-settings {
+  display: flex;
+  flex-direction: column;
+  gap: @indent-small;
+
+  &__font-select-container {
     display: flex;
     flex-direction: column;
-    gap: @indent-small;
-    width: 100%;
+    gap: 3px;
 
-    &__font-select-container {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-
-        &__line {
-            display: flex;
-            flex-direction: row;
-            gap: @indent-small;
-            align-items: center;
-
-            .checkbox { flex-shrink: 0; }
-            .select   { flex: 1; min-width: 0; }
-        }
-
-        &__label {
-            font-size: @size-text-small;
-            line-height: @size-text-small-height;
-            text-align: center;
-            color: @color-control-fore-inactive;
-            display: block;
-            width: 100%;
-        }
+    &__line {
+      align-items: center;
+      display: flex;
+      flex-direction: row;
+      gap: @indent-small;
     }
 
-    &__stroke-row {
-        display: flex;
-        flex-direction: column;
-        gap: 2px;
-        padding: 0 1px;
+    &__label {
+      color: @mut;
+      font-size: @size-text-small;
+      line-height: @size-text-small-height;
+      text-align: center;
     }
+  }
 
-    &__stroke-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 2px;
-    }
+  &__stroke-row {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 0 1px;
+  }
 
-    &__stroke-label {
-        font-size: @size-text-small;
-        font-weight: 500;
-        color: @color-control-fore-inactive;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        user-select: none;
-    }
+  &__stroke-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2px;
+  }
 
-    &__stroke-value {
-        font-size: @size-text-small;
-        font-weight: 500;
-        font-family: @font-mono;
-        color: @color-fore;
-        min-width: 2rem;
-        text-align: right;
-    }
+  &__stroke-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: @mut;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    user-select: none;
+  }
 
-    /* Hide internal thumb label */
-    &__stroke-row .slider__thumb__value { display: none; }
-    &__stroke-row .slider__value { display: none; }
-
-    &__stroke-row .slider__track__fill,
-    &__stroke-row .slider__track__fill::before {
-        background: linear-gradient(90deg, darken(@color-control-active, 8%), @color-control-active);
-    }
+  &__stroke-value {
+    font-size: @size-text-small;
+    font-weight: 500;
+    font-family: @font-mono;
+    color: @txt;
+    min-width: 2rem;
+    text-align: right;
+  }
 }

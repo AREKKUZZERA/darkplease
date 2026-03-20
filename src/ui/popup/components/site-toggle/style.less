@@ -1,32 +1,19 @@
 @import "../../../theme";
 
 .site-toggle {
-    color: @color-input-fore;
-    white-space: normal;
-    border-radius: @dp-radius-xs;
-    transition: background-color @time-fast, color @time-fast, transform 80ms;
-    font-weight: 600;
-    letter-spacing: 0.02em;
+  color: @txt2;
+  white-space: normal;
+  border-radius: @dp-radius-xs;
+  transition: background-color @time-fast, color @time-fast, transform 80ms;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 
-    &--disabled {
-        opacity: 0.45;
-        pointer-events: none;
-    }
+  &--disabled { opacity: 0.45; pointer-events: none; }
 
-    &__mark {
-        svg {
-            fill: currentColor;
-            height: @size-text-normal;
-            vertical-align: bottom;
-            width: @size-text-normal;
-        }
-    }
+  &__mark {
+    svg { fill: currentColor; height: @size-text-normal; vertical-align: bottom; width: @size-text-normal; }
+  }
 
-    &--active {
-        color: @color-input-fore-active;
-    }
-
-    &:active {
-        transform: scale(0.97);
-    }
+  &--active { color: @txt; }
+  &:active  { transform: scale(0.97); }
 }

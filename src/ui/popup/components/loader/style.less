@@ -1,77 +1,68 @@
 @import "../../../theme";
 
-@loading-fade-duration:  @time-fast;
-@loading-slide-duration: 2.2s;
-@loading-slide-delay:    2 * @time-slow;
+@load-fade: @time-fast;
+@load-slide: 2.2s;
+@load-delay: 2 * @time-slow;
 
 .loader {
-    background-color: @color-back;
-    height: @popup-content-height + 2 * @popup-content-padding;
-    left: 50%;
-    pointer-events: none;
-    position: fixed;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    transition: background-color @loading-fade-duration ease-out;
-    width: @popup-content-width + 2 * @popup-content-padding;
-    z-index: 999;
+  background-color: @bg;
+  height: @popup-content-height + 2 * @popup-content-padding;
+  left: 50%;
+  pointer-events: none;
+  position: fixed;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: background-color @load-fade ease-out;
+  width: @popup-content-width + 2 * @popup-content-padding;
+  z-index: 999;
 
-    &--complete {
-        background-color: fade(@color-back, 0%);
+  &--complete {
+    background-color: fade(@bg, 0%);
+    &::before { opacity: 0; transition: opacity @load-fade ease-in; }
+  }
 
-        &::before {
-            opacity: 0;
-            transition: opacity @loading-fade-duration ease-in;
-        }
-    }
+  &--transition-end { display: none; }
 
-    &--transition-end {
-        display: none;
-    }
+  &::before {
+    animation: @load-slide loader-slide @load-delay ease-in-out infinite;
+    background: linear-gradient(90deg, transparent, @acc, @acc-l, @acc, transparent);
+    border-radius: 999px;
+    content: "";
+    display: block;
+    height: 2px;
+    left: 0%;
+    position: absolute;
+    top: @popup-content-padding + @size-control-inner + @indent-small;
+    width: 0%;
+  }
 
-    &::before {
-        animation: @loading-slide-duration loading-slide @loading-slide-delay ease-in-out infinite;
-        background: linear-gradient(90deg, transparent, @color-heading, @dp-accent-light, @color-heading, transparent);
-        border-radius: 999px;
-        content: "";
-        display: block;
-        height: 2px;
-        left: 0%;
-        position: absolute;
-        top: @popup-content-padding + @size-control-inner + @indent-small;
-        width: 0%;
-    }
+  &__message {
+    animation: @load-fade loader-fade-in @load-delay ease-in forwards;
+    color: @acc;
+    font-size: @size-text-small;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    opacity: 0;
+    position: absolute;
+    right: @popup-content-padding;
+    bottom: @popup-content-height + @popup-content-padding - @size-control-inner - @indent-small;
+  }
 
-    &__message {
-        animation: @loading-fade-duration loading-fade-in @loading-slide-delay ease-in forwards;
-        color: @color-heading;
-        font-size: @size-text-small;
-        opacity: 0;
-        position: absolute;
-        right: @popup-content-padding;
-        bottom: @popup-content-height + @popup-content-padding - @size-control-inner - @indent-small;
-        font-weight: 600;
-        letter-spacing: 0.04em;
-    }
+  &__error { font-size: @size-text-normal; color: @color-error; }
 
-    &__error {
-        font-size: @size-text-normal;
-        color: @color-error;
-    }
-
-    &--complete &__message {
-        color: fade(@color-heading, 0%);
-        transition: color @loading-fade-duration ease-out;
-    }
+  &--complete &__message {
+    color: fade(@acc, 0%);
+    transition: color @load-fade ease-out;
+  }
 }
 
-@keyframes loading-slide {
-    0%   { left: 0%;   width: 0%; }
-    50%  { left: 0%;   width: 100%; }
-    100% { left: 100%; width: 0%; }
+@keyframes loader-slide {
+  0%   { left: 0%;   width: 0%; }
+  50%  { left: 0%;   width: 100%; }
+  100% { left: 100%; width: 0%; }
 }
 
-@keyframes loading-fade-in {
-    from { opacity: 0; }
-    to   { opacity: 1; }
+@keyframes loader-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }

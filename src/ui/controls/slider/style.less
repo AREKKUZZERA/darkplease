@@ -1,127 +1,117 @@
 @import "../../theme";
 
-@slider-height:             2rem;
-@slider-track-height:       4px;
-@slider-track-active-height:5px;
-@slider-thumb-size:         14px;
-@slider-thumb-active-size:  17px;
-@slider-thumb-width:        14px;
-@slider-track-offset:       (@slider-height - @slider-track-height) / 2;
-@slider-thumb-offset:       (@slider-height - @slider-thumb-size) / 2;
-@slider-track-color:        @dp-surface5;
+@sl-h:    28px;
+@sl-bar:  3px;
+@sl-bar-a:4px;
+@sl-th:   14px;
+@sl-th-a: 17px;
+@sl-pad:  8px;
+@sl-track-color: @s5;
 
 .slider {
+  display: block;
+  height: @sl-h;
+  position: relative;
+  touch-action: none;
+  user-select: none;
+  width: 100%;
+  box-sizing: border-box;
+
+  &__track {
+    background-color: @sl-track-color;
+    border-radius: 999px;
     display: block;
-    height: @slider-height;
-    position: relative;
-    touch-action: none;
-    user-select: none;
-    width: 100%;
-    box-sizing: border-box;
+    height: @sl-bar;
+    left: @sl-pad;
+    position: absolute;
+    top: (@sl-h - @sl-bar) / 2;
+    transition: height @time-fast, top @time-fast;
+    width: calc(100% - @sl-pad * 2);
 
-    &__track {
-        background-color: @slider-track-color;
-        border-radius: 999px;
-        display: block;
-        height: @slider-track-height;
-        left: @slider-thumb-width / 2;
+    &__fill {
+      background: linear-gradient(90deg, darken(@acc, 6%), @acc);
+      border-radius: 999px;
+      display: block;
+      height: 100%;
+      left: 0; position: absolute; top: 0;
+      min-width: 0;
+
+      &::before {
+        background: inherit;
+        border-radius: 999px 0 0 999px;
+        content: "";
+        height: 100%;
         position: absolute;
-        top: @slider-track-offset;
-        transition: height @time-fast, top @time-fast;
-        width: calc(100% - @slider-thumb-width);
-
-        &__fill {
-            background: linear-gradient(90deg, darken(@color-control-active, 6%), @color-control-active);
-            border-radius: 999px;
-            display: block;
-            height: 100%;
-            left: 0;
-            position: absolute;
-            top: 0;
-            min-width: 0;
-
-            &::before {
-                background: inherit;
-                border-radius: 999px 0 0 999px;
-                content: "";
-                height: 100%;
-                position: absolute;
-                right: 100%;
-                width: @slider-thumb-width / 2;
-            }
-        }
-
-        &::before,
-        &::after {
-            background-color: @slider-track-color;
-            border-radius: 999px;
-            content: "";
-            height: 100%;
-            position: absolute;
-            top: 0;
-            width: @slider-thumb-width / 2;
-        }
-
-        &::before { right: 100%; border-radius: 999px 0 0 999px; }
-        &::after  { left: 100%;  border-radius: 0 999px 999px 0; }
+        right: 100%;
+        width: @sl-pad;
+      }
     }
 
-    &__thumb-wrapper {
-        height: @slider-height;
-        left: @slider-thumb-width / 2;
-        position: absolute;
-        top: 0;
-        width: calc(100% - @slider-thumb-width);
-        pointer-events: none;
+    &::before, &::after {
+      background-color: @sl-track-color;
+      border-radius: 999px;
+      content: "";
+      height: 100%;
+      position: absolute;
+      top: 0;
+      width: @sl-pad;
     }
+    &::before { right: 100%; border-radius: 999px 0 0 999px; }
+    &::after  { left: 100%;  border-radius: 0 999px 999px 0; }
+  }
 
-    &__thumb {
-        background-color: #ffffff;
-        border-radius: 50%;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.6);
-        cursor: grab;
-        display: block;
-        height: @slider-thumb-size;
-        margin-left: -(@slider-thumb-width / 2);
-        position: absolute;
-        top: @slider-thumb-offset;
-        transition: height @time-fast, width @time-fast, top @time-fast,
-                    margin-left @time-fast, box-shadow @time-fast;
-        width: @slider-thumb-width;
-        pointer-events: none;
+  &__thumb-wrapper {
+    height: @sl-h;
+    left: @sl-pad;
+    position: absolute;
+    top: 0;
+    width: calc(100% - @sl-pad * 2);
+    pointer-events: none;
+  }
 
-        &__value {
-            color: @color-fore;
-            cursor: default;
-            font-family: @font-mono;
-            font-size: 0.6875rem;
-            font-weight: 500;
-            line-height: @slider-thumb-size;
-            position: absolute;
-            top: 0;
-            left: calc(100% + 0.375rem);
-            user-select: none;
-            white-space: nowrap;
+  &__thumb {
+    background-color: #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.55);
+    cursor: grab;
+    display: block;
+    height: @sl-th;
+    margin-left: -(@sl-pad);
+    position: absolute;
+    top: (@sl-h - @sl-th) / 2;
+    transition: height @time-fast, width @time-fast, top @time-fast,
+                margin-left @time-fast, box-shadow @time-fast;
+    width: @sl-th;
+    pointer-events: none;
 
-            &--flip {
-                left: initial;
-                right: calc(100% + 0.375rem);
-            }
-        }
+    &__value {
+      color: @txt;
+      cursor: default;
+      font-family: @font-mono;
+      font-size: 0.6875rem;
+      font-weight: 500;
+      line-height: @sl-th;
+      position: absolute;
+      top: 0;
+      left: calc(100% + 0.375rem);
+      user-select: none;
+      white-space: nowrap;
+      &--flip { left: initial; right: calc(100% + 0.375rem); }
     }
+  }
 
-    &--active &__thumb {
-        box-shadow: 0 0 0 5px @dp-accent-glow, 0 1px 3px rgba(0,0,0,0.6);
-        height: @slider-thumb-active-size;
-        width: @slider-thumb-active-size;
-        margin-left: -(@slider-thumb-active-size / 2);
-        top: (@slider-height - @slider-thumb-active-size) / 2;
-    }
+  &--active &__thumb {
+    box-shadow: 0 0 0 5px @acc-g, 0 1px 3px rgba(0,0,0,0.55);
+    height: @sl-th-a;
+    width: @sl-th-a;
+    margin-left: -(@sl-th-a / 2);
+    top: (@sl-h - @sl-th-a) / 2;
+  }
 
-    &--active &__track {
-        height: @slider-track-active-height;
-        top: (@slider-height - @slider-track-active-height) / 2;
-    }
+  &--active &__track {
+    height: @sl-bar-a;
+    top: (@sl-h - @sl-bar-a) / 2;
+  }
 
-    &__value { display: none; }
+  &__value { display: none; }
 }

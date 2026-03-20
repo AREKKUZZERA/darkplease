@@ -1,28 +1,20 @@
 @import "../../theme";
 
 .textbox {
-    background-color: @dp-surface2;
-    border: @size-border solid @color-border2;
-    border-radius: @dp-radius-xs;
-    box-sizing: content-box;
-    color: @color-input-fore;
-    font-family: @font-family;
-    font-size: @size-text-normal;
-    height: @size-control-inner;
-    outline: none;
-    padding: 0 @indent-small;
-    transition: background-color @time-fast, border-color @time-fast;
-    width: 100%;
+  background-color: @s2;
+  border: 1px solid @b2;
+  border-radius: @dp-radius-xs;
+  box-sizing: content-box;
+  color: @txt;
+  font-family: @font-family;
+  font-size: @size-text-normal;
+  height: @size-control-inner;
+  outline: none;
+  padding: 0 @indent-small;
+  transition: background-color @time-fast, border-color @time-fast;
+  width: 100%;
 
-    &::placeholder { color: @color-input-fore-placeholder; }
-
-    &:hover {
-        background-color: @dp-surface3;
-        border-color: @color-border3;
-    }
-
-    &:focus {
-        background-color: @dp-surface2;
-        border-color: @color-control-active;
-    }
+  &::placeholder { color: @s5; }
+  &:hover   { background-color: @s3; border-color: @b3; }
+  &:focus   { background-color: @s2; border-color: @acc; }
 }

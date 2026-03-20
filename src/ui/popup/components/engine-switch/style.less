@@ -1,44 +1,39 @@
 @import "../../../theme";
 
 .engine-switch {
-    align-items: stretch;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    position: relative;
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
 
-    &__description {
-        font-size: @size-text-small;
-        line-height: @size-text-small-height;
-        text-align: center;
-        white-space: nowrap;
-        color: @color-control-fore-inactive;
-        letter-spacing: 0.02em;
-    }
+  &__description {
+    font-size: @size-text-small;
+    line-height: @size-text-small-height;
+    text-align: center;
+    white-space: nowrap;
+    color: @mut;
+    letter-spacing: 0.02em;
+  }
 
-    &__css-edit-button {
-        background-color: @color-heading;
-        border-radius: @dp-radius-xs;
-        color: @color-control-fore;
-        cursor: pointer;
-        display: none;
-        font-size: @size-text-small;
-        line-height: @size-text-small-height;
-        min-width: @size-text-small-height;
-        padding: 2px 6px;
-        position: absolute;
-        right: 0;
-        text-align: center;
-        top: -@size-text-small-height / 4;
-        transition: filter @time-fast;
+  &__css-edit-button {
+    background-color: @acc;
+    border-radius: @dp-radius-xs;
+    color: @txt;
+    cursor: pointer;
+    display: none;
+    font-size: @size-text-small;
+    line-height: @size-text-small-height;
+    min-width: @size-text-small-height;
+    padding: 2px 6px;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: -@size-text-small-height / 4;
+    transition: filter @time-fast;
 
-        &_active { display: inline-block; }
-
-        &::before {
-            content: "✎";
-            line-height: @size-text-small-height;
-        }
-
-        &:hover { filter: brightness(1.15); }
-    }
+    &_active { display: inline-block; }
+    &::before { content: "✎"; line-height: @size-text-small-height; }
+    &:hover { filter: brightness(1.15); }
+  }
 }

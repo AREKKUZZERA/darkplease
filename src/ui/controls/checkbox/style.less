@@ -1,79 +1,51 @@
 @import "../../theme";
 
-@keyframes dp-check-pop {
-    0%   { transform: scale(0.85); }
-    60%  { transform: scale(1.08); }
-    100% { transform: scale(1); }
-}
-
 .checkbox {
-    align-items: stretch;
-    background-color: @dp-surface2;
-    border: @size-border solid @color-border2;
-    border-radius: @dp-radius-xs;
-    cursor: pointer;
-    display: inline-flex;
-    flex: none;
-    flex-direction: row;
-    height: @size-control-inner;
-    transition: background-color @time-fast, border-color @time-fast;
+  align-items: stretch;
+  background-color: @s2;
+  border: 1px solid @b2;
+  border-radius: @dp-radius-xs;
+  cursor: pointer;
+  display: inline-flex;
+  flex: none;
+  flex-direction: row;
+  height: @size-control-inner;
+  transition: background-color @time-fast, border-color @time-fast;
+  width: @size-control-inner;
+
+  &:hover { background-color: @s3; border-color: @b3; }
+
+  &__input { display: none; }
+
+  &__checkmark {
+    display: inline-block;
+    height: 100%;
+    position: relative;
     width: @size-control-inner;
 
-    &:hover {
-        background-color: @dp-surface3;
-        border-color: @color-border3;
-        transition: background-color @time-fast;
+    &::before, &::after {
+      background-color: @mut;
+      content: "";
+      display: inline-block;
+      height: @size-control-inner * 0.1;
+      left: @size-control-inner * 0.125;
+      position: absolute;
+      top: @size-control-inner * 0.425;
+      transition: all @time-fast;
+      width: @size-control-inner * 0.75;
     }
+    &::before { transform: skewY(45deg); }
+    &::after  { transform: skewY(-45deg); }
+  }
 
-    &__input {
-        display: none;
-    }
+  &__input:checked + &__checkmark {
+    background-color: @acc;
+    border-radius: @dp-radius-xs - 1px;
 
-    &__checkmark {
-        display: inline-block;
-        height: 100%;
-        position: relative;
-        width: @size-control-inner;
+    &::before, &::after { background-color: #fff; }
+    &::before { top: @size-control-inner * 0.55; width: @size-control-inner * 0.25; }
+    &::after  { left: @size-control-inner * 0.375; width: @size-control-inner * 0.5; }
+  }
 
-        &::before,
-        &::after {
-            background-color: @color-control-fore-inactive;
-            content: "";
-            display: inline-block;
-            height: @size-control-inner * 0.1;
-            left: @size-control-inner * 0.125;
-            position: absolute;
-            top: @size-control-inner * 0.425;
-            transition: all @time-fast;
-            width: @size-control-inner * 0.75;
-        }
-
-        &::before { transform: skewY(45deg); }
-        &::after  { transform: skewY(-45deg); }
-    }
-
-    &__input:checked + &__checkmark {
-        background-color: @color-control-active;
-        border-radius: @dp-radius-xs - 2px;
-        animation: dp-check-pop 200ms ease both;
-
-        &::before,
-        &::after {
-            background-color: #fff;
-        }
-
-        &::before {
-            top: @size-control-inner * 0.55;
-            width: @size-control-inner * 0.25;
-        }
-
-        &::after {
-            left: @size-control-inner * 0.375;
-            width: @size-control-inner * 0.5;
-        }
-    }
-
-    &:hover &__input:checked + &__checkmark {
-        background-color: lighten(@color-control-active, 4%);
-    }
+  &:hover &__input:checked + &__checkmark { background-color: lighten(@acc, 4%); }
 }
