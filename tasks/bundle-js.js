@@ -106,7 +106,7 @@ async function bundleJS(entry, platform, debug, watch, log, test) {
     }
 
     // See comment below
-    // TODO(anton): remove this once Firefox supports tab.eval() via WebDriver BiDi
+    // TODO: remove this once Firefox supports tab.eval() via WebDriver BiDi
     const mustRemoveEval = !test && (platform === PLATFORM.FIREFOX_MV2) && (entry.src === 'src/inject/index.ts');
 
     const cacheId = `${entry.src}-${platform}-${debug}-${watch}-${log}-${test}`;
@@ -116,7 +116,7 @@ async function bundleJS(entry, platform, debug, watch, log, test) {
         input: absolutePath(src),
         preserveSymlinks: true,
         onwarn: (error) => {
-            // TODO(anton): remove this once Firefox supports tab.eval() via WebDriver BiDi
+            // TODO: remove this once Firefox supports tab.eval() via WebDriver BiDi
             if (error.code === 'EVAL' && !mustRemoveEval) {
                 return;
             }
@@ -129,7 +129,7 @@ async function bundleJS(entry, platform, debug, watch, log, test) {
             // This plugin is necessary to avoid (benign) warnings in the console during builds, it just replaces
             // literally one occurrence of eval() in our code even before TypeScript even encounters it.
             // With this plugin, warning appears only on Firefox test builds.
-            // TODO(anton): remove this once Firefox supports tab.eval() via WebDriver BiDi
+            // TODO: remove this once Firefox supports tab.eval() via WebDriver BiDi
             rollupPluginReplace({
                 preventAssignment: true,
                 'eval(': 'void(',
@@ -202,13 +202,16 @@ export function createBundleJSTask(jsEntries) {
     /** @type {(options: Partial<TaskOptions> & {platforms: TaskOptions['platforms']}, entries?: JSEntry[]) => Promise<void>} */
     const bundleEachPlatform = async ({platforms, debug, watch, log, test}, entries) => {
         const allPlatforms = Object.values(PLATFORM).filter((platform) => platform !== PLATFORM.API);
+        /** @type {Promise<void>[]} */
+        const tasks = [];
         for (const entry of (entries || jsEntries)) {
             const possiblePlatforms = entry.platform ? [entry.platform] : allPlatforms;
             const targetPlatforms = possiblePlatforms.filter((platform) => platforms[platform]);
             for (const platform of targetPlatforms) {
-                await bundleJS(entry, platform, debug, watch, log, test);
+                tasks.push(bundleJS(entry, platform, debug, watch, log, test));
             }
         }
+        await Promise.all(tasks);
     };
 
     /** @type {(changedFiles: string[], watcher: FSWatcher, platforms: any) => Promise<void>} */

@@ -5,7 +5,7 @@ import {DebugMessageTypeBGtoCS, DebugMessageTypeBGtoUI, DebugMessageTypeCStoBG} 
 import {isFirefox} from '../utils/platform';
 
 import {Extension} from './extension';
-import {makeChromiumHappy} from './make-chromium-happy';
+import {makeChromiumHappy} from './chromium-compat';
 import {ASSERT} from './utils/log';
 import {sendLog} from './utils/sendLog';
 

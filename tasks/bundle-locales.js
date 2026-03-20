@@ -77,15 +77,15 @@ async function mergeLocale(localesDir, code) {
 async function bundleLocales(srcLocalesDir, {platforms, debug}) {
     const absoluteSrcLocalesDir = absolutePath(srcLocalesDir);
     const list = await fs.readdir(absoluteSrcLocalesDir);
-    for (const name of list) {
-        if (!name.endsWith('.config')) {
-            continue;
-        }
-        const code = /** @type {string} */(name.split('.').at(-2));
-        const locale = await mergeLocale(absoluteSrcLocalesDir, code);
-        const fileName = name.substring(name.lastIndexOf('/') + 1);
-        await writeFiles(locale, fileName, {platforms, debug});
-    }
+    const tasks = list
+        .filter((name) => name.endsWith('.config'))
+        .map(async (name) => {
+            const code = /** @type {string} */(name.split('.').at(-2));
+            const locale = await mergeLocale(absoluteSrcLocalesDir, code);
+            const fileName = name.substring(name.lastIndexOf('/') + 1);
+            await writeFiles(locale, fileName, {platforms, debug});
+        });
+    await Promise.all(tasks);
 }
 
 /**

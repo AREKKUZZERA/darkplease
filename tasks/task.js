@@ -42,12 +42,12 @@ class Task {
         );
     }
 
-    watch(platforms) {
+    async watch(platforms) {
         if (!this._watchFiles || !this._onChange) {
             return;
         }
 
-        const watcher = watch({
+        const watcher = await watch({
             files: typeof this._watchFiles === 'function' ?
                 this._watchFiles() :
                 this._watchFiles,

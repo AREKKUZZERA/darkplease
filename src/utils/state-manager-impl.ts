@@ -125,7 +125,7 @@ export class StateManagerImpl<T extends Record<string, unknown>> {
         this.barrier = new PromiseBarrier();
         this.listeners = new Set();
 
-        // TODO(Anton): consider calling this.loadState() to preload data,
+        // TODO: consider calling this.loadState() to preload data,
         // and remove StateManagerImplState.INITIAL.
     }
 

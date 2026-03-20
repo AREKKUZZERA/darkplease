@@ -106,13 +106,23 @@ export function createBundleCSSTask(cssEntries) {
      * @returns {Promise<void>}
      */
     const bundleCSS = async ({platforms, debug}) => {
+        const enabledPlatforms = Object.keys(platforms).filter((p) => platforms[p] && p !== PLATFORM.API);
+        const hasPlusplatform = enabledPlatforms.includes(PLATFORM.CHROMIUM_MV2_PLUS);
+        const hasNonPlusPlatforms = enabledPlatforms.some((p) => p !== PLATFORM.CHROMIUM_MV2_PLUS);
+
         for (const entry of cssEntries) {
-            for (const platform in platforms) {
-                if (!platforms[platform]) {
-                    continue;
-                }
-                const css = await bundleCSSEntry(entry, platform === PLATFORM.CHROMIUM_MV2_PLUS);
-                await writeFiles(entry.dest, {[platform]: true}, debug, css);
+            // Compile once for non-plus platforms (identical CSS), write to all at once
+            if (hasNonPlusPlatforms) {
+                const css = await bundleCSSEntry(entry, false);
+                const nonPlusPlatforms = enabledPlatforms
+                    .filter((p) => p !== PLATFORM.CHROMIUM_MV2_PLUS)
+                    .reduce((acc, p) => ({...acc, [p]: true}), {});
+                await writeFiles(entry.dest, nonPlusPlatforms, debug, css);
+            }
+            // Compile once for plus platform (different CSS with plus blocks)
+            if (hasPlusplatform) {
+                const css = await bundleCSSEntry(entry, true);
+                await writeFiles(entry.dest, {[PLATFORM.CHROMIUM_MV2_PLUS]: true}, debug, css);
             }
         }
     };

@@ -6,8 +6,6 @@ import {isFirefox} from '../utils/platform';
 import ConfigManager from './config-manager';
 import {logInfo} from './utils/log';
 
-// TODO(bershanskiy): Add support for reads/writes of multiple keys at once for performance.
-// TODO(bershanskiy): Popup UI heeds only hasCustom*Fixes() and nothing else. Consider storing that data separately.
 interface DevToolsStorage {
     get(key: string): Promise<string | null>;
     set(key: string, value: string): Promise<void> | void;
@@ -153,7 +151,7 @@ export default class DevTools {
         DevTools.onChange();
     }
 
-    // TODO(Anton): remove any
+    // TODO: remove any cast after types update
     static applyDynamicThemeFixes(text: string): any {
         try {
             const formatted = formatDynamicThemeFixes(parseDynamicThemeFixes(text));
@@ -192,7 +190,7 @@ export default class DevTools {
         DevTools.onChange();
     }
 
-    // TODO(Anton): remove any
+    // TODO: remove any cast after types update
     static applyInversionFixes(text: string): any {
         try {
             const formatted = formatInversionFixes(parseInversionFixes(text));
@@ -231,7 +229,7 @@ export default class DevTools {
         DevTools.onChange();
     }
 
-    // TODO(Anton): remove any
+    // TODO: remove any cast after types update
     static applyStaticThemes(text: string): any {
         try {
             const formatted = formatStaticThemes(parseStaticThemes(text));

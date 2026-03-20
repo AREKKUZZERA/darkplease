@@ -59,7 +59,7 @@ async function build({platforms, debug, watch, log: logging, test, version}) {
     try {
         await runTasks(debug ? standardTask : (version ? signedBuildTask : buildTask), {platforms: buildPlatforms, debug, watch, log: logging, test, version});
         if (watch) {
-            standardTask.forEach((task) => task.watch(buildPlatforms));
+            await Promise.all(standardTask.map((task) => task.watch(buildPlatforms)));
             reload.reload({type: reload.FULL});
             log.ok('Watching...');
         } else {
@@ -85,7 +85,7 @@ async function api(debug, watch) {
         }
         await runTasks(tasks, {platforms: {[PLATFORM.API]: true}, debug, watch, version: false, log: false, test: false});
         if (watch) {
-            bundleAPI.watch();
+            await bundleAPI.watch();
             log.ok('Watching...');
         }
         log.ok('MISSION PASSED! RESPECT +');
@@ -121,7 +121,6 @@ function getParams(args) {
         '--chrome-plus': PLATFORM.CHROMIUM_MV2_PLUS,
         '--firefox': PLATFORM.FIREFOX_MV2,
         '--firefox-mv2': PLATFORM.FIREFOX_MV2,
-        '--firefox-mv3': PLATFORM.FIREFOX_MV3,
         '--thunderbird': PLATFORM.THUNDERBIRD,
     };
     /** @type {BuildPlatforms} */
@@ -131,7 +130,6 @@ function getParams(args) {
         [PLATFORM.CHROMIUM_MV2_PLUS]: false,
         [PLATFORM.CHROMIUM_MV3]: false,
         [PLATFORM.FIREFOX_MV2]: false,
-        [PLATFORM.FIREFOX_MV3]: false,
         [PLATFORM.THUNDERBIRD]: false,
     };
     let allPlatforms = true;
@@ -152,12 +150,6 @@ function getParams(args) {
                 platforms[platform] = true;
             }
         }
-    }
-
-    // TODO(Anton): remove me
-    if (platforms[PLATFORM.FIREFOX_MV3]) {
-        platforms[PLATFORM.FIREFOX_MV3] = false;
-        console.log('Firefox MV3 build is not supported yet');
     }
 
     if (!pathExistsSync('./src/plus/')) {

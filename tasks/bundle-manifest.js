@@ -78,7 +78,6 @@ const bundleManifestTask = createTask(
             [PLATFORM.CHROMIUM_MV2_PLUS]: false,
             [PLATFORM.CHROMIUM_MV3]: false,
             [PLATFORM.FIREFOX_MV2]: false,
-            [PLATFORM.FIREFOX_MV3]: false,
             [PLATFORM.THUNDERBIRD]: false,
         };
         for (const platform of /** @type {PlatformId[]} */ (Object.values(PLATFORM))) {

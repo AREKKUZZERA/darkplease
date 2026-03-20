@@ -12,22 +12,16 @@ const textPropertyLength = 'text: '.length;
 // humanizeNumber(2) => '2nd'
 // humanizeNumber(3) => '3rd'
 // humanizeNumber(4) => '4th'
-// TODO(Anton): rewrite me with case-default
-// eslint-disable-next-line
-// @ts-ignore
 const humanizeNumber = (number: number): string => {
     if (number > 3) {
         return `${number}th`;
     }
     switch (number) {
-        case 0:
-            return '0';
-        case 1:
-            return '1st';
-        case 2:
-            return '2nd';
-        case 3:
-            return '3rd';
+        case 0: return '0';
+        case 1: return '1st';
+        case 2: return '2nd';
+        case 3: return '3rd';
+        default: return `${number}`;
     }
 };
 

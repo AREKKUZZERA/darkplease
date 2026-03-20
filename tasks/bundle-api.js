@@ -49,7 +49,7 @@ async function bundleAPIModule({debug, watch}, moduleType, dest) {
                 inlineSources: debug ? true : false,
                 noEmitOnError: watch ? false : true,
                 outDir: absolutePath('.'),
-                cacheDir: debug ? `${fs.realpathSync(os.tmpdir())}/dark-please_api_typescript_cache` : undefined,
+                cacheDir: debug ? `${fs.realpathSync(os.tmpdir())}/darkplease_api_typescript_cache` : undefined,
             }),
             rollupPluginReplace({
                 preventAssignment: true,

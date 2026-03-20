@@ -116,18 +116,8 @@ export async function readFile(src, encoding = 'utf8') {
     return await fs.readFile(src, encoding);
 }
 
-/**
- * @param {string} src
- * @returns {Promise<boolean>}
- */
-export async function fileExists(src) {
-    try {
-        await fs.access(src, fs.constants.R_OK);
-        return true;
-    } catch (e) {
-        return false;
-    }
-}
+/** @param {string} src @returns {Promise<boolean>} */
+export const fileExists = pathExists;
 
 /**
  * @param {string} dest

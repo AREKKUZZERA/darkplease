@@ -281,7 +281,7 @@ if (__TEST__) {
         }));
     };
 
-    // TODO(anton): remove this once Firefox supports tab.eval() via WebDriver BiDi
+    // TODO: remove this once Firefox supports tab.eval() via WebDriver BiDi
     if (__FIREFOX_MV2__) {
         function expectPageStyles(data: any) {
             const checkOne = (expectation: any) => {

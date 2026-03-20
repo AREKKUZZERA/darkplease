@@ -9,15 +9,17 @@ import {removeFolder} from './utils.js';
  * @returns {Promise<void>}
  */
 async function clean({platforms, debug}) {
-    const enabledPlatforms = Object.values(PLATFORM).filter((platform) => platform !== PLATFORM.API && platforms[platform]);
-    for (const platform of enabledPlatforms) {
-        await removeFolder(getDestDir({debug, platform}));
-    }
+    const enabledPlatforms = Object.values(PLATFORM).filter(
+        (platform) => platform !== PLATFORM.API && platforms[platform]
+    );
+
+    await Promise.all(
+        enabledPlatforms.map((platform) =>
+            removeFolder(getDestDir({debug, platform}))
+        )
+    );
 }
 
-const cleanTask = createTask(
-    'clean',
-    clean,
-);
+const cleanTask = createTask('clean', clean);
 
 export default cleanTask;

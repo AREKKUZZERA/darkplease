@@ -144,7 +144,7 @@ export async function getFontList(): Promise<string[]> {
 
 type ExtensionPage = 'devtools' | 'options' | 'stylesheet-editor';
 
-// TODO(Anton): There must be a better way to do this
+// TODO: refactor this
 // This function ping-pongs a message to possible DevTools popups.
 // This function should have reasonable performance since it sends
 // messages only to popups and not regular windows.

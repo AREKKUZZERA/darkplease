@@ -3,7 +3,7 @@ import {MessageTypeBGtoUI, MessageTypeUItoBG} from '../utils/message';
 import {HOMEPAGE_URL} from '../utils/links';
 import {isFirefox} from '../utils/platform';
 
-import {makeFirefoxHappy} from './make-firefox-happy';
+import {makeFirefoxHappy} from './firefox-compat';
 import {ASSERT} from './utils/log';
 
 declare const __PLUS__: boolean;

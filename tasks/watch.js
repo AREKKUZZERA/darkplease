@@ -1,5 +1,3 @@
-import {watch as chokidarWatch} from 'chokidar';
-
 import {log} from './utils.js';
 
 const DEBOUNCE = 200;
@@ -9,7 +7,9 @@ const DEBOUNCE = 200;
  * @param {string[]} options.files
  * @param {(files: string[]) => void | Promise<void>} options.onChange
  */
-function watch(options) {
+async function watch(options) {
+    const {watch: chokidarWatch} = await import('chokidar');
+
     const queue = new Set();
     let timeoutId = null;
 

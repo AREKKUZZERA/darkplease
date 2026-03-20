@@ -7,7 +7,7 @@ import {getActiveTab, queryTabs} from '../utils/tabs';
 import {getURLHostOrProtocol} from '../utils/url';
 import IconManager from './icon-manager';
 
-import {makeFirefoxHappy} from './make-firefox-happy';
+import {makeFirefoxHappy} from './firefox-compat';
 import {ASSERT, logInfo, logWarn} from './utils/log';
 import type {FileLoader} from './utils/network';
 import {createFileLoader} from './utils/network';
@@ -304,7 +304,7 @@ export default class TabManager {
 
         // We honor only messages which come from tab's top frame
         // because sub-frames color scheme can be overridden by style with prefers-color-scheme
-        // TODO(MV3): instead of dropping these messages, consider making a query to an authoritative source
+        // TODO: instead of dropping these messages, consider making a query to an authoritative source
         // like offscreen document
         if (sender && sender.frameId === 0) {
             TabManager.onColorSchemeChange(message.data.isDark);

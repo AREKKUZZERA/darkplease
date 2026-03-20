@@ -44,8 +44,10 @@ function Body(props: BodyProps & {fonts: string[]} & {installation: {date: numbe
 
     const v = props.installation?.version?.split('.').map((p) => parseInt(p));
     const n = v && v.length >= 3 ? (v[0] * 1e6 + v[1] * 1e3 + v[2]) : 0;
+    // Encoded version 4.9.93: the Plus mobile redesign became permanent from this version onward
+    const PLUS_MOBILE_REDESIGN_VERSION = 4 * 1e6 + 9 * 1e3 + 93;
 
-    if (__PLUS__ && (props.data.settings.previewNewestDesign || (isMobile && n && n >= 4009093))) {
+    if (__PLUS__ && (props.data.settings.previewNewestDesign || (isMobile && n && n >= PLUS_MOBILE_REDESIGN_VERSION))) {
         return <PlusBody {...props} fonts={props.fonts} />;
     }
 
