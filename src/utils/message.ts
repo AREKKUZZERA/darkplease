@@ -6,8 +6,6 @@ export enum MessageTypeUItoBG {
     CHANGE_SETTINGS = 'ui-bg-change-settings',
     SET_THEME = 'ui-bg-set-theme',
     TOGGLE_ACTIVE_TAB = 'ui-bg-toggle-active-tab',
-    MARK_NEWS_AS_READ = 'ui-bg-mark-news-as-read',
-    MARK_NEWS_AS_DISPLAYED = 'ui-bg-mark-news-as-displayed',
     LOAD_CONFIG = 'ui-bg-load-config',
     APPLY_DEV_DYNAMIC_THEME_FIXES = 'ui-bg-apply-dev-dynamic-theme-fixes',
     RESET_DEV_DYNAMIC_THEME_FIXES = 'ui-bg-reset-dev-dynamic-theme-fixes',

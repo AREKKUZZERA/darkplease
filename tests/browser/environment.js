@@ -160,7 +160,7 @@ export default class CustomJestEnvironment extends TestEnvironment {
                     browserURL: `http://localhost:${FIREFOX_DEVTOOLS_PORT}`,
                 });
             } catch (err) {
-                console.log(`Firefox connection attempt ${i + 1} failed:`, e);
+                console.log(`Firefox connection attempt ${i + 1} failed:`, err);
             }
         }
         throw new Error('Failed to connect to Puppeteer');
@@ -508,7 +508,6 @@ export default class CustomJestEnvironment extends TestEnvironment {
                     }
                     await sendToBackground('firefox-emulateColorScheme', colorScheme);
                 },
-                setNews: async (news) => await sendToBackground('setNews', news),
                 onDownload: (callback) => onDownloadCallback = callback,
             };
 

@@ -140,8 +140,21 @@ export function getSitesFixesFor<T extends SiteProps>(url: string, text: string,
         const [start, length] = offset;
         const block = text.slice(start, start + length);
         const fix = parse(block)[0];
-        siteFixesCache.set(offset, cache);
+        siteFixesCache.set(offset, fix);
         return fix;
+    });
+
+    // Ensure the wildcard fix ('*') is always first so callers can rely on fixes[0].url[0] === '*'
+    fixes.sort((a, b) => {
+        const aIsWildcard = a && a.url && a.url[0] === '*';
+        const bIsWildcard = b && b.url && b.url[0] === '*';
+        if (aIsWildcard && !bIsWildcard) {
+            return -1;
+        }
+        if (!aIsWildcard && bIsWildcard) {
+            return 1;
+        }
+        return 0;
     });
 
     return fixes;

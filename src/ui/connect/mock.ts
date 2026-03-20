@@ -59,7 +59,6 @@ export function getMockData(override = {} as Partial<ExtensionData>): ExtensionD
             'fantasy',
             'system-ui',
         ],
-        news: [],
         shortcuts: {
             'addSite': 'Alt+Shift+A',
             'toggle': 'Alt+Shift+D',
