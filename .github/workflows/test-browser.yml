@@ -99,21 +99,15 @@ jobs:
 
       - name: Run browser tests on Chromium MV2 build
         if: ${{ matrix.chrome }}
-        uses: coactions/setup-xvfb@v1
-        with:
-          run: npm run test:chrome -- --json --outputFile=test-results-chrome.json
+        run: xvfb-run --auto-servernum npm run test:chrome -- --json --outputFile=test-results-chrome.json
 
       - name: Run browser tests on Chromium MV3 build
         if: ${{ matrix.chrome }}
-        uses: coactions/setup-xvfb@v1
-        with:
-          run: npm run test:chrome-mv3 -- --json --outputFile=test-results-chrome-mv3.json
+        run: xvfb-run --auto-servernum npm run test:chrome-mv3 -- --json --outputFile=test-results-chrome-mv3.json
 
       - name: Run browser tests on Firefox MV2 build
         if: ${{ matrix.firefox }}
-        uses: coactions/setup-xvfb@v1
-        with:
-          run: npm run test:firefox -- --json --outputFile=test-results-firefox-mv2.json
+        run: xvfb-run --auto-servernum npm run test:firefox -- --json --outputFile=test-results-firefox-mv2.json
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
