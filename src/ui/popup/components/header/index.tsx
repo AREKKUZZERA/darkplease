@@ -88,49 +88,62 @@ function Header(props: HeaderProps) {
 
     return (
         <header class="header">
-            <a class="header__logo" href={HOMEPAGE_URL} target="_blank" rel="noopener noreferrer">
-                DARK PLEASE!
-            </a>
-            <div class="header__control header__site-toggle">
-                <SiteToggle
-                    data={data}
-                    actions={actions}
-                />
-                <span
-                    class={{
-                        'header__more-settings-button': true,
-                        'header__more-settings-button--off': !isSiteEnabled,
-                    }}
-                    onclick={onMoreSiteSettingsClick}
-                >
-                    <SettingsIcon class="header__more-settings-button__icon" />
-                    {siteToggleMessage}
-                </span>
+            <div class="header__top-row">
+                <a class="header__logo" href={HOMEPAGE_URL} target="_blank" rel="noopener noreferrer">
+                    DARK PLEASE!
+                </a>
+                <div class="header__status">
+                    <div class={{
+                        'header__status-dot': true,
+                        'header__status-dot--off': !data.isEnabled,
+                    }} />
+                    <span class="header__status-text">
+                        {data.isEnabled ? (isAutomation ? 'Auto' : 'Active') : 'Off'}
+                    </span>
+                </div>
             </div>
-            <div class="header__control header__app-toggle">
-                <Toggle checked={data.isEnabled} labelOn={getLocalMessage('on')} labelOff={getLocalMessage('off')} onChange={toggleApp} />
-                <span
-                    class={{
-                        'header__more-settings-button': true,
-                        'header__more-settings-button--off': !data.isEnabled,
-                    }}
-                    onclick={onMoreToggleSettingsClick}
-                >
-                    <SettingsIcon class="header__more-settings-button__icon" />
-                    {automationMessage}
-                </span>
-                <span
-                    class={{
-                        'header__app-toggle__time': true,
-                        'header__app-toggle__time--active': isAutomation,
-                    }}
-                >
-                    {(isTimeAutomation
-                        ? <WatchIcon hours={now.getHours()} minutes={now.getMinutes()} />
-                        : (isLocationAutomation
-                            ? (<SunMoonIcon date={now} latitude={data.settings.location.latitude!} longitude={data.settings.location.longitude!} />)
-                            : <SystemIcon />))}
-                </span>
+            <div class="header__controls-row">
+                <div class="header__control header__site-toggle">
+                    <SiteToggle
+                        data={data}
+                        actions={actions}
+                    />
+                    <span
+                        class={{
+                            'header__more-settings-button': true,
+                            'header__more-settings-button--off': !isSiteEnabled,
+                        }}
+                        onclick={onMoreSiteSettingsClick}
+                    >
+                        <SettingsIcon class="header__more-settings-button__icon" />
+                        {siteToggleMessage}
+                    </span>
+                </div>
+                <div class="header__control header__app-toggle">
+                    <Toggle checked={data.isEnabled} labelOn={getLocalMessage('on')} labelOff={getLocalMessage('off')} onChange={toggleApp} />
+                    <span
+                        class={{
+                            'header__more-settings-button': true,
+                            'header__more-settings-button--off': !data.isEnabled,
+                        }}
+                        onclick={onMoreToggleSettingsClick}
+                    >
+                        <SettingsIcon class="header__more-settings-button__icon" />
+                        {automationMessage}
+                    </span>
+                    <span
+                        class={{
+                            'header__app-toggle__time': true,
+                            'header__app-toggle__time--active': isAutomation,
+                        }}
+                    >
+                        {(isTimeAutomation
+                            ? <WatchIcon hours={now.getHours()} minutes={now.getMinutes()} />
+                            : (isLocationAutomation
+                                ? (<SunMoonIcon date={now} latitude={data.settings.location.latitude!} longitude={data.settings.location.longitude!} />)
+                                : <SystemIcon />))}
+                    </span>
+                </div>
             </div>
         </header>
     );
@@ -140,5 +153,5 @@ export {
     Header,
     MoreNewHighlight,
     MoreSiteSettings,
-    MoreToggleSettings, // TODO: Implement portals to place elements into <body>.
+    MoreToggleSettings,
 };

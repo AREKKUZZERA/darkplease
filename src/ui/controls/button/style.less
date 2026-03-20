@@ -1,9 +1,9 @@
 @import "../../theme";
 
 .button {
-    background-color: @color-control-back;
-    border: @size-border solid @color-border;
-    border-radius: 0.5rem;
+    background-color: @dp-surface2;
+    border: @size-border solid @color-border2;
+    border-radius: @dp-radius-xs;
     box-sizing: content-box;
     color: @color-control-fore;
     cursor: pointer;
@@ -15,16 +15,18 @@
     overflow: hidden;
     padding: 0;
     text-align: center;
-    transition: background-color @time-fast, border-color @time-fast;
+    transition: background-color @time-fast, border-color @time-fast, transform 80ms;
     user-select: none;
+    font-weight: 500;
 
     &:hover {
-        background-color: @color-control-hover;
-        border-color: lighten(@color-border, 6%);
+        background-color: @dp-surface3;
+        border-color: @color-border2;
     }
 
     &:active {
-        background-color: mix(@color-control-hover, @color-control-active, 88%);
+        background-color: @dp-surface3;
+        transform: scale(0.97);
     }
 
     &__wrapper {

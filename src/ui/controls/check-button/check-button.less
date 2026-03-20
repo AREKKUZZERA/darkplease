@@ -3,9 +3,13 @@
 .check-button {
     .checkbox {
         width: calc(100% - 2 * @size-border);
+        border-radius: @dp-radius-xs;
+        height: @size-control-inner;
 
         &__checkmark {
-            background-color: @color-control-active;
+            background-color: @dp-surface3;
+            border-radius: @dp-radius-xs - 2px;
+            transition: background-color @time-fast;
 
             &::before,
             &::after {
@@ -21,17 +25,22 @@
             justify-content: center;
             -moz-user-select: none;
             user-select: none;
+            font-size: @size-text-small;
+            font-weight: 500;
+            color: @color-control-fore-inactive;
+            transition: color @time-fast;
         }
 
         &__input:checked ~ * {
-            color: @color-control-fore;
+            color: #fff;
         }
 
         &__input:checked ~ .checkbox__checkmark {
             background-image: @icon-check;
             background-position: center;
             background-repeat: no-repeat;
-            background-size: 1rem;
+            background-size: 0.875rem;
+            background-color: @color-control-active;
         }
     }
 
@@ -43,5 +52,6 @@
         -moz-user-select: none;
         user-select: none;
         width: 100%;
+        color: @color-control-fore-inactive;
     }
 }

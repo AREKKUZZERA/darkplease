@@ -3,9 +3,12 @@
 .site-toggle {
     color: @color-input-fore;
     white-space: normal;
+    border-radius: @dp-radius-xs;
+    transition: background-color @time-fast, color @time-fast, transform 80ms;
+    font-weight: 500;
 
     &--disabled {
-        opacity: 0.5;
+        opacity: 0.45;
         pointer-events: none;
     }
 
@@ -20,5 +23,9 @@
 
     &--active {
         color: @color-input-fore-active;
+    }
+
+    &:active {
+        transform: scale(0.97);
     }
 }

@@ -2,18 +2,20 @@
 
 .checkbox {
     align-items: stretch;
-    background-color: @color-control-back;
-    border: @size-border solid @color-border;
+    background-color: @dp-surface2;
+    border: @size-border solid @color-border2;
+    border-radius: @dp-radius-xs;
     cursor: pointer;
     display: inline-flex;
     flex: none;
     flex-direction: row;
     height: @size-control-inner;
-    transition: background-color @time-slow;
+    transition: background-color @time-fast, border-color @time-fast;
     width: @size-control-inner;
 
     &:hover {
-        background-color: @color-control-hover;
+        background-color: @dp-surface3;
+        border-color: @color-border2;
         transition: background-color @time-fast;
     }
 
@@ -32,7 +34,7 @@
             background-color: @color-control-fore-inactive;
             content: "";
             display: inline-block;
-            height: @size-control-inner * 0.125;
+            height: @size-control-inner * 0.1;
             left: @size-control-inner * 0.125;
             position: absolute;
             top: @size-control-inner * 0.425;
@@ -51,10 +53,11 @@
 
     &__input:checked + &__checkmark {
         background-color: @color-control-active;
+        border-radius: @dp-radius-xs - 2px;
 
         &::before,
         &::after {
-            background-color: @color-control-fore;
+            background-color: #fff;
         }
 
         &::before {
@@ -69,6 +72,6 @@
     }
 
     &:hover &__input:checked + &__checkmark {
-        background-color: lighten(@color-control-active, 3%);
+        background-color: lighten(@color-control-active, 4%);
     }
 }

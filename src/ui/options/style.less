@@ -15,12 +15,12 @@ html {
 
 header {
     align-items: center;
-    background-color: @color-control-back;
-    border: @size-border solid @color-border;
-    border-radius: 0.75rem;
+    background-color: @dp-surface;
+    border: @size-border solid @color-border2;
+    border-radius: @dp-radius;
     display: flex;
     gap: @indent-small;
-    padding: @indent-small;
+    padding: @indent-small @indent-large;
 }
 
 #logo {
@@ -31,9 +31,10 @@ header {
 }
 
 #title {
-    color: @color-fore;
-    font-size: 1rem;
-    font-weight: bold;
+    color: @color-control-fore-inactive;
+    font-size: @size-text-small;
+    font-weight: 500;
+    letter-spacing: 0.08em;
     line-height: @size-control-inner;
     height: @size-control-inner;
     margin: 0;
@@ -55,21 +56,28 @@ main { flex: none; }
 .settings-tab-panel { flex: auto; }
 
 .settings-tab {
-    background-color: @color-control-back;
-    border: @size-border solid @color-border;
-    border-radius: 0.75rem;
+    background-color: @dp-surface;
+    border: @size-border solid @color-border2;
+    border-radius: @dp-radius;
     max-width: 24rem;
     padding: @indent-small;
+    display: flex;
+    flex-direction: column;
+    gap: @indent-small;
 
     .button,
     .textbox {
         width: calc(100% - 2 * @size-border);
     }
 
-    a { color: @color-fore; }
-}
+    a {
+        color: @color-heading;
+        text-decoration: none;
+        transition: color @time-fast;
 
-.settings-tab > :not(:first-child) { margin-top: @indent-small; }
+        &:hover { color: lighten(@color-heading, 10%); text-decoration: underline; }
+    }
+}
 
 .settings-icon-list svg { fill: currentColor; height: 75%; width: 75%; }
 

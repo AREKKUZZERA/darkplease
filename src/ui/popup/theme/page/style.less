@@ -2,6 +2,11 @@
 @import "./collapsible-panel";
 
 .theme-page {
+    display: flex;
+    flex-direction: column;
+    gap: @indent-small;
+    padding: @indent-small 0;
+
     .theme-preset-picker.dropdown {
         height: @size-control-inner + 2 * @size-border;
     }
@@ -11,11 +16,11 @@
             &__selected {
                 height: @size-control-inner + 2 * @size-border;
             }
-        
+
             &__list {
-                border: @size-border solid @color-border;
+                border: @size-border solid @color-border2;
                 border-top: none;
-                box-shadow: 0 0 0.25rem 0.0625rem black;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.5);
                 box-sizing: border-box;
 
                 &__item {
@@ -31,13 +36,12 @@
 
     .font-picker {
         box-sizing: border-box;
-        height: 1.5rem;
-        padding-top: 0.125rem;
+        height: @size-control-inner;
         position: relative;
         width: 100%;
 
         &--disabled {
-            opacity: 0.5;
+            opacity: 0.45;
             pointer-events: none;
         }
 
@@ -54,37 +58,39 @@
 
             &__textbox {
                 background-color: @color-control-active;
-                color: @color-control-fore;
-                height: 1.25rem;
-                line-height: 1.25rem;
+                color: #fff;
+                height: @size-control-inner;
+                line-height: @size-control-inner;
                 text-align: center;
                 width: 100%;
+                border-radius: @dp-radius-xs;
 
                 &:hover {
-                    background-color: @color-input-hover;
+                    background-color: lighten(@color-control-active, 5%);
                 }
 
                 &:focus {
-                    background-color: @color-input-hover;
-                    border: @size-border solid @color-border;
-                    margin-top: -0.125rem;
+                    background-color: @dp-surface3;
+                    border: @size-border solid @color-border2;
+                    color: @color-fore;
                 }
             }
 
             &__expand {
                 background-color: @color-control-active;
-                height: 1.25rem;
+                height: @size-control-inner;
                 min-width: 1.5rem;
                 position: absolute;
                 right: 0;
                 top: 0;
                 width: 1.5rem;
+                border-radius: 0 @dp-radius-xs @dp-radius-xs 0;
 
                 &__icon {
                     background-image: @icon-down;
                     background-position: center;
                     background-repeat: no-repeat;
-                    background-size: 1rem;
+                    background-size: 0.875rem;
 
                     &::before,
                     &::after {
@@ -94,13 +100,14 @@
             }
 
             &__list {
-                border-left: @size-border solid @color-border;
-                border-right: @size-border solid @color-border;
+                border-left: @size-border solid @color-border2;
+                border-right: @size-border solid @color-border2;
                 top: 100%;
                 width: 100%;
 
                 &--expanded {
-                    border-bottom: @size-border solid @color-border;
+                    border-bottom: @size-border solid @color-border2;
+                    border-radius: 0 0 @dp-radius-xs @dp-radius-xs;
                 }
 
                 &::-webkit-scrollbar {
@@ -110,31 +117,12 @@
         }
 
         &.select--expanded {
-            background-color: @color-border;
-            height: 1.5rem;
+            background-color: @color-border2;
+            height: @size-control-inner;
             padding-top: 0;
 
             .select__textbox {
-                border: @size-border solid @color-border;
-
-                &:focus {
-                    margin-top: 0;
-                }
-            }
-
-            .select__expand {
-                margin-top: @size-border;
-            }
-
-            &::before {
-                background-color: @color-back;
-                content: "";
-                display: inline-block;
-                height: 0.75rem;
-                left: @size-border;
-                position: absolute;
-                top: 0.75rem;
-                width: calc(100% - 2 * @size-border);
+                border: @size-border solid @color-border2;
             }
         }
     }

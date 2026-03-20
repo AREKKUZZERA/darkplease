@@ -2,16 +2,18 @@
 
 .static-edit-button {
     background-color: @color-heading;
-    border-radius: @size-text-small-height / 2;
+    border-radius: @dp-radius-xs;
     color: @color-control-fore;
     cursor: pointer;
     font-size: @size-text-small;
     line-height: @size-text-small-height;
     left: 0.25rem;
     min-width: @size-text-small-height;
+    padding: 2px 6px;
     position: absolute;
     text-align: center;
     top: 0.25rem;
+    transition: filter @time-fast;
 
     &--hidden {
         display: none;
@@ -23,12 +25,12 @@
     }
 
     &:hover {
-        box-shadow: 0 0 @indent-large @color-control-fore;
+        filter: brightness(1.15);
     }
 }
 
 .mode-control-container {
     height: @size-control-inner;
     position: relative;
-    width: 100%
+    width: 100%;
 }

@@ -1,12 +1,11 @@
-@slider-height: 1.5rem;
-@slider-track-height: 0.375rem;
-@slider-track-active-height: 0.5rem;
-@slider-thumb-size: 1rem;
-@slider-thumb-active-size: 1.125rem;
-@slider-thumb-width: 1rem;
-@slider-track-color: #2f2f2f;
-@slider-track-fill-color: @color-control-active;
-@slider-thumb-color: #f3f3f3;
+@import "../../theme";
+
+@slider-height: 1.75rem;
+@slider-track-height: 4px;
+@slider-track-active-height: 5px;
+@slider-thumb-size: 14px;
+@slider-thumb-active-size: 16px;
+@slider-thumb-width: 14px;
 
 .slider {
     display: inline-block;
@@ -16,36 +15,39 @@
     width: 100%;
 
     &__track {
-        background-color: @slider-track-color;
-        border-radius: 999rem;
+        background-color: @dp-surface3;
+        border-radius: 999px;
         display: inline-block;
         height: @slider-track-height;
         margin-left: @slider-thumb-width / 2;
         margin-top: (@slider-height - @slider-track-height) / 2;
         position: absolute;
+        transition: height @time-fast, margin-top @time-fast;
         width: calc(100% - @slider-thumb-width);
 
         &__fill {
-            background-color: @slider-track-fill-color;
-            border-radius: 999rem;
+            background: linear-gradient(90deg, darken(@color-control-active, 10%), @color-control-active);
+            border-radius: 999px;
             display: inline-block;
             height: 100%;
             position: absolute;
+            transition: width 60ms;
 
             &::before {
-                background-color: @slider-track-fill-color;
+                background: linear-gradient(90deg, darken(@color-control-active, 10%), @color-control-active);
                 content: "";
                 height: 100%;
                 position: absolute;
                 right: 100%;
                 width: @slider-thumb-width / 2;
+                border-radius: 999px 0 0 999px;
             }
         }
 
         &::before,
         &::after {
-            background-color: @slider-track-color;
-            border-radius: 999rem;
+            background-color: @dp-surface3;
+            border-radius: 999px;
             content: "";
             height: 100%;
             position: absolute;
@@ -63,35 +65,43 @@
     }
 
     &__thumb {
-        background-color: @slider-thumb-color;
+        background-color: #fff;
         border-radius: 50%;
-        cursor: pointer;
+        cursor: grab;
         display: inline-block;
         height: @slider-thumb-size;
         margin-left: -@slider-thumb-width / 2;
         margin-top: (@slider-height - @slider-thumb-size) / 2;
         position: absolute;
+        transition: width @time-fast, height @time-fast, margin-top @time-fast, box-shadow @time-fast;
         width: @slider-thumb-width;
 
+        &:active { cursor: grabbing; }
+
         &__value {
-            color: @color-control-fore;
+            color: @color-fore;
             cursor: default;
-            left: calc(100% + @size-text-normal / 2);
+            font-family: @font-mono;
+            font-size: 0.6875rem;
+            font-weight: 500;
+            left: calc(100% + 0.4rem);
             line-height: @slider-thumb-size;
             position: absolute;
             user-select: none;
+            white-space: nowrap;
 
             &--flip {
                 left: initial;
-                right: calc(100% + @size-text-normal / 2);
+                right: calc(100% + 0.4rem);
             }
         }
     }
 
     &--active &__thumb {
-        box-shadow: 0 0 0 0.125rem fade(@color-control-active, 35%);
+        box-shadow: 0 0 0 5px @dp-accent-glow;
         height: @slider-thumb-active-size;
         margin-top: (@slider-height - @slider-thumb-active-size) / 2;
+        width: @slider-thumb-active-size;
 
         &__value { line-height: @slider-thumb-active-size; }
     }

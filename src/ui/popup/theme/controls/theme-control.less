@@ -7,20 +7,30 @@
     width: 100%;
 
     &__label {
-        font-size: @size-text-normal;
+        font-size: @size-text-small;
+        font-weight: 500;
         line-height: @size-text-normal;
         text-align: left;
+        color: @color-control-fore-inactive;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
         -moz-user-select: none;
         user-select: none;
-        width: 50%;
+        width: 42%;
     }
 }
 
 .export-theme-button {
     background-color: @color-control-active;
     border: none;
-    height: 1.25rem;
-    margin-bottom: 0.25rem;
-    margin-top: 0.625rem;
+    border-radius: @dp-radius-xs;
+    height: @size-control-inner;
+    margin-bottom: 0;
+    margin-top: @indent-small;
     width: 100%;
+    font-weight: 500;
+    transition: filter @time-fast, transform 80ms;
+
+    &:hover { filter: brightness(1.1); }
+    &:active { transform: scale(0.97); }
 }

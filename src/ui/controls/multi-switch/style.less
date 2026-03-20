@@ -1,14 +1,16 @@
 @import "../../theme";
 
 .multi-switch {
-    background-color: @color-control-back;
+    background-color: @dp-surface2;
     border: @size-border solid @color-border;
-    border-radius: 999rem;
+    border-radius: 999px;
     box-sizing: content-box;
     color: @color-control-fore;
     display: inline-flex;
     height: @size-control-inner;
     overflow: hidden;
+    padding: 3px;
+    gap: 2px;
     position: relative;
     user-select: none;
 
@@ -23,11 +25,15 @@
         position: relative;
         transition: color @time-fast;
         white-space: nowrap;
-        width: 50%;
         z-index: 1;
+        border-radius: 999px;
+        flex: 1;
+        font-size: @size-text-small;
+        font-weight: 500;
 
         &:hover:not(&--selected) {
             color: @color-control-fore;
+            background: @dp-surface3;
         }
 
         &--selected {
@@ -41,13 +47,13 @@
 
     &__highlight {
         background-color: @color-control-active;
-        border-radius: 999rem;
+        border-radius: 999px;
         display: inline-block;
-        height: calc(100% - 0.25rem);
-        left: 0.125rem;
+        height: 100%;
+        left: 0;
         position: absolute;
-        top: 0.125rem;
-        transition: left @time-fast, width @time-fast;
+        top: 0;
+        transition: left @time-fast cubic-bezier(0.4, 0, 0.2, 1), width @time-fast cubic-bezier(0.4, 0, 0.2, 1);
         width: 0;
     }
 }

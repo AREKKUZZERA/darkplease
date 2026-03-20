@@ -1,31 +1,41 @@
 @import "../../../theme";
 
-@collapsible-panel-button-size: 1.25rem;
+@collapsible-panel-button-size: @size-control-inner;
 
 .collapsible-panel {
     &__group {
         &__expand-button {
             align-items: center;
-            background-color: @color-control-active;
+            background-color: @dp-surface2;
             background-image: @icon-plus;
-            background-position: center left 0.375rem;
+            background-position: center left 0.5rem;
             background-repeat: no-repeat;
             background-size: 0.5rem;
-            color: @color-control-fore;
+            border: @size-border solid @color-border2;
+            border-radius: @dp-radius-xs;
+            color: @color-control-fore-inactive;
             cursor: pointer;
             display: none;
+            font-size: @size-text-small;
+            font-weight: 500;
             height: @collapsible-panel-button-size;
             justify-content: center;
             line-height: @collapsible-panel-button-size;
             text-align: center;
+            transition: background-color @time-fast, color @time-fast;
             width: 100%;
+
+            &:hover {
+                background-color: @dp-surface3;
+                color: @color-fore;
+            }
         }
 
         &--collapsed {
             .collapsible-panel__group__expand-button {
                 display: inline-flex;
             }
-    
+
             .collapsible-panel__group__content {
                 display: none;
             }

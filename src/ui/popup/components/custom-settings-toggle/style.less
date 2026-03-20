@@ -3,17 +3,22 @@
 .custom-settings-toggle {
     color: @color-fore;
     white-space: normal;
+    border-radius: @dp-radius-xs;
+    transition: background-color @time-fast, color @time-fast, border-color @time-fast, transform 80ms;
+    font-size: @size-text-small;
+    font-weight: 500;
 
     &--checked,
     &:active,
     &--checked:hover {
         background-color: @color-control-active;
-        color: mix(@color-fore, @color-control-fore, 80%);
+        border-color: @color-control-active;
+        color: #fff;
         transition: background-color @time-fast, color @time-fast;
     }
 
     &--disabled {
-        opacity: 0.5;
+        opacity: 0.45;
         pointer-events: none;
     }
 
@@ -21,6 +26,10 @@
         color: @color-control-fore;
         -moz-user-select: none;
         user-select: none;
+    }
+
+    &:active {
+        transform: scale(0.97);
     }
 
     .button__wrapper {

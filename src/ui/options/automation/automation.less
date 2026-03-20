@@ -9,7 +9,7 @@
         }
 
         .time-range-picker .time-range-picker__input--start {
-            border-left: @size-border-inner solid @color-border;
+            border-left: @size-border-inner solid @color-border2;
         }
     }
 
@@ -31,12 +31,12 @@
         }
 
         &__latitude {
-            border-left: @size-border-inner solid @color-border;
+            border-left: @size-border-inner solid @color-border2;
             border-right: none;
         }
 
         &__longitude {
-            border-left: @size-border-inner solid @color-border;
+            border-left: @size-border-inner solid @color-border2;
         }
     }
 
@@ -60,7 +60,7 @@
 
         &:hover &__button,
         &:hover &__checkbox {
-            background-color: @color-control-hover;
+            background-color: @dp-surface3;
         }
 
         &:hover &__button--active {
@@ -71,7 +71,7 @@
     &__behavior {
         .dropdown {
             background-color: transparent;
-            box-shadow: inset 0 0 0 @size-border @color-border;
+            box-shadow: inset 0 0 0 @size-border @color-border2;
             cursor: pointer;
             height: @size-control-inner + 2 * @size-border;
             margin-bottom: @size-control-inner + @size-border;
@@ -87,12 +87,12 @@
                 width: calc(100% - 2 * @size-border);
 
                 &:hover {
-                    background-color: @color-control-hover;
+                    background-color: @dp-surface3;
                 }
             }
     
             &--open .dropdown__list {
-                border: @size-border solid @color-border;
+                border: @size-border solid @color-border2;
                 margin-top: 0;
                 padding-top: @size-border;
             }

@@ -14,7 +14,7 @@
     }
 
     &__textbox.textbox {
-        border-radius: 0.5rem 0 0 0.5rem;
+        border-radius: @dp-radius-xs 0 0 @dp-radius-xs;
         border-right: none;
         flex: auto;
         min-width: 0;
@@ -23,7 +23,7 @@
 
     &__expand {
         border-left: @size-border solid @color-border;
-        border-radius: 0 0.5rem 0.5rem 0;
+        border-radius: 0 @dp-radius-xs @dp-radius-xs 0;
         flex: none;
         width: @size-control-inner;
 
@@ -59,7 +59,7 @@
 
     &__list {
         display: none;
-        background-color: @color-control-back;
+        background-color: @dp-surface2;
         border: @size-border solid @color-border;
         border-radius: 0.5rem;
         margin-top: 0.25rem;
@@ -86,7 +86,7 @@
 
     &__option {
         align-items: center;
-        background-color: @color-control-back;
+        background-color: @dp-surface2;
         cursor: pointer;
         display: flex;
         flex: none;
@@ -95,7 +95,7 @@
         padding-left: @size-control-inner / 2 - @size-text-normal / 2;
 
         &:hover {
-            background-color: @color-control-hover;
+            background-color: @dp-surface3;
         }
     }
 }

@@ -21,13 +21,25 @@
         display: flex;
     }
 
+    &__content {
+        flex: auto;
+        overflow-y: auto;
+    }
+
     &__back-button {
         background-image: @icon-left;
-        background-position: center left 0.25rem;
+        background-position: center left 0.5rem;
         background-repeat: no-repeat;
-        background-size: 1rem;
+        background-size: 0.875rem;
         flex: none;
         margin-top: @indent-small;
         width: calc(100% - 2 * @size-border);
+        font-size: @size-text-small;
+        color: @color-control-fore-inactive;
+        padding-left: 1.5rem;
+
+        &:hover {
+            color: @color-fore;
+        }
     }
 }

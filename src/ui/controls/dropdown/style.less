@@ -1,6 +1,7 @@
-@dropdown-height: 1.5rem;
-@dropdown-item-height: 1.25rem;
-@dropdown-item-active-height: 1.5rem;
+@import "../../theme";
+
+@dropdown-height: @size-control-inner;
+@dropdown-item-height: @size-control-inner;
 
 .dropdown {
     display: inline-block;
@@ -12,24 +13,32 @@
 
     &__selected {
         align-items: center;
-        background-color: @color-control-active;
+        background-color: @dp-surface2;
         background-image: @icon-down;
-        background-position: center right 0.25rem;
+        background-position: center right 0.4rem;
         background-repeat: no-repeat;
-        background-size: 1rem;
+        background-size: 0.875rem;
+        border: @size-border solid @color-border2;
+        border-radius: @dp-radius-xs;
         color: @color-control-fore;
+        cursor: pointer;
         display: inline-flex;
         height: @dropdown-item-height;
         justify-content: center;
         line-height: @dropdown-item-height;
-        margin-top: (@dropdown-height - @dropdown-item-height) / 2;
         position: absolute;
         text-align: center;
+        transition: background-color @time-fast, border-color @time-fast;
         width: 100%;
+
+        &:hover {
+            background-color: @dp-surface3;
+            border-color: @color-border2;
+        }
 
         &__text {
             display: inline-block;
-            max-width: calc(100% - 2.5rem);
+            max-width: calc(100% - 2rem);
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -37,30 +46,35 @@
     }
 
     &__list {
-        background-color: @color-control-back;
-        border: @size-border solid @color-border;
+        background-color: @dp-surface;
+        border: @size-border solid @color-border2;
+        border-radius: @dp-radius-xs;
         border-top: none;
-        box-shadow: 0 0 0.25rem black;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.5);
         box-sizing: border-box;
         display: none;
-        margin-top: (@dropdown-height - @dropdown-item-height) / 2;
+        margin-top: @dropdown-height;
         overflow: hidden;
         position: absolute;
         width: 100%;
+        z-index: 10;
 
         &__item {
             align-items: center;
-            background-color: @color-control-back;
+            background-color: @dp-surface;
             color: @color-control-fore;
+            cursor: pointer;
             display: inline-flex;
             justify-content: center;
             min-height: @dropdown-item-height;
             text-align: center;
+            transition: background-color @time-fast;
             width: 100%;
-            
+
             &:hover {
-                background-color: @color-control-hover;
-                transition: background-color @time-fast;
+                background-color: @dp-surface2;
             }
 
             &--selected {
@@ -73,18 +87,16 @@
 
     &--open &__list {
         display: inline-block;
-        margin-top: (@dropdown-height - @dropdown-item-active-height) / 2;
-        z-index: 1;
 
         &__item {
-            min-height: @dropdown-item-active-height;
+            min-height: @dropdown-item-height;
         }
     }
 
     &--open &__selected {
-        height: @dropdown-item-active-height;
-        margin-top: (@dropdown-height - @dropdown-item-active-height) / 2;
-        z-index: 2;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        border-color: @color-control-active;
     }
 }
 

@@ -1,9 +1,14 @@
 @import "../../theme";
 
+@toggle-width: 40px;
+@toggle-height: 22px;
+@toggle-thumb: 16px;
+@toggle-gap: 3px;
+
 .toggle {
-    background-color: @color-control-back;
-    border: @size-border solid @color-border;
-    border-radius: 999rem;
+    background-color: @dp-surface3;
+    border: @size-border solid @color-border2;
+    border-radius: 999px;
     box-sizing: content-box;
     color: @color-control-fore;
     display: inline-flex;
@@ -25,6 +30,8 @@
         white-space: nowrap;
         width: 50%;
         z-index: 1;
+        font-size: @size-text-small;
+        font-weight: 500;
 
         &:hover:not(&--active) {
             color: @color-control-fore;
@@ -37,20 +44,20 @@
 
     &::before {
         background-color: @color-control-active;
-        border-radius: 999rem;
+        border-radius: 999px;
         content: "";
         display: inline-block;
-        height: calc(100% - 0.25rem);
-        left: calc(50% + 0.125rem);
+        height: calc(100% - 0.3rem);
+        left: calc(50% + 0.15rem);
         position: absolute;
-        top: 0.125rem;
-        transition: left @time-fast;
-        width: calc(50% - 0.25rem);
+        top: 0.15rem;
+        transition: left @time-fast cubic-bezier(0.4, 0, 0.2, 1);
+        width: calc(50% - 0.3rem);
     }
 
     &--checked {
         &::before {
-            left: 0.125rem;
+            left: 0.15rem;
         }
     }
 

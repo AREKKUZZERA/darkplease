@@ -2,15 +2,24 @@
 
 .nav-button {
     background-image: @icon-right;
-    background-position: center right 0.25rem;
+    background-position: center right 0.5rem;
     background-repeat: no-repeat;
-    background-size: 1rem;
+    background-size: 0.875rem;
     width: calc(100% - 2 * @size-border);
+    font-size: @size-text-small;
+    font-weight: 500;
+    color: @color-control-fore-inactive;
+    transition: background-color @time-fast, color @time-fast;
+
+    &:hover {
+        color: @color-fore;
+    }
 
     &__content {
         align-items: center;
         display: inline-flex;
         flex-direction: row;
         height: 100%;
+        gap: 0.25rem;
     }
 }

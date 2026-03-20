@@ -57,10 +57,11 @@ input, button {
     width: @size-scrollbar-thickness;
 
     &-thumb {
-        background-color: @color-control-hover;
+        background-color: @dp-surface3;
+        border-radius: 999px;
 
         &:hover {
-            background-color: mix(@color-control-hover, @color-control-active, 50%);
+            background-color: mix(@dp-surface3, @color-control-active, 60%);
         }
 
         &:active {
@@ -74,5 +75,6 @@ input, button {
 }
 
 * {
-    scrollbar-color: @color-control-hover @color-back;
+    scrollbar-color: @dp-surface3 @color-back;
+    scrollbar-width: thin;
 }

@@ -5,6 +5,7 @@
 
     &__description {
         color: @color-control-fore-inactive;
+        font-size: @size-text-small;
 
         &--on,
         &--off {
@@ -44,6 +45,7 @@
 
     &__description {
         color: @color-control-fore-inactive;
+        font-size: @size-text-small;
 
         &--on,
         &--off {
@@ -54,40 +56,53 @@
 
 .theme-group {
     align-items: stretch;
-    background-color: @color-control-back;
-    border: @size-border solid @color-border;
-    border-radius: 0.75rem;
+    background-color: @dp-surface;
+    border: @size-border solid @color-border2;
+    border-radius: @dp-radius;
     display: flex;
     flex-direction: column;
     padding: @indent-small;
+    gap: @indent-small;
 
     &__presets-wrapper {
-        background-color: @color-control-hover;
+        background-color: @dp-surface2;
         border: @size-border solid @color-border;
-        border-radius: 0.5rem;
+        border-radius: @dp-radius-sm;
         height: @size-control-inner;
         position: relative;
+        overflow: hidden;
 
         &::before { display: none; }
     }
 
     &__controls-wrapper {
         border: none;
-        padding: @indent-small 0 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: @indent-small;
     }
 
     &__more-button {
-        background-color: @color-control-hover;
+        background-color: @dp-surface2;
         background-image: @icon-right;
         background-position: center right 0.5rem;
         background-repeat: no-repeat;
-        background-size: 1rem;
-        border: @size-border solid @color-border;
-        border-radius: 0.5rem;
+        background-size: 0.875rem;
+        border: @size-border solid @color-border2;
+        border-radius: @dp-radius-xs;
         height: @size-control-inner;
         margin-bottom: 0;
-        margin-top: @indent-small;
+        margin-top: 0;
         width: 100%;
+        font-size: @size-text-small;
+        color: @color-control-fore-inactive;
+        transition: background-color @time-fast, color @time-fast;
+
+        &:hover {
+            background-color: @dp-surface3;
+            color: @color-fore;
+        }
     }
 
     &__description {
@@ -99,4 +114,16 @@
         user-select: none;
         width: 100%;
     }
+}
+
+.m-section {
+    display: flex;
+    flex-direction: column;
+    gap: @indent-small;
+}
+
+.m-theme-controls {
+    display: flex;
+    flex-direction: column;
+    gap: @indent-small;
 }

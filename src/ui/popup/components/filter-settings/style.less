@@ -4,11 +4,8 @@
     align-items: stretch;
     display: flex;
     flex-direction: column;
+    gap: @indent-small;
     width: 100%;
-
-    > :not(:first-child) {
-        margin-top: @indent-small;
-    }
 
     &__content {
         align-items: center;
@@ -25,14 +22,12 @@
     flex-direction: column;
     -moz-user-select: none;
     user-select: none;
+    gap: 4px;
 
     &__line {
         display: flex;
         flex-direction: row;
-
-        > :not(:first-child) {
-            margin-left: @indent-small;
-        }
+        gap: @indent-small;
     }
 
     .toggle {
@@ -43,13 +38,15 @@
         font-size: @size-text-small;
         line-height: @size-text-small-height;
         text-align: center;
+        color: @color-control-fore-inactive;
     }
 
     &__button--active {
         background: @color-control-active;
+        border-color: @color-control-active;
 
         &:hover {
-            background: @color-control-active;
+            background: lighten(@color-control-active, 5%);
         }
     }
 }
