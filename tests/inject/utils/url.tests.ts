@@ -6,7 +6,6 @@ it('URL is enabled', () => {
         return {
             schemeVersion: 2,
             enabled: false,
-            fetchNews: false,
             theme: null,
             presets: [],
             customThemes: [],

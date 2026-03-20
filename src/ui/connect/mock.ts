@@ -9,7 +9,6 @@ export function getMockData(override = {} as Partial<ExtensionData>): ExtensionD
         settings: {
             schemeVersion: 2,
             enabled: true,
-            fetchNews: true,
             presets: [],
             theme: {
                 mode: 1,
