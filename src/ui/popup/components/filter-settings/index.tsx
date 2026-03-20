@@ -12,12 +12,12 @@ function formatPercent(v: number) {
     return `${v}%`;
 }
 
-function SliderRow(props: {label: string; value: number; min: number; max: number; colorClass: string; onChange: (v: number) => void}) {
+function SliderRow(props: {label: string; value: number; min: number; max: number; onChange: (v: number) => void}) {
     return (
         <div class="filter-slider-row">
             <div class="filter-slider-row__header">
                 <span class="filter-slider-row__label">{props.label}</span>
-                <span class="filter-slider-row__value">{props.value}</span>
+                <span class="filter-slider-row__value">{String(props.value)}</span>
             </div>
             <Slider
                 value={props.value}
@@ -51,28 +51,24 @@ export default function FilterSettings({data, actions}: ExtWrapper, ...children:
                 label={getLocalMessage('brightness')}
                 value={theme.brightness}
                 min={50} max={150}
-                colorClass="brightness"
                 onChange={(v) => setConfig({brightness: v})}
             />
             <SliderRow
                 label={getLocalMessage('contrast')}
                 value={theme.contrast}
                 min={50} max={150}
-                colorClass="contrast"
                 onChange={(v) => setConfig({contrast: v})}
             />
             <SliderRow
                 label={getLocalMessage('sepia')}
                 value={theme.sepia}
                 min={0} max={100}
-                colorClass="sepia"
                 onChange={(v) => setConfig({sepia: v})}
             />
             <SliderRow
                 label={getLocalMessage('grayscale')}
                 value={theme.grayscale}
                 min={0} max={100}
-                colorClass="grayscale"
                 onChange={(v) => setConfig({grayscale: v})}
             />
             <CustomSettingsToggle data={data} actions={actions} />
