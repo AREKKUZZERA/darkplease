@@ -2,13 +2,15 @@
 
 .control-group {
     align-items: stretch;
-    display: inline-flex;
+    display: flex;
     flex-direction: column;
     gap: 3px;
     width: 100%;
 
     &__control {
-        height: 2 * @size-border + @size-control-inner;
+        display: flex;
+        align-items: stretch;
+        min-height: 2 * @size-border + @size-control-inner;
     }
 
     &__description {

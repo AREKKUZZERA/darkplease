@@ -6,53 +6,45 @@
     flex-direction: column;
     min-height: 0;
 
+    &__buttons {
+        background-color: @dp-surface2;
+        border: @size-border solid @color-border;
+        border-radius: 999px;
+        display: flex;
+        flex: none;
+        flex-direction: row;
+        gap: 3px;
+        justify-content: center;
+        padding: 3px;
+    }
+
     &__button {
         border: none;
-        border-radius: 0.5rem;
+        border-radius: 999px;
         box-sizing: border-box;
         color: @color-control-fore-inactive;
-        font-size: @size-text-large;
-        font-weight: bold;
-        height: @size-control-inner;
+        font-size: @size-text-small;
+        font-weight: 500;
+        height: @size-control-inner - 6px;
+        flex: 1;
         padding: 0 @indent-small;
         transition: background-color @time-fast, color @time-fast;
         white-space: pre;
 
-        &:hover {
-            background-color: @color-control-hover;
+        &:hover:not(&--active) {
+            background-color: @dp-surface3;
             color: @color-fore;
-        }
-
-        &:active {
-            background-color: lighten(@color-control-hover, 4%);
         }
 
         &--active {
             background-color: @color-control-active;
-            color: @color-control-fore;
+            color: #fff;
 
             &:hover,
             &:active {
-                background-color: lighten(@color-control-active, 4%);
-                color: @color-control-fore;
+                background-color: lighten(@color-control-active, 5%);
+                color: #fff;
             }
-        }
-    }
-
-    &__buttons {
-        background-color: transparent;
-        border: none;
-        border-radius: 0;
-        display: flex;
-        flex: none;
-        flex-direction: row;
-        gap: 0.25rem;
-        justify-content: center;
-        padding: 0;
-
-        &::before,
-        &::after {
-            display: none;
         }
     }
 
@@ -60,7 +52,7 @@
         display: flex;
         flex: auto;
         flex-direction: row;
-        margin-top: @indent-large;
+        margin-top: @indent-small;
         min-height: 0;
     }
 

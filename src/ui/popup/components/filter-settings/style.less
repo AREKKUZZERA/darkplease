@@ -16,6 +16,59 @@
     }
 }
 
+/* New slider rows replacing UpDown */
+.filter-slider-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 0 2px;
+
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &__label {
+        font-size: @size-text-small;
+        font-weight: 500;
+        color: @color-control-fore-inactive;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        user-select: none;
+    }
+
+    &__value {
+        font-size: @size-text-small;
+        font-weight: 500;
+        font-family: @font-mono;
+        color: @color-fore;
+        min-width: 2rem;
+        text-align: right;
+    }
+
+    /* Per-parameter colored fills */
+    &:nth-child(2) .slider__track__fill,
+    &:nth-child(2) .slider__track__fill::before {
+        background: linear-gradient(90deg, #e67800, #ffb300);
+    }
+
+    &:nth-child(3) .slider__track__fill,
+    &:nth-child(3) .slider__track__fill::before {
+        background: linear-gradient(90deg, #8844ff, @color-control-active);
+    }
+
+    &:nth-child(4) .slider__track__fill,
+    &:nth-child(4) .slider__track__fill::before {
+        background: linear-gradient(90deg, #8b6040, #c8a06a);
+    }
+
+    &:nth-child(5) .slider__track__fill,
+    &:nth-child(5) .slider__track__fill::before {
+        background: linear-gradient(90deg, #555, #aaa);
+    }
+}
+
 .mode-toggle {
     align-items: stretch;
     display: flex;
@@ -44,6 +97,7 @@
     &__button--active {
         background: @color-control-active;
         border-color: @color-control-active;
+        color: #fff;
 
         &:hover {
             background: lighten(@color-control-active, 5%);

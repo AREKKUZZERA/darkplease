@@ -1,15 +1,29 @@
 @import "../../theme.less";
 
 .check-button {
+    width: 100%;
+
+    .control-group__control {
+        width: 100%;
+    }
+
     .checkbox {
-        width: calc(100% - 2 * @size-border);
+        width: 100%;
         border-radius: @dp-radius-xs;
         height: @size-control-inner;
+        border-color: @color-border2;
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
 
         &__checkmark {
+            flex-shrink: 0;
+            width: @size-control-inner;
+            height: @size-control-inner;
             background-color: @dp-surface3;
             border-radius: @dp-radius-xs - 2px;
             transition: background-color @time-fast;
+            position: relative;
 
             &::before,
             &::after {
@@ -20,7 +34,7 @@
         &__content {
             align-items: center;
             display: flex;
-            flex: auto;
+            flex: 1;
             height: @size-control-inner;
             justify-content: center;
             -moz-user-select: none;
@@ -45,7 +59,7 @@
     }
 
     &__description {
-        display: inline-block;
+        display: block;
         font-size: @size-text-small;
         line-height: @size-text-small-height;
         text-align: center;

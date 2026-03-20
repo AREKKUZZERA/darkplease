@@ -3,10 +3,33 @@ import {m} from 'malevic';
 import type {ExtWrapper, Theme} from '../../../../definitions';
 import {getLocalMessage} from '../../../../utils/locales';
 import {isURLInList} from '../../../../utils/url';
-import {UpDown} from '../../../controls';
+import {Slider} from '../../../controls';
 import CustomSettingsToggle from '../custom-settings-toggle';
 
 import ModeToggle from './mode-toggle';
+
+function formatPercent(v: number) {
+    return `${v}%`;
+}
+
+function SliderRow(props: {label: string; value: number; min: number; max: number; colorClass: string; onChange: (v: number) => void}) {
+    return (
+        <div class="filter-slider-row">
+            <div class="filter-slider-row__header">
+                <span class="filter-slider-row__label">{props.label}</span>
+                <span class="filter-slider-row__value">{props.value}</span>
+            </div>
+            <Slider
+                value={props.value}
+                min={props.min}
+                max={props.max}
+                step={1}
+                formatValue={formatPercent}
+                onChange={props.onChange}
+            />
+        </div>
+    );
+}
 
 export default function FilterSettings({data, actions}: ExtWrapper, ...children: Malevic.Child[]) {
     const custom = data.settings.customThemes.find(({url}) => isURLInList(data.activeTab.url, url));
@@ -21,61 +44,37 @@ export default function FilterSettings({data, actions}: ExtWrapper, ...children:
         }
     }
 
-    const brightness = (
-        <UpDown
-            value={theme.brightness}
-            min={50}
-            max={150}
-            step={5}
-            default={100}
-            name={getLocalMessage('brightness')}
-            onChange={(value) => setConfig({brightness: value})}
-        />
-    );
-
-    const contrast = (
-        <UpDown
-            value={theme.contrast}
-            min={50}
-            max={150}
-            step={5}
-            default={100}
-            name={getLocalMessage('contrast')}
-            onChange={(value) => setConfig({contrast: value})}
-        />
-    );
-
-    const grayscale = (
-        <UpDown
-            value={theme.grayscale}
-            min={0}
-            max={100}
-            step={5}
-            default={0}
-            name={getLocalMessage('grayscale')}
-            onChange={(value) => setConfig({grayscale: value})}
-        />
-    );
-
-    const sepia = (
-        <UpDown
-            value={theme.sepia}
-            min={0}
-            max={100}
-            step={5}
-            default={0}
-            name={getLocalMessage('sepia')}
-            onChange={(value) => setConfig({sepia: value})}
-        />
-    );
-
     return (
         <section class="filter-settings">
             <ModeToggle mode={theme.mode} onChange={(mode) => setConfig({mode})} />
-            {brightness}
-            {contrast}
-            {sepia}
-            {grayscale}
+            <SliderRow
+                label={getLocalMessage('brightness')}
+                value={theme.brightness}
+                min={50} max={150}
+                colorClass="brightness"
+                onChange={(v) => setConfig({brightness: v})}
+            />
+            <SliderRow
+                label={getLocalMessage('contrast')}
+                value={theme.contrast}
+                min={50} max={150}
+                colorClass="contrast"
+                onChange={(v) => setConfig({contrast: v})}
+            />
+            <SliderRow
+                label={getLocalMessage('sepia')}
+                value={theme.sepia}
+                min={0} max={100}
+                colorClass="sepia"
+                onChange={(v) => setConfig({sepia: v})}
+            />
+            <SliderRow
+                label={getLocalMessage('grayscale')}
+                value={theme.grayscale}
+                min={0} max={100}
+                colorClass="grayscale"
+                onChange={(v) => setConfig({grayscale: v})}
+            />
             <CustomSettingsToggle data={data} actions={actions} />
             <div class="filter-settings__content">
                 {...children}
