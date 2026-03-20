@@ -1,8 +1,6 @@
 name: Run code tests on Pull Request or Push
 
 on:
-  # Runs for pushes and pull requests,
-  #  but don't run these when only some config is changed.
   push:
     branches:
       - main
@@ -42,10 +40,7 @@ jobs:
           cache: npm
 
       - name: Install npm dependencies
-        run: npm ci
-
-      - name: Deps
-        run: cat package-lock.json
+        run: npm install
 
       - name: Lint code for code-style errors
         run: npm run lint

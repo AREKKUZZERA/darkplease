@@ -1,8 +1,6 @@
 name: Run browser tests
 
 on:
-  # Runs for pushes, pull requests, and manual triggers.
-  # (Dooes not run when only some config is changed.)
   push:
     branches:
       - main
@@ -89,10 +87,7 @@ jobs:
           cache: npm
 
       - name: Install NPM dependencies
-        run: npm ci
-
-      - name: Deps
-        run: cat package-lock.json
+        run: npm install
 
       - name: Run injection tests
         run: npm run test:inject -- --ci --json --outputFile=test-results-inject.json
