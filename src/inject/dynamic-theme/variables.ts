@@ -28,6 +28,27 @@ const VAR_TYPE_BG_IMG = 1 << 3;
 
 const shouldSetDefaultColor = !location.hostname.startsWith('www.ebay.') && !location.hostname.includes('.ebay.');
 
+// Split a CSS value on top-level commas (i.e. commas not inside any parentheses).
+// Used to separate individual layers of a multi-layer background value.
+function splitOnTopLevelCommas(value: string): string[] {
+    const layers: string[] = [];
+    let depth = 0;
+    let start = 0;
+    for (let i = 0; i < value.length; i++) {
+        const ch = value[i];
+        if (ch === '(') {
+            depth++;
+        } else if (ch === ')') {
+            depth--;
+        } else if (ch === ',' && depth === 0) {
+            layers.push(value.substring(start, i).trim());
+            start = i + 1;
+        }
+    }
+    layers.push(value.substring(start).trim());
+    return layers;
+}
+
 export class VariablesStore {
     private varTypes = new Map<string, number>();
     private rulesQueue = new Set<CSSRuleList | CSSRule[]>();
@@ -328,6 +349,35 @@ export class VariablesStore {
             };
         }
         return null;
+    }
+
+    // Returns a CSSValueModifier that produces the background-image value
+    // (e.g. "var(--darkplease-bgimg---x), var(--darkplease-bgimg---y)") for a
+    // multi-layer `background` shorthand where every layer contains a bgimg var.
+    // Returns null when the workaround is not needed (single layer, or no bgimg vars).
+    getBgImgLayerModifier(sourceValue: string): CSSValueModifier | null {
+        const layers = splitOnTopLevelCommas(sourceValue);
+        if (layers.length < 2) {
+            return null;
+        }
+        // Collect the wrapped var name for the bgimg variable in each layer.
+        // If any layer has no bgimg var, this shorthand isn't the target case.
+        const imageVarTokens: string[] = [];
+        for (const layer of layers) {
+            let found: string | null = null;
+            replaceCSSVariablesNames(layer, (v) => {
+                if (found === null && this.isVarType(v, VAR_TYPE_BG_IMG)) {
+                    found = `var(${wrapBgImgVariableName(v)})`;
+                }
+                return v;
+            });
+            if (found === null) {
+                return null;
+            }
+            imageVarTokens.push(found);
+        }
+        const bgImageValue = imageVarTokens.join(', ');
+        return (_theme) => bgImageValue;
     }
 
     private subscribeForVarTypeChange(varName: string, callback: () => void) {

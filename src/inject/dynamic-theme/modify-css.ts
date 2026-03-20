@@ -61,7 +61,7 @@ export function getModifiableCSSDeclaration(
     variablesStore: VariablesStore,
     ignoreImageSelectors: string[],
     isCancelled: (() => boolean) | null,
-): ModifiableCSSDeclaration | null {
+): ModifiableCSSDeclaration | ModifiableCSSDeclaration[] | null {
     let modifier: ModifiableCSSDeclaration['value'] | null = null;
     if (property.startsWith('--')) {
         modifier = getVariableModifier(variablesStore, property, value, rule, ignoreImageSelectors, isCancelled!);
@@ -104,7 +104,28 @@ export function getModifiableCSSDeclaration(
         return null;
     }
 
-    return {property, value: modifier, important: getPriority(rule.style, property), sourceValue: value};
+    const important = getPriority(rule.style, property);
+    const primary: ModifiableCSSDeclaration = {property, value: modifier, important, sourceValue: value};
+
+    // Firefox 148 regression: a `background` shorthand containing two or more layers
+    // where each image slot resolves via a var() custom property causes the browser to
+    // compute background-image as 'none'.  Emitting an explicit background-image
+    // declaration with just the image var() references (one per layer) fixes this
+    // without affecting Chrome or other Firefox versions.
+    if (property === 'background' && typeof modifier === 'function') {
+        const bgImgModifier = variablesStore.getBgImgLayerModifier(value);
+        if (bgImgModifier !== null) {
+            const bgImgDec: ModifiableCSSDeclaration = {
+                property: 'background-image',
+                value: bgImgModifier,
+                important,
+                sourceValue: value,
+            };
+            return [primary, bgImgDec];
+        }
+    }
+
+    return primary;
 }
 
 function joinSelectors(...selectors: string[]) {
