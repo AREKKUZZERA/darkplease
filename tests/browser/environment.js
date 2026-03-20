@@ -3,7 +3,7 @@ import {launch, connect} from 'puppeteer-core';
 import {WebSocketServer} from 'ws';
 
 import {generateHTMLCoverageReports} from './coverage.js';
-import {getChromePath, getFirefoxPath, chromeMV3ExtensionDebugDir, chromePlusExtensionDebugDir, firefoxExtensionDebugDir, getEdgePath} from './paths.js';
+import {getChromePath, getFirefoxPath, chromeExtensionDebugDir, chromeMV3ExtensionDebugDir, chromePlusExtensionDebugDir, firefoxExtensionDebugDir, getEdgePath} from './paths.js';
 import {createTestServer, generateRandomId} from './server.js';
 
 const TEST_SERVER_PORT = 8891;
@@ -69,6 +69,8 @@ export default class CustomJestEnvironment extends TestEnvironment {
             browser = await this.launchEdge();
         } else if (this.global.product === 'chrome-mv3') {
             browser = await this.launchChrome();
+        } else if (this.global.product === 'chrome' || this.global.product === 'chrome-mv2') {
+            browser = await this.launchChromeMV2();
         } else if (this.global.product === 'firefox') {
             browser = await this.launchFirefox();
         }
@@ -90,6 +92,28 @@ export default class CustomJestEnvironment extends TestEnvironment {
         }
         // Explanation of these options:
         // https://pptr.dev/guides/chrome-extensions
+        return await launch({
+            args: [
+                '--show-component-extension-options',
+            ],
+            enableExtensions: [extensionDir],
+            executablePath,
+            headless: false,
+            pipe: true,
+        });
+    }
+
+    /**
+     * @returns {Promise<Browser>}
+     */
+    async launchChromeMV2() {
+        const extensionDir = chromeExtensionDebugDir;
+        let executablePath;
+        try {
+            executablePath = await getChromePath();
+        } catch (e) {
+            console.error(e);
+        }
         return await launch({
             args: [
                 '--show-component-extension-options',
