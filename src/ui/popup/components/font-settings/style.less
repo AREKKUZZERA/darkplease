@@ -1,14 +1,34 @@
 @import "../../../theme";
 
+/* ═══════════════════════════════════════════════════
+   Font Settings — redesigned from scratch
+
+   Layout of the font-select row:
+     [ checkbox ] [ ▼ Selected Font Name      ]
+
+   The dropdown opens BELOW the trigger, shows a
+   compact search field at the top, then the list.
+   Each row renders the font name in its own typeface.
+═══════════════════════════════════════════════════ */
+
+/* Dropdown open animation — мягкий fade, без движения */
+@keyframes dp-font-list-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ─── Outer section wrapper ─── */
 .font-settings {
   display: flex;
   flex-direction: column;
   gap: @indent-small;
 
+  /* Row: checkbox + trigger */
   &__font-select-container {
     display: flex;
     flex-direction: column;
     gap: 3px;
+    position: relative;
 
     &__line {
       align-items: center;
@@ -25,6 +45,7 @@
     }
   }
 
+  /* Text-stroke row */
   &__stroke-row {
     display: flex;
     flex-direction: column;
@@ -33,27 +54,152 @@
   }
 
   &__stroke-header {
-    display: flex;
     align-items: center;
+    display: flex;
     justify-content: space-between;
     padding: 0 2px;
   }
 
   &__stroke-label {
+    color: @mut;
     font-size: 9px;
     font-weight: 700;
-    color: @mut;
-    text-transform: uppercase;
     letter-spacing: 0.12em;
+    text-transform: uppercase;
     user-select: none;
   }
 
   &__stroke-value {
+    color: @txt;
+    font-family: @font-mono;
     font-size: @size-text-small;
     font-weight: 500;
-    font-family: @font-mono;
-    color: @txt;
     min-width: 2rem;
     text-align: right;
+  }
+}
+
+/* ─── Select control overrides (font picker context only) ───
+   The base .select lives in controls/select/style.less and
+   is used elsewhere. We override visuals here, scoped tightly
+   so nothing else is affected.
+─────────────────────────────────────────────────────────── */
+
+.font-settings .select {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Trigger row: text input + chevron button */
+.font-settings .select__line {
+  background-color: @s2;
+  border: 1px solid @b2;
+  border-radius: @dp-radius-xs;
+  transition:
+    border-color 120ms ease,
+    background-color 120ms ease;
+
+  &:hover {
+    background-color: @s3;
+    border-color: @b3;
+  }
+
+  &:focus-within {
+    border-color: @acc;
+    background-color: @s3;
+  }
+}
+
+.font-settings .select__textbox.textbox {
+  background-color: transparent;
+  color: @txt;
+  font-size: @size-text-small;
+  font-weight: 500;
+  padding-left: @indent-small;
+  padding-right: 0.25rem;
+
+  &:hover,
+  &:focus {
+    background-color: transparent;
+    border: none;
+  }
+}
+
+/* Chevron expand button */
+.font-settings .select__expand {
+  background-color: transparent;
+  border-left: 1px solid @b1;
+  width: @size-control-inner - 4px;
+  transition: background-color 120ms ease;
+
+  &:hover {
+    background-color: @s4;
+  }
+
+  &__icon {
+    &::before,
+    &::after {
+      background-color: @mut;
+      height: 1.5px;
+      width: @size-control-inner * 0.22;
+    }
+
+    &::before {
+      left: @size-control-inner * 0.22;
+      transform: skewY(44deg);
+    }
+
+    &::after {
+      left: @size-control-inner * 0.45;
+      transform: skewY(-44deg);
+    }
+  }
+}
+
+/* Floating list panel */
+.font-settings .select__list {
+  background-color: @s1;
+  border: 1px solid @b2;
+  border-radius: @dp-radius-xs;
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.4),
+    0 16px 40px rgba(0, 0, 0, 0.5);
+  margin-top: 3px;
+  max-height: 11rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: @s5 transparent;
+
+  &--expanded {
+    animation: dp-font-list-in 180ms ease both;
+  }
+
+  &--short {
+    overflow-y: hidden;
+  }
+}
+
+/* Each font row */
+.font-settings .select__option {
+  background-color: transparent;
+  color: @txt2;
+  font-size: @size-text-small;
+  min-height: 1.75rem;
+  padding: 0 @indent-small;
+  transition:
+    background-color 100ms ease,
+    color            100ms ease;
+
+  > div {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+  }
+
+  &:hover {
+    background-color: @s3;
+    color: @txt;
   }
 }
