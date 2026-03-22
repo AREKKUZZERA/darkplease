@@ -19,9 +19,12 @@
 
 /* ─── Outer section wrapper ─── */
 .font-settings {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: @indent-small;
+  min-width: 0;
+  width: 100%;
 
   /* Row: checkbox + trigger */
   &__font-select-container {
@@ -47,10 +50,14 @@
 
   /* Text-stroke row */
   &__stroke-row {
+    background-color: @s1;
+    border: 1px solid @b2;
+    border-radius: @dp-radius;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     gap: 5px;
-    padding: 0 1px;
+    padding: @indent-small 13px;
   }
 
   &__stroke-header {

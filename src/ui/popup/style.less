@@ -23,7 +23,7 @@
 body {
   align-items: stretch;
   background-color: @bg;
-  box-sizing: content-box;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   height: @popup-content-height;
@@ -44,16 +44,14 @@ body {
    TAB PANEL
 ══════════════════════════════════════ */
 .tab-panel {
-  flex: 1 1 0;
-  min-height: 0;
-  overflow: hidden;
   display: flex;
+  flex: 1 1 0;
   flex-direction: column;
-
-  &__tab--active {
-    animation: dp-tab-in 200ms cubic-bezier(0.2,0,0,1) both;
-  }
+  min-height: 0;
+  min-width: 0;
+  overflow: visible;
 }
+
 
 /* ══════════════════════════════════════
    FOOTER LINKS / BUTTONS

@@ -12,7 +12,7 @@ export default function Tab({isActive}: TabProps, ...children: Malevic.Child[]) 
 
     return (
         <div class={tabCls}>
-            {children}
+            {isActive ? <div class="tab-panel__tab-content">{children}</div> : null}
         </div>
     );
 }
