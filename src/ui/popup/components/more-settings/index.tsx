@@ -39,19 +39,6 @@ export default function MoreSettings({data, actions, fonts}: ExtWrapper & {fonts
             </div>
             <div class="more-settings__section">
                 <CustomSettingsToggle data={data} actions={actions} />
-                {tab.isProtected ? (
-                    <p class="more-settings__description more-settings__description--warning">
-                        {getLocalMessage('page_protected').replace(/\n/g, ' ')}
-                    </p>
-                ) : tab.isInDarkList ? (
-                    <p class="more-settings__description more-settings__description--warning">
-                        {getLocalMessage('page_in_dark_list').replace(/\n/g, ' ')}
-                    </p>
-                ) : (
-                    <p class="more-settings__description">
-                        {getLocalMessage('only_for_description')}
-                    </p>
-                )}
             </div>
             {isFirefox ? (
                 <div class="more-settings__section">
@@ -61,9 +48,6 @@ export default function MoreSettings({data, actions, fonts}: ExtWrapper & {fonts
                         labelOff={getLocalMessage('custom_browser_theme_off')}
                         onChange={(checked) => actions.changeSettings({changeBrowserTheme: checked})}
                     />
-                    <p class="more-settings__description">
-                        {getLocalMessage('change_browser_theme')}
-                    </p>
                 </div>
             ) : null}
             <div class="more-settings__section">

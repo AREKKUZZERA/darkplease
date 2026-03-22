@@ -36,7 +36,6 @@ export default function EngineSwitch({engine, onChange}: EngineSwitchProps) {
                 }}
                 onclick={openCSSEditor}
             ></span>
-            <label class="engine-switch__description">{getLocalMessage('theme_generation_mode')}</label>
         </div>
     );
 }
