@@ -19,9 +19,9 @@ import {combineFixes, findRelevantFix} from './fixes';
 import {getStyleInjectionMode, injectStyleAway, removeStyleContainer} from './injection';
 import {overrideInlineStyle, getInlineOverrideStyle, watchForInlineStyles, stopWatchingForInlineStyles, INLINE_STYLE_SELECTOR} from './inline-style';
 import {changeMetaThemeColorWhenAvailable, restoreMetaThemeColor} from './meta-theme-color';
-import {modifyBackgroundColor, modifyForegroundColor} from './modify-colors';
+import {modifyBackgroundColor, modifyBorderColor, modifyForegroundColor} from './modify-colors';
 import {getModifiedUserAgentStyle, getModifiedFallbackStyle, cleanModificationCache, getSelectionColor} from './modify-css';
-import {clearColorPalette, registerVariablesSheet, releaseVariablesSheet} from './palette';
+import {clearColorPalette, getColorPalette, registerVariablesSheet, releaseVariablesSheet} from './palette';
 import type {StyleElement, StyleManager} from './style-manager';
 import {manageStyle, getManageableStyles, cleanLoadingLinks, setIgnoredCSSURLs} from './style-manager';
 import {injectProxy} from './stylesheet-proxy';
@@ -703,6 +703,15 @@ export function createOrUpdateDynamicThemeInternal(themeConfig: Theme, dynamicTh
 
         if (onlyColorsChanged && JSON.stringify(fixes) !== JSON.stringify(prevFixes)) {
             onlyColorsChanged = false;
+        }
+
+        if (onlyColorsChanged) {
+            const palette = getColorPalette();
+            clearColorPalette();
+            palette.background.forEach((color) => modifyBackgroundColor(color, theme!));
+            palette.text.forEach((color) => modifyForegroundColor(color, theme!));
+            palette.border.forEach((color) => modifyBorderColor(color, theme!));
+            return;
         }
 
         clearColorPalette();

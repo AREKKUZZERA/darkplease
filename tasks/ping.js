@@ -130,12 +130,6 @@ async function getChromePath() {
     });
 }
 
-// async function timeout(delay) {
-//     await new Promise((resolve) => {
-//         setTimeout(resolve, delay);
-//     });
-// }
-
 /**
  * @param {string} title
  * @param {string[]} patterns

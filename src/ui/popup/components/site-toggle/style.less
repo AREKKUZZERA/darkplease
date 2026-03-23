@@ -15,6 +15,7 @@
   &__btn.button {
     flex: 1 1 auto;
     min-width: 0;
+    width: 100%;
     height: @size-control-inner;
 
     background-color: @s2;
@@ -29,15 +30,14 @@
     &:hover { background-color: @s3; border-color: @b3; }
     &:active { transform: scale(0.97); }
 
-.button__wrapper {
-  display: inline-flex;
-  align-items: center;
-  justify-content: flex-start;
-  height: 100%;
-  padding: 0 8px;
-  gap: 4px;
-  width: 100%;
-}
+    .button__wrapper {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 0 8px;
+      gap: 4px;
+    }
   }
 
   &--active &__btn.button { color: @txt; }
@@ -53,14 +53,13 @@
     }
   }
 
-&__url {
-  flex: 1 1 auto;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  text-align: left;
-}
+  &__url {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 
   /* ── Reason badge — OUTSIDE the border, right side ── */
   &__reason {

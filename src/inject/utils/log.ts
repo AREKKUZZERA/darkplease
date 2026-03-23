@@ -32,8 +32,6 @@ export function logInfo(...args: any[]): void {
 
 export function logWarn(...args: any[]): void {
     if (__DEBUG__) {
-        // console.warn is slow in Chrome
-        // console.warn(...args);
         console.log('DARK PLEASE', ...args);
         sendLogToBG('warn', ...args);
     }

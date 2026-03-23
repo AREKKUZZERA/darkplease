@@ -134,8 +134,12 @@ export function watchForNodePosition<T extends Node>(
             }
         }
 
+        // If parent becomes disconnected from the DOM, fetches the new head and
+        // save that as parent. Do this only for the head mode, as those are
+        // important nodes to keep.
         if (mode === 'head' && !parent!.isConnected) {
             parent = document.head;
+            // TODO: Set correct prevSibling — should be the last `.darkplease` node in <head> that isn't .darkplease--sync.
         }
 
         logWarn('Restoring node position', node, prevSibling, parent);
