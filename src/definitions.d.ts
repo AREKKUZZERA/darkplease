@@ -15,8 +15,6 @@ export interface ExtensionData {
     colorScheme: ParsedColorSchemeConfig;
     forcedScheme: 'dark' | 'light' | null;
     activeTab: TabInfo;
-    /** Number of tabs currently styled by the extension */
-    activeTabCount: number;
     uiHighlights: string[];
 }
 

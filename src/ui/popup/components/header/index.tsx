@@ -90,11 +90,7 @@ function Header(props: HeaderProps) {
         <header class="header">
             <div class="header__top-row">
                 <a class="header__logo" href={HOMEPAGE_URL} target="_blank" rel="noopener noreferrer">
-                    <img
-                        class="header__logo-img"
-                        src="../assets/images/darkplease-type.svg"
-                        alt="DARK PLEASE!"
-                    />
+                    DARK PLEASE!
                 </a>
                 <div class="header__status">
                     <div class={{
@@ -104,14 +100,6 @@ function Header(props: HeaderProps) {
                     <span class="header__status-text">
                         {data.isEnabled ? (isAutomation ? 'Auto' : 'Active') : 'Off'}
                     </span>
-                    {data.isEnabled && data.activeTabCount > 0 ? (
-                        <span
-                            class="header__tab-count"
-                            title={`Styling ${data.activeTabCount} tab${data.activeTabCount === 1 ? '' : 's'}`}
-                        >
-                            {data.activeTabCount}
-                        </span>
-                    ) : null}
                 </div>
             </div>
             <div class="header__controls-row">

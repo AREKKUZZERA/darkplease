@@ -412,7 +412,6 @@ export class Extension {
             colorScheme: ConfigManager.COLOR_SCHEMES_RAW!,
             forcedScheme: Extension.autoState === 'scheme-dark' ? 'dark' : Extension.autoState === 'scheme-light' ? 'light' : null,
             activeTab,
-            activeTabCount: TabManager.getActiveTabCount(),
             uiHighlights,
         };
     }
@@ -476,8 +475,7 @@ export class Extension {
             return;
         }
         Extension.wasLastColorSchemeDark = isDark;
-        // Await to ensure the color state is persisted before a possible SW restart
-        await Extension.MV3syncSystemColorStateManager(isDark);
+        Extension.MV3syncSystemColorStateManager(isDark);
         await Extension.loadData();
         if (UserStorage.settings.automation.mode !== AutomationMode.SYSTEM) {
             return;
@@ -630,8 +628,7 @@ export class Extension {
         await Extension.loadData();
         Extension.wasEnabledOnLastCheck = Extension.isExtensionSwitchedOn();
         TabManager.sendMessage(onlyUpdateActiveTab);
-        // Await to ensure save errors surface and don't race with reportChanges
-        await Extension.saveUserSettings();
+        Extension.saveUserSettings();
         Extension.reportChanges();
         IconManager.setIcon({colorScheme: UserStorage.settings.theme.mode ? 'dark' : 'light'});
         Extension.stateManager!.saveState();

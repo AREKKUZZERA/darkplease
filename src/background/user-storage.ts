@@ -14,8 +14,7 @@ const SAVE_TIMEOUT = 1000;
 
 export default class UserStorage {
     private static loadBarrier: PromiseBarrier<UserSettings, void>;
-    private static isSaving = false;
-    private static hasPendingWrite = false;
+    private static saveStorageBarrier: PromiseBarrier<void, void> | null;
     static settings: Readonly<UserSettings>;
 
     static async loadSettings(): Promise<void> {
@@ -167,38 +166,28 @@ export default class UserStorage {
     }
 
     private static saveSettingsIntoStorage = debounce(SAVE_TIMEOUT, async () => {
-        if (UserStorage.isSaving) {
-            // Another write is in progress. Schedule a follow-up flush so
-            // these changes are not silently dropped.
-            UserStorage.hasPendingWrite = true;
+        if (UserStorage.saveStorageBarrier) {
+            await UserStorage.saveStorageBarrier.entry();
             return;
         }
+        UserStorage.saveStorageBarrier = new PromiseBarrier();
 
-        UserStorage.isSaving = true;
-        UserStorage.hasPendingWrite = false;
-
-        try {
-            const settings = UserStorage.settings;
-            if (settings.syncSettings) {
-                try {
-                    await writeSyncStorage(settings);
-                } catch (err) {
-                    logWarn('Settings synchronization was disabled due to error:', chrome.runtime.lastError);
-                    UserStorage.set({syncSettings: false});
-                    await UserStorage.saveSyncSetting(false);
-                    await writeLocalStorage(settings);
-                }
-            } else {
+        const settings = UserStorage.settings;
+        if (settings.syncSettings) {
+            try {
+                await writeSyncStorage(settings);
+            } catch (err) {
+                logWarn('Settings synchronization was disabled due to error:', chrome.runtime.lastError);
+                UserStorage.set({syncSettings: false});
+                await UserStorage.saveSyncSetting(false);
                 await writeLocalStorage(settings);
             }
-        } finally {
-            UserStorage.isSaving = false;
-            // Flush any changes that arrived while we were saving.
-            if (UserStorage.hasPendingWrite) {
-                UserStorage.hasPendingWrite = false;
-                UserStorage.saveSettingsIntoStorage();
-            }
+        } else {
+            await writeLocalStorage(settings);
         }
+
+        UserStorage.saveStorageBarrier.resolve();
+        UserStorage.saveStorageBarrier = null;
     });
 
     static set($settings: Partial<UserSettings>): void {

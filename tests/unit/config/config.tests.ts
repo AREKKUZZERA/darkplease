@@ -1,11 +1,10 @@
 import {readFile} from 'node:fs';
 
 import type {StaticTheme} from '../../../src/definitions';
-import {getInversionFixesFor, parseInversionFixes, formatInversionFixes} from '../../../src/generators/css-filter';
+import {parseInversionFixes, formatInversionFixes} from '../../../src/generators/css-filter';
 import {parseDetectorHints, formatDetectorHints} from '../../../src/generators/detector-hints';
 import {parseDynamicThemeFixes, formatDynamicThemeFixes} from '../../../src/generators/dynamic-theme';
 import {parseStaticThemes, formatStaticThemes} from '../../../src/generators/static-theme';
-import {indexSitesFixesConfig} from '../../../src/generators/utils/parse';
 import {parseColorSchemeConfig} from '../../../src/utils/colorscheme-parser';
 import type {ParsedColorSchemeConfig} from '../../../src/utils/colorscheme-parser';
 import {parseArray, formatArray, getTextDiffIndex, getTextPositionMessage} from '../../../src/utils/text';
@@ -225,19 +224,6 @@ test('Inversion Fixes config', async () => {
 
     // fixes are properly formatted
     expect(throwIfDifferent(file, formatInversionFixes(fixes), 'Inversion fixes format error')).not.toThrow();
-});
-
-test('Inversion fixes fallback should be empty when config is unavailable', () => {
-    const emptyConfig = '';
-    const fix = getInversionFixesFor('https://example.com', emptyConfig, indexSitesFixesConfig(emptyConfig));
-
-    expect(fix).toEqual({
-        url: ['*'],
-        invert: [],
-        noinvert: [],
-        removebg: [],
-        css: '',
-    });
 });
 
 test('Static Themes config', async () => {

@@ -23,15 +23,7 @@ export default class IconManager {
             19: '../icons/dp_active_light_19.png',
             38: '../icons/dp_active_light_38.png',
         },
-        // Inactive state: swap the schemes so the icon looks visually "off"
-        inactiveDark: {
-            19: '../icons/dp_active_light_19.png',
-            38: '../icons/dp_active_light_38.png',
-        },
-        inactiveLight: {
-            19: '../icons/dp_active_19.png',
-            38: '../icons/dp_active_38.png',
-        },
+
     };
 
     private static readonly iconState: IconState = {
@@ -54,7 +46,7 @@ export default class IconManager {
         }
     }
 
-    static setIcon({isActive = this.iconState.active, colorScheme = 'dark', tabId}: IconOptions): void {
+    static setIcon({isActive = this.iconState.active, tabId}: IconOptions): void {
         if (__THUNDERBIRD__ || !chrome.browserAction.setIcon) {
             return;
         }
@@ -65,15 +57,11 @@ export default class IconManager {
 
         this.iconState.active = isActive;
 
-        let path;
+        let path = this.ICON_PATHS.activeDark;
         if (isActive) {
-            path = colorScheme === 'light'
-                ? IconManager.ICON_PATHS.activeLight
-                : IconManager.ICON_PATHS.activeDark;
+            path = IconManager.ICON_PATHS.activeDark;
         } else {
-            path = colorScheme === 'light'
-                ? IconManager.ICON_PATHS.inactiveLight
-                : IconManager.ICON_PATHS.inactiveDark;
+            path = IconManager.ICON_PATHS.activeLight;
         }
 
         chrome.browserAction.setIcon({path});

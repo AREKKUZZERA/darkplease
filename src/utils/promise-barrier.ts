@@ -3,8 +3,8 @@ export class PromiseBarrier<RESOLVUTION, REJECTION> {
     private rejects: Array<(reason: REJECTION) => void> = [];
     private wasResolved = false;
     private wasRejected = false;
-    private resolution!: RESOLVUTION;
-    private reason!: REJECTION;
+    private resolution: RESOLVUTION;
+    private reason: REJECTION;
 
     async entry(): Promise<RESOLVUTION>{
         if (this.wasResolved) {

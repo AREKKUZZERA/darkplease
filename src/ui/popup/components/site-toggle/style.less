@@ -1,98 +1,19 @@
 @import "../../../theme";
 
 .site-toggle {
-  display: inline-flex;
-  align-items: center;
-  position: relative;
-  width: 100%;
-
+  color: @txt2;
+  white-space: normal;
+  border-radius: @dp-radius-xs;
+  transition: background-color @time-fast, color @time-fast, transform 80ms;
   font-weight: 600;
   letter-spacing: 0.02em;
 
   &--disabled { opacity: 0.45; pointer-events: none; }
 
-  /* ── Inner button — border lives here ── */
-  &__btn.button {
-    flex: 1 1 auto;
-    min-width: 0;
-    width: 100%;
-    height: @size-control-inner;
-
-    background-color: @s2;
-    border: 1px solid @b2;
-    border-radius: @dp-radius-xs;
-
-    color: @txt2;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    transition: background-color @time-fast, color @time-fast, border-color @time-fast, transform 80ms;
-
-    &:hover { background-color: @s3; border-color: @b3; }
-    &:active { transform: scale(0.97); }
-
-    .button__wrapper {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      padding: 0 8px;
-      gap: 4px;
-    }
-  }
-
-  &--active &__btn.button { color: @txt; }
-
   &__mark {
-    flex: 0 0 auto;
-
-    svg {
-      fill: currentColor;
-      height: @size-text-normal;
-      vertical-align: bottom;
-      width: @size-text-normal;
-    }
+    svg { fill: currentColor; height: @size-text-normal; vertical-align: bottom; width: @size-text-normal; }
   }
 
-  &__url {
-    flex: 1 1 auto;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  /* ── Reason badge — OUTSIDE the border, right side ── */
-  &__reason {
-    flex: 0 0 auto;
-    position: relative;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 0.875rem;
-    height: 0.875rem;
-
-    border-radius: 50%;
-    background-color: @s4;
-    border: 1px solid @b2;
-
-    color: @mut;
-    font-size: 0.5rem;
-    font-weight: 700;
-    line-height: 1;
-
-    margin-left: 5px;
-    flex-shrink: 0;
-
-    cursor: help;
-
-    transition: background-color @time-fast, color @time-fast, border-color @time-fast;
-
-    &:hover {
-      background-color: @acc-d;
-      border-color: @acc;
-      color: @acc-l;
-    }
-  }
+  &--active { color: @txt; }
+  &:active  { transform: scale(0.97); }
 }
