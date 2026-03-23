@@ -1,19 +1,85 @@
 @import "../../../theme";
 
 .site-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+
   color: @txt2;
   white-space: normal;
   border-radius: @dp-radius-xs;
   transition: background-color @time-fast, color @time-fast, transform 80ms;
   font-weight: 600;
   letter-spacing: 0.02em;
+  position: relative;
+  width: 100%;
 
   &--disabled { opacity: 0.45; pointer-events: none; }
 
-  &__mark {
-    svg { fill: currentColor; height: @size-text-normal; vertical-align: bottom; width: @size-text-normal; }
-  }
-
   &--active { color: @txt; }
   &:active  { transform: scale(0.97); }
+
+  /* ── MAIN (обводка только здесь) ── */
+  &__main {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 auto;
+    min-width: 0;
+
+    padding: 0 8px;
+
+    background-color: @s2;
+    border: 1px solid @b2;
+    border-radius: @dp-radius-xs;
+  }
+
+  &__mark {
+    flex: 0 0 auto;
+
+    svg {
+      fill: currentColor;
+      height: @size-text-normal;
+      vertical-align: bottom;
+      width: @size-text-normal;
+    }
+  }
+
+  &__url {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  /* ── ВНЕ ОБВОДКИ ── */
+  &__reason {
+    flex: 0 0 auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 0.875rem;
+    height: 0.875rem;
+
+    border-radius: 50%;
+    background-color: @s4;
+    border: 1px solid @b2;
+
+    color: @mut;
+    font-size: 0.5rem;
+    font-weight: 700;
+    line-height: 1;
+
+    margin-left: 6px;
+
+    cursor: help;
+
+    transition: background-color @time-fast, color @time-fast, border-color @time-fast;
+
+    &:hover {
+      background-color: @acc-d;
+      border-color: @acc;
+      color: @acc-l;
+    }
+  }
 }

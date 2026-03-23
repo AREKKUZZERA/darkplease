@@ -1,3 +1,5 @@
+@import "../../theme.less";
+
 .advanced {
     &__export-settings-button {
         box-sizing: border-box;
@@ -7,5 +9,159 @@
     &__import-settings-button {
         box-sizing: border-box;
         width: 100%;
+    }
+}
+
+/* ── Import Preview Dialog ─────────────────────────────────────────────── */
+
+.import-preview-overlay {
+    background-color: rgba(0, 0, 0, 0.55);
+    bottom: 0; left: 0; right: 0; top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    z-index: 1000;
+    animation: dp-fade-in @time-fast both;
+}
+
+@keyframes dp-fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.import-preview {
+    background-color: @bg;
+    border: 1px solid @b3;
+    border-radius: @dp-radius;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    gap: @indent-small;
+    max-height: 80vh;
+    max-width: 36rem;
+    min-width: 24rem;
+    overflow: hidden;
+    padding: @indent-large;
+    animation: dp-slide-up 180ms cubic-bezier(0.2, 0, 0, 1) both;
+
+    @keyframes dp-slide-up {
+        from { opacity: 0; transform: translateY(8px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    &__header {
+        display: flex;
+        align-items: baseline;
+        gap: @indent-small;
+    }
+
+    &__title {
+        color: @acc;
+        font-size: @size-text-large;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+    }
+
+    &__subtitle {
+        color: @mut;
+        font-size: @size-text-small;
+    }
+
+    &__table-wrap {
+        border: 1px solid @b2;
+        border-radius: @dp-radius-xs;
+        overflow: auto;
+        max-height: 50vh;
+
+        &::-webkit-scrollbar { width: 0.3rem; background: transparent; }
+        &::-webkit-scrollbar-thumb { background: @s5; border-radius: 2px; }
+    }
+
+    &__table {
+        border-collapse: collapse;
+        font-size: @size-text-small;
+        width: 100%;
+
+        th {
+            background-color: @s2;
+            border-bottom: 1px solid @b2;
+            color: @mut;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            padding: 0.3rem 0.5rem;
+            position: sticky;
+            text-align: left;
+            text-transform: uppercase;
+            top: 0;
+            z-index: 1;
+        }
+
+        td {
+            border-bottom: 1px solid @b1;
+            padding: 0.25rem 0.5rem;
+            vertical-align: middle;
+        }
+
+        tr:last-child td { border-bottom: none; }
+    }
+
+    &__row--changed {
+        background-color: fadeout(@acc, 90%);
+
+        td { border-bottom-color: fadeout(@acc, 80%); }
+    }
+
+    &__key {
+        color: @txt2;
+        font-family: @font-mono;
+        font-size: 0.65rem;
+        white-space: nowrap;
+        width: 40%;
+    }
+
+    &__val {
+        color: @mut;
+        max-width: 8rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        &--to {
+            // Highlight changed values in the "New" column
+            .import-preview__row--changed & {
+                color: @acc-l;
+                font-weight: 600;
+            }
+        }
+    }
+
+    &__actions {
+        display: flex;
+        gap: @indent-small;
+        justify-content: flex-end;
+        padding-top: 4px;
+    }
+
+    &__btn {
+        font-size: @size-text-small;
+        font-weight: 600;
+        height: @size-control-inner;
+        min-width: 5rem;
+
+        &--cancel {
+            background-color: @s2;
+            border-color: @b2;
+            color: @mut;
+            &:hover { background-color: @s4; color: @txt; }
+        }
+
+        &--apply {
+            background-color: @acc-d;
+            border-color: fadeout(@acc, 50%);
+            color: @acc-l;
+            &:hover { background-color: @acc; border-color: @acc; color: #fff; }
+        }
     }
 }

@@ -100,6 +100,14 @@ function Header(props: HeaderProps) {
                     <span class="header__status-text">
                         {data.isEnabled ? (isAutomation ? 'Auto' : 'Active') : 'Off'}
                     </span>
+                    {data.isEnabled && data.activeTabCount > 0 ? (
+                        <span
+                            class="header__tab-count"
+                            title={`Styling ${data.activeTabCount} tab${data.activeTabCount === 1 ? '' : 's'}`}
+                        >
+                            {data.activeTabCount}
+                        </span>
+                    ) : null}
                 </div>
             </div>
             <div class="header__controls-row">

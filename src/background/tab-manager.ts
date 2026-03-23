@@ -449,40 +449,50 @@ export default class TabManager {
 
         const activeTabHostname = onlyUpdateActiveTab ? getURLHostOrProtocol(await TabManager.getActiveTabURL()) : null;
 
-        (await queryTabs({discarded: false}))
-            .filter((tab) => Boolean(TabManager.tabs[tab.id!]))
-            .forEach((tab) => {
-                const frames = TabManager.tabs[tab.id!];
-                Object.entries(frames)
-                    .filter(([, {state}]) => state === DocumentState.ACTIVE || state === DocumentState.PASSIVE)
-                    .forEach(async ([id, {url, documentId, scriptId, isTop}]) => {
-                        const frameId = Number(id);
-                        const tabURL = await TabManager.getTabURL(tab);
+        const tabs = (await queryTabs({discarded: false}))
+            .filter((tab) => Boolean(TabManager.tabs[tab.id!]));
 
-                        // Check if hostname are equal when we only want to update active tab.
-                        if (onlyUpdateActiveTab && getURLHostOrProtocol(tabURL) !== activeTabHostname) {
-                            return;
-                        }
+        for (const tab of tabs) {
+            const frames = TabManager.tabs[tab.id!];
+            const activeFrames = Object.entries(frames)
+                .filter(([, {state}]) => state === DocumentState.ACTIVE || state === DocumentState.PASSIVE);
 
-                        const message = TabManager.getTabMessage(tabURL, url!, isTop || false);
-                        message.scriptId = scriptId;
+            for (const [id, {url, documentId, scriptId, isTop}] of activeFrames) {
+                const frameId = Number(id);
+                const tabURL = await TabManager.getTabURL(tab);
 
-                        if (tab.active && isTop) {
-                            TabManager.sendDocumentMessage(tab!.id!, documentId!, message, frameId);
-                        } else {
-                            setTimeout(() => {
-                                TabManager.sendDocumentMessage(tab!.id!, documentId!, message, frameId);
-                            });
-                        }
-                        if (TabManager.tabs[tab.id!][frameId]) {
-                            TabManager.tabs[tab.id!][frameId].timestamp = TabManager.timestamp;
-                        }
+                // Check if hostname are equal when we only want to update active tab.
+                if (onlyUpdateActiveTab && getURLHostOrProtocol(tabURL) !== activeTabHostname) {
+                    continue;
+                }
+
+                const message = TabManager.getTabMessage(tabURL, url!, isTop || false);
+                message.scriptId = scriptId;
+
+                if (tab.active && isTop) {
+                    TabManager.sendDocumentMessage(tab!.id!, documentId!, message, frameId);
+                } else {
+                    setTimeout(() => {
+                        TabManager.sendDocumentMessage(tab!.id!, documentId!, message, frameId);
                     });
-            });
+                }
+                if (TabManager.tabs[tab.id!]?.[frameId]) {
+                    TabManager.tabs[tab.id!][frameId].timestamp = TabManager.timestamp;
+                }
+            }
+        }
     }
 
     static canAccessTab(tab: chrome.tabs.Tab | null): boolean {
         return tab && Boolean(TabManager.tabs[tab.id!]) || false;
+    }
+
+    /** Returns the number of top-level frames currently being styled. */
+    static getActiveTabCount(): number {
+        return Object.values(TabManager.tabs).filter((frames) => {
+            const top = frames[0];
+            return top && (top.state === DocumentState.ACTIVE || top.state === DocumentState.PASSIVE);
+        }).length;
     }
 
     static getTabDocumentId(tab: chrome.tabs.Tab | null): string | null {

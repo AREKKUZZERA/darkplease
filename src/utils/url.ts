@@ -6,7 +6,19 @@ declare const __THUNDERBIRD__: boolean;
 
 let anchor: HTMLAnchorElement;
 
+// Bounded LRU cache for parsed URLs. The background service worker can accumulate
+// thousands of unique URLs over a long session; an unbounded Map would leak memory.
+const URL_CACHE_SIZE = 1000;
 export const parsedURLCache = new Map<string, URL>();
+
+function evictOldestURLCacheEntry(): void {
+    if (parsedURLCache.size > URL_CACHE_SIZE) {
+        const firstKey = parsedURLCache.keys().next().value;
+        if (firstKey !== undefined) {
+            parsedURLCache.delete(firstKey);
+        }
+    }
+}
 
 function isValidURLCandidate(url: string | null | undefined): url is string {
     if (typeof url !== 'string') {
@@ -57,6 +69,7 @@ export function parseURL($url: string, $base: string | null = null): URL {
         if (fixedBase) {
             const parsedURL = new URL($url, fixedBase);
             parsedURLCache.set(key, parsedURL);
+            evictOldestURLCacheEntry();
             return parsedURL;
         }
     }
@@ -69,6 +82,7 @@ export function parseURL($url: string, $base: string | null = null): URL {
 
     const parsedURL = new URL(fixedURL);
     parsedURLCache.set(key, parsedURL);
+    evictOldestURLCacheEntry();
     return parsedURL;
 }
 
@@ -188,7 +202,6 @@ interface PreparedPattern {
     exactEnd: boolean;
 }
 
-const URL_CACHE_SIZE = 32;
 const prepareURL = cachedFactory((url: string): PreparedURL | null => {
     let parsed: URL;
     try {

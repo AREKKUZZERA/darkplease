@@ -4,10 +4,12 @@ const STORAGE_KEY_WAS_ENABLED_FOR_HOST = '__darkplease__wasEnabledForHost';
 const STORAGE_KEY_IMAGE_DETAILS_LIST = '__darkplease__imageDetails_v2_list';
 const STORAGE_KEY_IMAGE_DETAILS_PREFIX = '__darkplease__imageDetails_v2_';
 const STORAGE_KEY_CSS_FETCH_PREFIX = '__darkplease__cssFetch_';
-const LEGACY_STORAGE_KEY_WAS_ENABLED_FOR_HOST = '__darkplease__wasEnabledForHost';
-const LEGACY_STORAGE_KEY_IMAGE_DETAILS_LIST = '__darkplease__imageDetails_v2_list';
-const LEGACY_STORAGE_KEY_IMAGE_DETAILS_PREFIX = '__darkplease__imageDetails_v2_';
-const LEGACY_STORAGE_KEY_CSS_FETCH_PREFIX = '__darkplease__cssFetch_';
+// Legacy keys used by older versions of the extension (before rebranding from darkreader).
+// These differ from the current keys and are kept here to enable one-time data migration.
+const LEGACY_STORAGE_KEY_WAS_ENABLED_FOR_HOST = '__darkreader__wasEnabledForHost';
+const LEGACY_STORAGE_KEY_IMAGE_DETAILS_LIST = '__darkreader__imageDetails_v2_list';
+const LEGACY_STORAGE_KEY_IMAGE_DETAILS_PREFIX = '__darkreader__imageDetails_v2_';
+const LEGACY_STORAGE_KEY_CSS_FETCH_PREFIX = '__darkreader__cssFetch_';
 
 let storageMigrated = false;
 

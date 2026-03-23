@@ -60,8 +60,8 @@ export function getMockData(override = {} as Partial<ExtensionData>): ExtensionD
             'system-ui',
         ],
         shortcuts: {
-            'addSite': 'Alt+Shift+A',
-            'toggle': 'Alt+Shift+D',
+            addSite: 'Alt+Shift+A',
+            toggle: 'Alt+Shift+D',
         },
         devtools: {
             dynamicFixesText: '',
@@ -92,6 +92,7 @@ export function getMockData(override = {} as Partial<ExtensionData>): ExtensionD
             isInjected: true,
             isDarkThemeDetected: false,
         },
+        activeTabCount: 1,
         uiHighlights: [],
     } as ExtensionData, override);
 }
