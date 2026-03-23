@@ -72,23 +72,21 @@ export default function SiteToggleButton(props: ExtWrapper) {
     const {urlText, onSiteToggleClick, toggleHasEffect, isSiteEnabled, disabledReason} = getSiteToggleData(props);
 
     return (
-        <Button
-            class={{
-                'site-toggle': true,
-                'site-toggle--active': isSiteEnabled,
-                'site-toggle--disabled': __THUNDERBIRD__ || !toggleHasEffect,
-            }}
-            onclick={onSiteToggleClick}
-            title={disabledReason ?? undefined}
-        >
-            <span class="site-toggle__main">
+        <span class={{
+            'site-toggle': true,
+            'site-toggle--active': isSiteEnabled,
+            'site-toggle--disabled': __THUNDERBIRD__ || !toggleHasEffect,
+        }}>
+            <Button
+                class="site-toggle__btn"
+                onclick={onSiteToggleClick}
+            >
                 <span class="site-toggle__mark"><CheckmarkIcon isChecked={isSiteEnabled} /></span>
-                {' '}
                 <span class="site-toggle__url">{urlText}</span>
-            </span>
+            </Button>
             {disabledReason ? (
                 <span class="site-toggle__reason" title={disabledReason}>?</span>
             ) : null}
-        </Button>
+        </span>
     );
 }

@@ -90,7 +90,11 @@ function Header(props: HeaderProps) {
         <header class="header">
             <div class="header__top-row">
                 <a class="header__logo" href={HOMEPAGE_URL} target="_blank" rel="noopener noreferrer">
-                    DARK PLEASE!
+                    <img
+                        class="header__logo-img"
+                        src="../assets/images/darkplease-type.svg"
+                        alt="DARK PLEASE!"
+                    />
                 </a>
                 <div class="header__status">
                     <div class={{

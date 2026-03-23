@@ -23,19 +23,19 @@
   }
 
   &__logo {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    color: @acc;
-    text-transform: uppercase;
-    text-decoration: none;
-    background-image: none;
-    width: auto;
-    height: auto;
-    text-indent: 0;
+    display: inline-flex;
+    align-items: center;
     outline: none;
+    text-decoration: none;
     transition: opacity @time-fast;
-    &:hover { opacity: 0.8; filter: none; }
+    &:hover { opacity: 0.8; }
+  }
+
+  &__logo-img {
+    display: block;
+    height: 1rem;
+    width: auto;
+    /* SVG is white-on-transparent by design — no filter needed */
   }
 
   &__status {
