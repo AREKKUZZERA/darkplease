@@ -229,6 +229,10 @@ export function watchForStylePositions(
     collectUndefinedElements(document);
 
     addDOMReadyListener(() => {
+        if (!document.body) {
+            return;
+        }
+
         // Some shadow roots could be created using templates
         forEach(document.body.children, (el) => {
             if (el.shadowRoot && !observedRoots.has(el)) {

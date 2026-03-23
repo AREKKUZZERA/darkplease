@@ -194,6 +194,16 @@ function createReverseRule(reverseFilterValue: string, fix: InversionFix): strin
 export function getInversionFixesFor(url: string, fixes: string, index: SiteFixesIndex): InversionFix {
     const inversionFixes = getSitesFixesFor(url, fixes, index, parseInversionFixes);
 
+    if (inversionFixes.length === 0) {
+        return {
+            url: ['*'],
+            invert: [],
+            noinvert: [],
+            removebg: [],
+            css: '',
+        };
+    }
+
     const common = {
         url: inversionFixes[0].url,
         invert: inversionFixes[0].invert || [],
