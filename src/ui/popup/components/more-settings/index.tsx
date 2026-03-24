@@ -48,6 +48,7 @@ export default function MoreSettings({data, actions, fonts, onMoreSiteSettingsCl
                 <EngineSwitch engine={theme.engine} onChange={(engine) => setConfig({engine})} />
             </div>
             <div class="more-settings__section more-settings__actions">
+                <CustomSettingsToggle data={data} actions={actions} />
                 <button
                     class="more-settings__quick-btn"
                     onclick={onMoreSiteSettingsClick}
@@ -62,7 +63,6 @@ export default function MoreSettings({data, actions, fonts, onMoreSiteSettingsCl
                     <SettingsIcon class="more-settings__quick-btn__icon" />
                     <span>{automationMessage}</span>
                 </button>
-                <CustomSettingsToggle data={data} actions={actions} />
                 {isFirefox ? (
                     <Toggle
                         checked={data.settings.changeBrowserTheme}
@@ -73,9 +73,7 @@ export default function MoreSettings({data, actions, fonts, onMoreSiteSettingsCl
                 ) : null}
                 <Button onclick={openSettings} class="more-settings__settings-button">
                     <span class="more-settings__settings-button__wrapper">
-                        <span class="more-settings__settings-button__icon">
-                            <SettingsIcon />
-                        </span>
+                        <SettingsIcon class="more-settings__settings-button__icon" />
                         <span class="more-settings__settings-button__text">
                             {getLocalMessage('all_settings')}
                         </span>

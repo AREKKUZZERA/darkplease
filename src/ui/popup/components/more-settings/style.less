@@ -1,9 +1,44 @@
 @import "../../../theme";
 
-@more-btn-height: @size-control-inner;
-@more-btn-radius: @dp-radius-xs;
-@more-btn-font:   @size-text-small;
-@more-btn-px:     0.6rem;
+// ── Shared tokens ─────────────────────────────────────────────
+@more-btn-height:  @size-control-inner;
+@more-btn-radius:  @dp-radius-xs;
+@more-btn-font:    @size-text-small;
+@more-btn-weight:  600;
+@more-btn-spacing: 0.02em;
+@more-btn-px:      0.6rem;
+@more-btn-icon:    0.65rem;
+@more-btn-gap:     0.4rem;
+
+// ── Shared button mixin ───────────────────────────────────────
+.more-btn-base() {
+  align-items: center;
+  background-color: @s2;
+  border: 1px solid @b2;
+  border-radius: @more-btn-radius;
+  color: @txt2;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  font-size: @more-btn-font;
+  font-weight: @more-btn-weight;
+  gap: @more-btn-gap;
+  height: @more-btn-height;
+  letter-spacing: @more-btn-spacing;
+  min-width: 0;
+  overflow: hidden;
+  padding: 0 @more-btn-px;
+  text-align: left;
+  transition: background-color @time-fast, border-color @time-fast, color @time-fast;
+  white-space: nowrap;
+  width: 100%;
+
+  &:hover {
+    background-color: @s3;
+    border-color: @b3;
+    color: @txt;
+  }
+}
 
 .more-settings {
   align-items: stretch;
@@ -25,38 +60,13 @@
     padding: 0;
   }
 
-  // Все кнопки-действия в одной секции — единый gap
   &__actions {
     gap: @indent-small;
   }
 
   // ── Quick-link buttons ────────────────────────────────────────
   &__quick-btn {
-    align-items: center;
-    background-color: @s2;
-    border: 1px solid @b2;
-    border-radius: @more-btn-radius;
-    color: @txt2;
-    cursor: pointer;
-    display: flex;
-    font-size: @more-btn-font;
-    font-weight: 500;
-    gap: 0.35rem;
-    height: @more-btn-height;
-    letter-spacing: 0.02em;
-    min-width: 0;
-    overflow: hidden;
-    padding: 0 @more-btn-px;
-    text-align: left;
-    transition: background-color @time-fast, border-color @time-fast, color @time-fast;
-    white-space: nowrap;
-    width: 100%;
-
-    &:hover {
-      background-color: @s3;
-      border-color: @b3;
-      color: @txt;
-    }
+    .more-btn-base();
 
     & span {
       min-width: 0;
@@ -67,8 +77,8 @@
 
     &__icon {
       flex-shrink: 0;
-      height: 0.65rem;
-      width: 0.65rem;
+      height: @more-btn-icon;
+      width: @more-btn-icon;
       g { fill: @mut; transition: fill @time-fast; }
     }
 
@@ -77,50 +87,68 @@
 
   // ── "All settings" button ─────────────────────────────────────
   &__settings-button {
-    background-color: @s2;
-    border: 1px solid @b2;
-    border-radius: @more-btn-radius;
-    color: @txt2;
-    font-size: @more-btn-font;
-    font-weight: 600;
-    height: @more-btn-height;
-    letter-spacing: 0.03em;
-    transition: background-color @time-fast, border-color @time-fast, color @time-fast;
-    width: 100%;
+    .more-btn-base();
 
-    &:hover {
-      background-color: @s3;
-      border-color: @b3;
-      color: @txt;
-    }
+    // Override Button control defaults that fight the mixin
+    &.button { padding: 0; }
 
     &__wrapper {
       align-items: center;
-      display: inline-flex;
+      box-sizing: border-box;
+      display: flex;
       flex-direction: row;
-      gap: 0.4rem;
+      gap: @more-btn-gap;
       height: 100%;
-      justify-content: center;
+      justify-content: flex-start;
+      min-width: 0;
       padding: 0 @more-btn-px;
+      text-align: left;
+      width: 100%;
     }
 
     &__icon {
-      align-items: center;
-      display: inline-flex;
-      height: 0.75rem;
-      width: 0.75rem;
-      svg { fill: currentColor; height: 100%; width: 100%; }
+      flex-shrink: 0;
+      height: @more-btn-icon;
+      width: @more-btn-icon;
+      g { fill: @mut; transition: fill @time-fast; }
+    }
+
+    &:hover &__icon g { fill: @txt2; }
+
+    &__text {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 }
 
-// ── custom-settings-toggle: унифицировать с остальными кнопками ──
+// ── custom-settings-toggle: unified with action buttons ───────
 .custom-settings-toggle {
   border-radius: @more-btn-radius;
+  box-sizing: border-box;
   font-size: @more-btn-font;
+  font-weight: @more-btn-weight;
   height: @more-btn-height;
+  letter-spacing: @more-btn-spacing;
+  text-align: left;
+  width: 100%;
 
+  &.button {
+    padding: 0;
+  }
+
+  .button__wrapper,
   &__wrapper {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    gap: @more-btn-gap;
+    justify-content: flex-start;
+    min-width: 0;
     padding: 0 @more-btn-px;
+    text-align: left;
+    width: 100%;
   }
 }
