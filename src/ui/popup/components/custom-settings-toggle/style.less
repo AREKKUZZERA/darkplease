@@ -1,39 +1,110 @@
 @import "../../../theme";
 
+@custom-toggle-icon-size: 0.65rem;
+@custom-toggle-mark-size: 0.9rem;
+@custom-toggle-padding-x: 0.6rem;
+@custom-toggle-gap: 0.4rem;
+
 .custom-settings-toggle {
-  display: flex;
-  flex-direction: row;
-  gap: 0;
-  width: 100%;
+  align-items: center;
   background-color: @s2;
   border: 1px solid @b2;
   border-radius: @dp-radius-xs;
+  box-sizing: border-box;
   color: @txt2;
+  cursor: pointer;
+  display: flex;
   font-size: @size-text-small;
   font-weight: 600;
   height: @size-control-inner;
   letter-spacing: 0.02em;
-  transition: all @time-fast;
+  line-height: 1;
+  min-height: @size-control-inner;
+  overflow: hidden;
+  padding: 0;
+  text-align: left;
+  transition: background-color @time-fast, border-color @time-fast, color @time-fast;
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
 
-  &:hover { background-color: @s3; border-color: @b3; color: @txt; }
+  &:hover {
+    background-color: @s3;
+    border-color: @b3;
+    color: @txt;
+  }
+
+  &:active {
+    background-color: @s4;
+  }
+
+  &.button {
+    min-height: @size-control-inner;
+    height: @size-control-inner;
+    line-height: 1;
+    padding: 0;
+  }
+
+  > .button__wrapper {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    gap: @custom-toggle-gap;
+    height: 100%;
+    justify-content: flex-start;
+    min-width: 0;
+    padding: 0 @custom-toggle-padding-x;
+    text-align: left;
+    width: 100%;
+  }
+
+  &__icon {
+    align-items: center;
+    box-sizing: border-box;
+    display: inline-flex;
+    flex: 0 0 @custom-toggle-icon-size;
+    height: @custom-toggle-icon-size;
+    justify-content: center;
+    width: @custom-toggle-icon-size;
+
+    svg {
+      display: block;
+      fill: currentColor;
+      height: @custom-toggle-mark-size;
+      width: @custom-toggle-mark-size;
+    }
+  }
+
+  &__label {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__url {
+    color: @txt;
+  }
 
   &--checked {
     background-color: @acc-d;
     border-color: @acc;
-    color: @acc-l;
-    &:hover { background-color: lighten(@acc-d, 3%); }
+    color: @acc;
+
+    .custom-settings-toggle__url {
+      color: @txt;
+    }
+
+    &:hover {
+      background-color: mix(@acc-d, @s3, 70%);
+      border-color: @acc-l;
+      color: @acc-l;
+    }
   }
 
-  &--disabled { opacity: 0.4; pointer-events: none; }
-
-  &__wrapper {
-    align-items: center;
-    display: inline-flex;
-    height: 100%;
-    justify-content: center;
-    padding: 0 @indent-small;
-    width: 100%;
+  &--disabled {
+    opacity: 0.45;
+    pointer-events: none;
   }
-
-  &__url { color: @acc-l; margin-left: 0.2em; }
 }

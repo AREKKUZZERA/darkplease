@@ -4,6 +4,7 @@ import type {ExtWrapper} from '../../../../definitions';
 import {getLocalMessage} from '../../../../utils/locales';
 import {getURLHostOrProtocol, isURLInList} from '../../../../utils/url';
 import {Button} from '../../../controls';
+import CheckmarkIcon from '../site-toggle/checkmark-icon';
 
 declare const __THUNDERBIRD__: boolean;
 
@@ -27,7 +28,7 @@ export default function CustomSettingsToggle({data, actions}: ExtWrapper) {
                 'custom-settings-toggle--checked': isCustom,
                 'custom-settings-toggle--disabled': __THUNDERBIRD__ || tab.isProtected,
             }}
-            onclick={(e) => {
+            onclick={() => {
                 if (isCustom) {
                     const filtered = data.settings.customThemes.filter(({url}) => !isURLInList(tab.url, url));
                     actions.changeSettings({customThemes: filtered});
@@ -37,12 +38,14 @@ export default function CustomSettingsToggle({data, actions}: ExtWrapper) {
                         theme: {...data.settings.theme},
                     });
                     actions.changeSettings({customThemes: extended});
-                    (e.currentTarget as HTMLElement).classList.add('custom-settings-toggle--checked'); // Speed-up reaction
                 }
             }}
         >
-            <span class="custom-settings-toggle__wrapper">
-                {getLocalMessage('only_for')} <span class="custom-settings-toggle__url" >{urlText}</span>
+            <span class="custom-settings-toggle__icon" aria-hidden="true">
+                <CheckmarkIcon isChecked={isCustom} />
+            </span>
+            <span class="custom-settings-toggle__label">
+                {getLocalMessage('only_for')} <span class="custom-settings-toggle__url">{urlText}</span>
             </span>
         </Button>
     );
