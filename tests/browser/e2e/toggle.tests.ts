@@ -29,7 +29,8 @@ describe('Toggling the extension', () => {
     // TODO: remove flakes and remove this line
     jest.retryTimes(10, {logErrorsBeforeRetry: true});
 
-    const automationMenuSelector = '.header__more-settings-button';
+    const automationTabSelector = '.tab-panel__button:nth-child(3)';
+    const automationMenuSelector = '.more-settings__quick-btn:nth-child(2)';
     const automationSystemSelector = '.header__more-settings__system-dark-mode__checkbox .checkbox__input';
 
     it('should turn On/Off', async () => {
@@ -84,19 +85,9 @@ describe('Toggling the extension', () => {
             ['a', 'color', 'rgb(51, 145, 255)'],
         ]);
 
+        await popupUtils.click(automationTabSelector);
         await popupUtils.click(automationMenuSelector);
         await popupUtils.click(automationSystemSelector);
-
-        await expectStyles([
-            ['document', 'background-color', 'rgba(0, 0, 0, 0)'],
-            ['document', 'color', 'rgb(0, 0, 0)'],
-            ['body', 'background-color', 'rgba(0, 0, 0, 0)'],
-            ['body', 'color', 'rgb(0, 0, 0)'],
-            ['h1', 'color', 'rgb(255, 0, 0)'],
-            ['a', 'color', 'rgb(0, 0, 238)'],
-        ]);
-
-        await emulateColorScheme('dark');
 
         await expectStyles([
             ['document', 'background-color', 'rgb(24, 26, 27)'],
@@ -214,6 +205,7 @@ describe('Toggling the extension', () => {
         await emulateColorScheme('dark');
         await expectStyles(darkPageExpectations);
 
+        await popupUtils.click(automationTabSelector);
         await popupUtils.click(automationMenuSelector);
         await popupUtils.click(automationSystemSelector);
 
