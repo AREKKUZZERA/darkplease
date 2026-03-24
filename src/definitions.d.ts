@@ -59,6 +59,7 @@ export interface Theme {
     contrast: number;
     grayscale: number;
     sepia: number;
+    blueLight: number;
     useFont: boolean;
     fontFamily: string;
     textStroke: number;

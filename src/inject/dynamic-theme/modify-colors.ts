@@ -38,6 +38,7 @@ export const themeCacheKeys: Array<keyof Theme> = [
     'contrast',
     'grayscale',
     'sepia',
+    'blueLight',
     'darkSchemeBackgroundColor',
     'darkSchemeTextColor',
     'lightSchemeBackgroundColor',

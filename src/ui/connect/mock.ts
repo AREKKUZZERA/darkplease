@@ -16,6 +16,7 @@ export function getMockData(override = {} as Partial<ExtensionData>): ExtensionD
                 contrast: 90,
                 grayscale: 20,
                 sepia: 10,
+                blueLight: 0,
                 useFont: false,
                 fontFamily: 'Segoe UI',
                 textStroke: 0,

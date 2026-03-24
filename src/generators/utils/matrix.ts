@@ -11,6 +11,9 @@ export function createFilterMatrix(config: Theme): Matrix5x5 {
     if (config.grayscale !== 0) {
         m = multiplyMatrices(m, Matrix.grayscale(config.grayscale / 100));
     }
+    if (config.blueLight !== 0) {
+        m = multiplyMatrices(m, Matrix.blueLight(config.blueLight / 100));
+    }
     if (config.contrast !== 100) {
         m = multiplyMatrices(m, Matrix.contrast(config.contrast / 100));
     }
@@ -87,6 +90,23 @@ export const Matrix = {
             [(0.2126 + 0.7874 * (1 - v)), (0.7152 - 0.7152 * (1 - v)), (0.0722 - 0.0722 * (1 - v)), 0, 0],
             [(0.2126 - 0.2126 * (1 - v)), (0.7152 + 0.2848 * (1 - v)), (0.0722 - 0.0722 * (1 - v)), 0, 0],
             [(0.2126 - 0.2126 * (1 - v)), (0.7152 - 0.7152 * (1 - v)), (0.0722 + 0.9278 * (1 - v)), 0, 0],
+            [0, 0, 0, 1, 0],
+            [0, 0, 0, 0, 1],
+        ];
+    },
+
+    // Blue light filter: reduces blue channel, slightly warms reds/greens
+    // Mimics f.lux / Night Shift warm-tone approach using color matrix
+    // v=0: no effect, v=1: maximum blue reduction (like Candle mode in f.lux)
+    blueLight(v: number): Matrix5x5 {
+        // Shift: reduce blue, boost red slightly for warm amber look
+        const blueReduction = v; // how much blue to cut
+        const redBoost = v * 0.15; // subtle red warmth
+        const greenBoost = v * 0.05; // tiny green warmth
+        return [
+            [1 + redBoost, 0, 0, 0, 0],
+            [0, 1 + greenBoost, 0, 0, 0],
+            [0, 0, 1 - blueReduction, 0, 0],
             [0, 0, 0, 1, 0],
             [0, 0, 0, 0, 1],
         ];

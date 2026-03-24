@@ -17,6 +17,7 @@ const DEFAULTS = {
     contrast: 100,
     sepia: 0,
     grayscale: 0,
+    blueLight: 0,
 };
 
 function SliderRow(props: {
@@ -69,7 +70,8 @@ export default function FilterSettings({data, actions}: ExtWrapper, ...children:
         theme.brightness === DEFAULTS.brightness &&
         theme.contrast === DEFAULTS.contrast &&
         theme.sepia === DEFAULTS.sepia &&
-        theme.grayscale === DEFAULTS.grayscale;
+        theme.grayscale === DEFAULTS.grayscale &&
+        theme.blueLight === DEFAULTS.blueLight;
 
     return (
         <section class="filter-settings">
@@ -101,6 +103,13 @@ export default function FilterSettings({data, actions}: ExtWrapper, ...children:
                 min={0} max={100}
                 defaultVal={DEFAULTS.grayscale}
                 onChange={(v) => setConfig({grayscale: v})}
+            />
+            <SliderRow
+                label={getLocalMessage('blue_light')}
+                value={theme.blueLight}
+                min={0} max={100}
+                defaultVal={DEFAULTS.blueLight}
+                onChange={(v) => setConfig({blueLight: v})}
             />
             <Button
                 class={{'filter-settings__reset-btn': true, 'filter-settings__reset-btn--hidden': isAllDefault}}

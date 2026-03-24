@@ -25,6 +25,7 @@ export const DEFAULT_THEME: Theme = {
     contrast: 100,
     grayscale: 0,
     sepia: 0,
+    blueLight: 0,
     useFont: false,
     fontFamily: isMacOS ? 'Helvetica Neue' : isWindows ? 'Segoe UI' : 'Open Sans',
     textStroke: 0,

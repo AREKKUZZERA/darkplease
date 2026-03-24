@@ -203,6 +203,7 @@ export function validateTheme(theme: Partial<Theme> | null | undefined): ThemeVa
     validateProperty(theme, 'contrast', isNumberBetween(0, 200), DEFAULT_THEME);
     validateProperty(theme, 'grayscale', isNumberBetween(0, 100), DEFAULT_THEME);
     validateProperty(theme, 'sepia', isNumberBetween(0, 100), DEFAULT_THEME);
+    validateProperty(theme, 'blueLight', isNumberBetween(0, 100), DEFAULT_THEME);
     validateProperty(theme, 'useFont', isBoolean, DEFAULT_THEME);
     validateProperty(theme, 'fontFamily', isNonEmptyString, DEFAULT_THEME);
     validateProperty(theme, 'textStroke', isNumberBetween(0, 1), DEFAULT_THEME);

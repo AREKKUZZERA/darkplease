@@ -69,6 +69,12 @@ declare namespace DarkPlease {
          */
         sepia: number;
         /**
+         * Blue light filter intensity (0–100).
+         * Reduces blue light emission for eye comfort at night.
+         * Default 0.
+         */
+        blueLight: number;
+        /**
          * Specifies if custom font should be used.
          * Default false.
          */

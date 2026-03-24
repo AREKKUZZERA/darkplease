@@ -1,4 +1,5 @@
 import BackgroundColor from './background-color';
+import BlueLight from './blue-light';
 import Brightness from './brightness';
 import ColorSchemeDropDown from './color-scheme';
 import Contrast from './contrast';
@@ -19,6 +20,7 @@ import UseFont from './use-font';
 
 export {
     BackgroundColor,
+    BlueLight,
     Brightness,
     Contrast,
     ColorSchemeDropDown,

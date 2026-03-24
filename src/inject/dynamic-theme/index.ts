@@ -682,6 +682,7 @@ export function createOrUpdateDynamicThemeInternal(themeConfig: Theme, dynamicTh
         'darkSchemeBackgroundColor',
         'darkSchemeTextColor',
         'grayscale',
+        'blueLight',
         'lightSchemeBackgroundColor',
         'lightSchemeTextColor',
         'sepia',

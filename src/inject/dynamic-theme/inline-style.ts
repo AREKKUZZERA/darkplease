@@ -276,7 +276,7 @@ export function stopWatchingForInlineStyles(): void {
 const inlineStyleCache = new WeakMap<HTMLElement, string>();
 const svgInversionCache = new WeakSet<SVGSVGElement>();
 const svgAnalysisConditionCache = new WeakMap<SVGSVGElement, boolean>();
-const themeProps: Array<keyof Theme> = ['brightness', 'contrast', 'grayscale', 'sepia', 'mode'];
+const themeProps: Array<keyof Theme> = ['brightness', 'contrast', 'grayscale', 'sepia', 'blueLight', 'mode'];
 
 function shouldAnalyzeSVGAsImage(svg: SVGSVGElement) {
     if (svgAnalysisConditionCache.has(svg)) {

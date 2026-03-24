@@ -138,6 +138,16 @@ export function getCSSFilterValue(config: Theme): string | null {
     if (config.sepia !== 0) {
         filters.push(`sepia(${config.sepia}%)`);
     }
+    if (config.blueLight !== 0) {
+        // CSS doesn't have a native blue-light filter; handled via SVG matrix.
+        // For the CSS filter engine we approximate with sepia-like warm tint.
+        // The real implementation happens in the SVG/matrix path.
+        // Here we add a mild sepia boost proportional to blueLight intensity.
+        const sepiaEquiv = Math.round(config.blueLight * 0.6);
+        if (sepiaEquiv > 0) {
+            filters.push(`sepia(${sepiaEquiv}%)`);
+        }
+    }
 
     if (filters.length === 0) {
         return null;

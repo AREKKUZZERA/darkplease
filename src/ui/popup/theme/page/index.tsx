@@ -7,6 +7,7 @@ import type {ParsedColorSchemeConfig} from '../../../../utils/colorscheme-parser
 import {isURLEnabled, isURLInList} from '../../../../utils/url';
 import {
     BackgroundColor,
+    BlueLight,
     Brightness,
     ColorSchemeDropDown,
     Contrast,
@@ -49,6 +50,10 @@ function MainGroup({theme, change}: ThemeGroupProps) {
             <Sepia
                 value={theme.sepia}
                 onChange={(v) => change({sepia: v})}
+            />
+            <BlueLight
+                value={theme.blueLight}
+                onChange={(v) => change({blueLight: v})}
             />
             <Grayscale
                 value={theme.grayscale}
