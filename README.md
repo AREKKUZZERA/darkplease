@@ -31,7 +31,7 @@ TypeScript · Malevic · Less · Rollup · Jest · Karma · ESLint
 
 ## Build Targets
 
-Chrome MV3 · Firefox · Thunderbird
+Chrome MV3
 
 ## Getting Started
 
