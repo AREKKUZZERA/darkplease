@@ -16,6 +16,7 @@
   background-color: @s2;
   border: 1px solid @b2;
   border-radius: @more-btn-radius;
+  box-sizing: border-box;
   color: @txt2;
   cursor: pointer;
   display: flex;
@@ -25,6 +26,8 @@
   gap: @more-btn-gap;
   height: @more-btn-height;
   letter-spacing: @more-btn-spacing;
+  line-height: 1;
+  min-height: @more-btn-height;
   min-width: 0;
   overflow: hidden;
   padding: 0 @more-btn-px;
@@ -32,6 +35,8 @@
   transition: background-color @time-fast, border-color @time-fast, color @time-fast;
   white-space: nowrap;
   width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
 
   &:hover {
     background-color: @s3;
@@ -49,21 +54,23 @@
   min-width: 0;
   width: 100%;
 
-  &__section {
-    background-color: transparent;
-    border: none;
+  &__section,
+  &__actions {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     gap: @indent-small;
     min-width: 0;
+    width: 100%;
     padding: 0;
+    margin: 0;
   }
 
-  &__actions {
-    gap: @indent-small;
+  &__section {
+    background-color: transparent;
+    border: none;
   }
-
+  
   // ── Quick-link buttons ────────────────────────────────────────
   &__quick-btn {
     .more-btn-base();
@@ -76,21 +83,31 @@
     }
 
     &__icon {
-      flex-shrink: 0;
+      flex: 0 0 auto;
       height: @more-btn-icon;
       width: @more-btn-icon;
-      g { fill: @mut; transition: fill @time-fast; }
+
+      g {
+        fill: @mut;
+        transition: fill @time-fast;
+      }
     }
 
-    &:hover &__icon g { fill: @txt2; }
+    &:hover &__icon g {
+      fill: @txt2;
+    }
   }
 
   // ── "All settings" button ─────────────────────────────────────
   &__settings-button {
     .more-btn-base();
 
-    // Override Button control defaults that fight the mixin
-    &.button { padding: 0; }
+    &.button {
+      padding: 0;
+      min-height: @more-btn-height;
+      height: @more-btn-height;
+      line-height: 1;
+    }
 
     &__wrapper {
       align-items: center;
@@ -107,13 +124,19 @@
     }
 
     &__icon {
-      flex-shrink: 0;
+      flex: 0 0 auto;
       height: @more-btn-icon;
       width: @more-btn-icon;
-      g { fill: @mut; transition: fill @time-fast; }
+
+      g {
+        fill: @mut;
+        transition: fill @time-fast;
+      }
     }
 
-    &:hover &__icon g { fill: @txt2; }
+    &:hover &__icon g {
+      fill: @txt2;
+    }
 
     &__text {
       min-width: 0;
@@ -124,19 +147,15 @@
   }
 }
 
-// ── custom-settings-toggle: unified with action buttons ───────
+// ── custom-settings-toggle: identical geometry ────────────────
 .custom-settings-toggle {
-  border-radius: @more-btn-radius;
-  box-sizing: border-box;
-  font-size: @more-btn-font;
-  font-weight: @more-btn-weight;
-  height: @more-btn-height;
-  letter-spacing: @more-btn-spacing;
-  text-align: left;
-  width: 100%;
+  .more-btn-base();
 
   &.button {
     padding: 0;
+    min-height: @more-btn-height;
+    height: @more-btn-height;
+    line-height: 1;
   }
 
   .button__wrapper,
@@ -144,7 +163,9 @@
     align-items: center;
     box-sizing: border-box;
     display: flex;
+    flex-direction: row;
     gap: @more-btn-gap;
+    height: 100%;
     justify-content: flex-start;
     min-width: 0;
     padding: 0 @more-btn-px;
