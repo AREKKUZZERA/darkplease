@@ -4,7 +4,7 @@ import type {RGBA} from '../../utils/color';
 import type {ParsedGradient} from '../../utils/css-text/parse-gradient';
 import {parseGradient} from '../../utils/css-text/parse-gradient';
 import {clamp} from '../../utils/math';
-import {isCSSColorSchemePropSupported, isLayerRuleSupported} from '../../utils/platform';
+import {isCSSColorSchemePropSupported, isLayerRuleSupported, isFirefox} from '../../utils/platform';
 import {getMatches} from '../../utils/text';
 import {getAbsoluteURL} from '../../utils/url';
 import {readImageDetailsCache, writeImageDetailsCache} from '../cache';
@@ -107,12 +107,12 @@ export function getModifiableCSSDeclaration(
     const important = getPriority(rule.style, property);
     const primary: ModifiableCSSDeclaration = {property, value: modifier, important, sourceValue: value};
 
-    // Firefox 148 regression: a `background` shorthand containing two or more layers
-    // where each image slot resolves via a var() custom property causes the browser to
-    // compute background-image as 'none'.  Emitting an explicit background-image
-    // declaration with just the image var() references (one per layer) fixes this
-    // without affecting Chrome or other Firefox versions.
-    if (property === 'background' && typeof modifier === 'function') {
+    // Firefox workaround: a `background` shorthand containing two or more layers
+    // where each image slot resolves via a var() custom property can regress and
+    // compute `background-image` as `none`. Emitting an explicit background-image
+    // declaration with just the image var() references fixes Firefox, but Chromium
+    // beta builds can drop the layered image when this override is injected.
+    if (isFirefox && property === 'background' && typeof modifier === 'function') {
         const bgImgModifier = variablesStore.getBgImgLayerModifier(value);
         if (bgImgModifier !== null) {
             const bgImgDec: ModifiableCSSDeclaration = {
