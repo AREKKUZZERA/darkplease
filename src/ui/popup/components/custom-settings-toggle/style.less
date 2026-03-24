@@ -1,7 +1,6 @@
 @import "../../../theme";
 
 @custom-toggle-icon-size: 0.65rem;
-@custom-toggle-mark-size: 0.9rem;
 @custom-toggle-padding-x: 0.6rem;
 @custom-toggle-gap: 0.4rem;
 
@@ -20,6 +19,7 @@
   letter-spacing: 0.02em;
   line-height: 1;
   min-height: @size-control-inner;
+  min-width: 0;
   overflow: hidden;
   padding: 0;
   text-align: left;
@@ -39,8 +39,8 @@
   }
 
   &.button {
-    min-height: @size-control-inner;
     height: @size-control-inner;
+    min-height: @size-control-inner;
     line-height: 1;
     padding: 0;
   }
@@ -61,19 +61,19 @@
 
   &__icon {
     align-items: center;
-    box-sizing: border-box;
+    color: @mut;
     display: inline-flex;
     flex: 0 0 @custom-toggle-icon-size;
     height: @custom-toggle-icon-size;
     justify-content: center;
     width: @custom-toggle-icon-size;
+  }
 
-    svg {
-      display: block;
-      fill: currentColor;
-      height: @custom-toggle-mark-size;
-      width: @custom-toggle-mark-size;
-    }
+  &__icon svg {
+    display: block;
+    height: 100%;
+    width: 100%;
+    overflow: visible;
   }
 
   &__label {
@@ -88,18 +88,18 @@
   }
 
   &--checked {
-    background-color: @acc-d;
-    border-color: @acc;
-    color: @acc;
+    background-color: @s3;
+    border-color: @b3;
+    color: @txt;
 
-    .custom-settings-toggle__url {
-      color: @txt;
+    .custom-settings-toggle__icon {
+      color: @txt2;
     }
 
     &:hover {
-      background-color: mix(@acc-d, @s3, 70%);
-      border-color: @acc-l;
-      color: @acc-l;
+      background-color: @s4;
+      border-color: @b3;
+      color: @txt;
     }
   }
 
