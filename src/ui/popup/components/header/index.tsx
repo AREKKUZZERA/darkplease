@@ -7,7 +7,7 @@ import {getLocalMessage} from '../../../../utils/locales';
 import {isChromium} from '../../../../utils/platform';
 import {isLocalFile} from '../../../../utils/url';
 import {Toggle} from '../../../controls';
-import {SettingsIcon, SunMoonIcon, SystemIcon, WatchIcon} from '../../../icons';
+import {SunMoonIcon, SystemIcon, WatchIcon} from '../../../icons';
 import SiteToggle from '../site-toggle';
 
 import MoreNewHighlight from './more-new-highlight';
@@ -65,42 +65,27 @@ export function getSiteToggleMessage(props: ExtWrapper) {
 }
 
 function Header(props: HeaderProps) {
-    const {data, actions, onMoreSiteSettingsClick, onMoreToggleSettingsClick} = props;
+    const {data, actions} = props;
 
     function toggleApp(enabled: boolean) {
         toggleExtension(props, enabled);
     }
 
-    const tab = data.activeTab;
-    const isFile = isChromium && isLocalFile(tab.url);
     const isAutomation = data.settings.automation.enabled;
     const isTimeAutomation = data.settings.automation.mode === AutomationMode.TIME;
     const isLocationAutomation = data.settings.automation.mode === AutomationMode.LOCATION;
     const now = new Date();
 
-    const automationMessage = getAutomationMessage({data});
-
-    const isProtected = !isFile && ((!__CHROMIUM_MV3__ && !tab.isInjected) || tab.isProtected);
-    const isProtectedFile = isFile && !data.isAllowedFileSchemeAccess;
-    const isSiteEnabled = !(isProtected || isProtectedFile || tab.isInDarkList);
-
-    const siteToggleMessage = getSiteToggleMessage(props);
-
     return (
         <header class="header">
             <div class="header__top-row">
                 <a class="header__logo" href={HOMEPAGE_URL} target="_blank" rel="noopener noreferrer">
-                    DARK PLEASE!
+                    <img class="header__logo-img" src="../assets/images/darkplease-type.svg" alt="Dark Please!" />
                 </a>
-                <div class="header__status">
-                    <div class={{
-                        'header__status-dot': true,
-                        'header__status-dot--off': !data.isEnabled,
-                    }} />
-                    <span class="header__status-text">
-                        {data.isEnabled ? (isAutomation ? 'Auto' : 'Active') : 'Off'}
-                    </span>
-                </div>
+                <div class={{
+                    'header__status-dot': true,
+                    'header__status-dot--off': !data.isEnabled,
+                }} />
             </div>
             <div class="header__controls-row">
                 <div class="header__control header__site-toggle">
@@ -108,29 +93,9 @@ function Header(props: HeaderProps) {
                         data={data}
                         actions={actions}
                     />
-                    <span
-                        class={{
-                            'header__more-settings-button': true,
-                            'header__more-settings-button--off': !isSiteEnabled,
-                        }}
-                        onclick={onMoreSiteSettingsClick}
-                    >
-                        <SettingsIcon class="header__more-settings-button__icon" />
-                        {siteToggleMessage}
-                    </span>
                 </div>
                 <div class="header__control header__app-toggle">
                     <Toggle checked={data.isEnabled} labelOn={getLocalMessage('on')} labelOff={getLocalMessage('off')} onChange={toggleApp} />
-                    <span
-                        class={{
-                            'header__more-settings-button': true,
-                            'header__more-settings-button--off': !data.isEnabled,
-                        }}
-                        onclick={onMoreToggleSettingsClick}
-                    >
-                        <SettingsIcon class="header__more-settings-button__icon" />
-                        {automationMessage}
-                    </span>
                     <span
                         class={{
                             'header__app-toggle__time': true,

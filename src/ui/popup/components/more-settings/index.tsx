@@ -10,12 +10,19 @@ import {openExtensionPage} from '../../../utils';
 import CustomSettingsToggle from '../custom-settings-toggle';
 import EngineSwitch from '../engine-switch';
 import FontSettings from '../font-settings';
+import {getSiteToggleMessage, getAutomationMessage} from '../header';
 
 async function openSettings() {
     await openExtensionPage('options');
 }
 
-export default function MoreSettings({data, actions, fonts}: ExtWrapper & {fonts: string[]}) {
+interface MoreSettingsProps extends ExtWrapper {
+    fonts: string[];
+    onMoreSiteSettingsClick: () => void;
+    onMoreToggleSettingsClick: () => void;
+}
+
+export default function MoreSettings({data, actions, fonts, onMoreSiteSettingsClick, onMoreToggleSettingsClick}: MoreSettingsProps) {
     const tab = data.activeTab;
     const custom = data.settings.customThemes.find(({url}) => isURLInList(tab.url, url));
     const theme = custom ? custom.theme : data.settings.theme;
@@ -29,6 +36,9 @@ export default function MoreSettings({data, actions, fonts}: ExtWrapper & {fonts
         }
     }
 
+    const siteToggleMessage = getSiteToggleMessage({data, actions});
+    const automationMessage = getAutomationMessage({data});
+
     return (
         <section class="more-settings">
             <div class="more-settings__section">
@@ -37,20 +47,30 @@ export default function MoreSettings({data, actions, fonts}: ExtWrapper & {fonts
             <div class="more-settings__section">
                 <EngineSwitch engine={theme.engine} onChange={(engine) => setConfig({engine})} />
             </div>
-            <div class="more-settings__section">
+            <div class="more-settings__section more-settings__actions">
+                <button
+                    class="more-settings__quick-btn"
+                    onclick={onMoreSiteSettingsClick}
+                >
+                    <SettingsIcon class="more-settings__quick-btn__icon" />
+                    <span>{siteToggleMessage}</span>
+                </button>
+                <button
+                    class="more-settings__quick-btn"
+                    onclick={onMoreToggleSettingsClick}
+                >
+                    <SettingsIcon class="more-settings__quick-btn__icon" />
+                    <span>{automationMessage}</span>
+                </button>
                 <CustomSettingsToggle data={data} actions={actions} />
-            </div>
-            {isFirefox ? (
-                <div class="more-settings__section">
+                {isFirefox ? (
                     <Toggle
                         checked={data.settings.changeBrowserTheme}
                         labelOn={getLocalMessage('custom_browser_theme_on')}
                         labelOff={getLocalMessage('custom_browser_theme_off')}
                         onChange={(checked) => actions.changeSettings({changeBrowserTheme: checked})}
                     />
-                </div>
-            ) : null}
-            <div class="more-settings__section">
+                ) : null}
                 <Button onclick={openSettings} class="more-settings__settings-button">
                     <span class="more-settings__settings-button__wrapper">
                         <span class="more-settings__settings-button__icon">

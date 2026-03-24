@@ -19,53 +19,45 @@
   &__top-row {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+    position: relative;
   }
 
   &__logo {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    color: @acc;
-    text-transform: uppercase;
     text-decoration: none;
-    background-image: none;
-    width: auto;
-    height: auto;
-    text-indent: 0;
     outline: none;
-    transition: opacity @time-fast;
-    &:hover { opacity: 0.8; filter: none; }
-  }
-
-  &__status {
     display: flex;
     align-items: center;
-    gap: 6px;
+    justify-content: center;
+    transition: opacity @time-fast;
+    &:hover { opacity: 0.75; }
+  }
+
+  &__logo-img {
+    height: 17px;
+    width: auto;
+    display: block;
   }
 
   &__status-dot {
-    width: 6px; height: 6px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
     background: @grn;
     box-shadow: 0 0 0 3px @grn-d;
     animation: dp-pulse 2.4s ease infinite;
     transition: background @time-slow, box-shadow @time-slow;
     flex-shrink: 0;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
 
     &--off {
       background: @s5;
       box-shadow: none;
       animation: none;
     }
-  }
-
-  &__status-text {
-    font-size: 10px;
-    font-weight: 600;
-    color: @mut;
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
   }
 
   &__controls-row {
@@ -102,33 +94,6 @@
       width: @size-text-small-height;
       &--active { display: inline-block; }
     }
-  }
-
-  &__more-settings-button {
-    color: @mut;
-    cursor: pointer;
-    font-size: 0.625rem;
-    line-height: @size-text-small-height;
-    text-align: left;
-    user-select: none;
-    transition: color @time-fast;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    &:hover { color: @txt; }
-
-    &__icon {
-      height: 0.625rem;
-      margin-right: 0.1rem;
-      position: relative;
-      top: 0.05rem;
-      width: 0.625rem;
-      g { fill: @mut; transition: fill @time-fast; }
-    }
-    &:hover &__icon g { fill: @txt; }
-    &--off { color: @acc; }
-    &--off &__icon g { fill: @acc; }
   }
 
   &__more-site-settings   { height: 14rem; }

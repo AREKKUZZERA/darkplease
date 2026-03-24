@@ -65,7 +65,7 @@ function Body(props: BodyProps & {fonts: string[]} & {installation: {date: numbe
 
     const filterTab = <FilterSettings data={props.data} actions={props.actions} />;
 
-    const moreTab = <MoreSettings data={props.data} actions={props.actions} fonts={props.fonts} />;
+    const moreTab = <MoreSettings data={props.data} actions={props.actions} fonts={props.fonts} onMoreSiteSettingsClick={toggleMoreSiteSettings} onMoreToggleSettingsClick={toggleMoreToggleSettings} />;
 
     return (
         <body class={{'ext-disabled': !props.data.isEnabled, 'ext-tall': __PLUS__}}>

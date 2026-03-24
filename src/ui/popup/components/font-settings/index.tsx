@@ -32,9 +32,6 @@ export default function FontSettings({config, fonts, onChange}: FontSettingsProp
                         }, {} as {[font: string]: Malevic.Spec})}
                     />
                 </div>
-                <label class="font-settings__font-select-container__label">
-                    {getLocalMessage('select_font')}
-                </label>
             </div>
             <div class="font-settings__stroke-row">
                 <div class="font-settings__stroke-header">
