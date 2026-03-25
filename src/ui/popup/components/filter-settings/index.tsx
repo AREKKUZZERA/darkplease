@@ -76,41 +76,43 @@ export default function FilterSettings({data, actions}: ExtWrapper, ...children:
     return (
         <section class="filter-settings">
             <ModeToggle mode={theme.mode} onChange={(mode) => setConfig({mode})} />
-            <SliderRow
-                label={getLocalMessage('brightness')}
-                value={theme.brightness}
-                min={50} max={150}
-                defaultVal={DEFAULTS.brightness}
-                onChange={(v) => setConfig({brightness: v})}
-            />
-            <SliderRow
-                label={getLocalMessage('contrast')}
-                value={theme.contrast}
-                min={50} max={150}
-                defaultVal={DEFAULTS.contrast}
-                onChange={(v) => setConfig({contrast: v})}
-            />
-            <SliderRow
-                label={getLocalMessage('sepia')}
-                value={theme.sepia}
-                min={0} max={100}
-                defaultVal={DEFAULTS.sepia}
-                onChange={(v) => setConfig({sepia: v})}
-            />
-            <SliderRow
-                label={getLocalMessage('grayscale')}
-                value={theme.grayscale}
-                min={0} max={100}
-                defaultVal={DEFAULTS.grayscale}
-                onChange={(v) => setConfig({grayscale: v})}
-            />
-            <SliderRow
-                label={getLocalMessage('blue_light')}
-                value={theme.blueLight}
-                min={0} max={100}
-                defaultVal={DEFAULTS.blueLight}
-                onChange={(v) => setConfig({blueLight: v})}
-            />
+            <div class="filter-sliders-card">
+                <SliderRow
+                    label={getLocalMessage('brightness')}
+                    value={theme.brightness}
+                    min={50} max={150}
+                    defaultVal={DEFAULTS.brightness}
+                    onChange={(v) => setConfig({brightness: v})}
+                />
+                <SliderRow
+                    label={getLocalMessage('contrast')}
+                    value={theme.contrast}
+                    min={50} max={150}
+                    defaultVal={DEFAULTS.contrast}
+                    onChange={(v) => setConfig({contrast: v})}
+                />
+                <SliderRow
+                    label={getLocalMessage('sepia')}
+                    value={theme.sepia}
+                    min={0} max={100}
+                    defaultVal={DEFAULTS.sepia}
+                    onChange={(v) => setConfig({sepia: v})}
+                />
+                <SliderRow
+                    label={getLocalMessage('grayscale')}
+                    value={theme.grayscale}
+                    min={0} max={100}
+                    defaultVal={DEFAULTS.grayscale}
+                    onChange={(v) => setConfig({grayscale: v})}
+                />
+                <SliderRow
+                    label={getLocalMessage('blue_light')}
+                    value={theme.blueLight}
+                    min={0} max={100}
+                    defaultVal={DEFAULTS.blueLight}
+                    onChange={(v) => setConfig({blueLight: v})}
+                />
+            </div>
             <Button
                 class={{'filter-settings__reset-btn': true, 'filter-settings__reset-btn--hidden': isAllDefault}}
                 onclick={resetFilters}

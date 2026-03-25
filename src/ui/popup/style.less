@@ -4,6 +4,8 @@
 /* ── Popup dimensions ── */
 @popup-content-width:   15.5rem;
 @popup-content-height:  31rem;
+@popup-content-height-site-list: 28rem;
+@popup-content-height-more: 24.5rem;
 @popup-content-padding: 0.625rem;
 
 /* ── Component imports ── */
@@ -26,7 +28,8 @@ body {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  height: @popup-content-height;
+  height: auto;
+  min-height: @popup-content-height;
   margin: 0 auto;
   padding: @popup-content-padding;
   position: relative;
@@ -102,8 +105,16 @@ body {
   .tab-panel__tab--active { pointer-events: none; }
 }
 
+html:not(.mobile):not(.preview) body.body--tab-site-list {
+  min-height: @popup-content-height-site-list;
+}
+
+html:not(.mobile):not(.preview) body.body--tab-more {
+  min-height: @popup-content-height-more;
+}
+
 html:not(.mobile):not(.preview) body.ext-tall {
-  height: @popup-content-height + 4rem;
+  min-height: @popup-content-height + 4rem;
 }
 
 @import "./body/style";

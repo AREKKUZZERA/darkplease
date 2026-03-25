@@ -67,8 +67,16 @@ function Body(props: BodyProps & {fonts: string[]} & {installation: {date: numbe
 
     const moreTab = <MoreSettings data={props.data} actions={props.actions} fonts={props.fonts} onMoreSiteSettingsClick={toggleMoreSiteSettings} onMoreToggleSettingsClick={toggleMoreToggleSettings} />;
 
+    const bodyClass = {
+        'ext-disabled': !props.data.isEnabled,
+        'ext-tall': __PLUS__,
+        'body--tab-filter': state.activeTab === 'Filter',
+        'body--tab-site-list': state.activeTab === 'Site list',
+        'body--tab-more': state.activeTab === 'More',
+    };
+
     return (
-        <body class={{'ext-disabled': !props.data.isEnabled, 'ext-tall': __PLUS__}}>
+        <body class={bodyClass}>
             <Loader complete />
             <Header
                 data={props.data}

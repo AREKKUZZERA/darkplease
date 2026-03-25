@@ -31,7 +31,6 @@ export default function ModeToggle({mode, onChange}: ModeToggleProps) {
                     <span class="icon icon--light-mode"></span>
                 </Button>
             </div>
-            <label class="mode-toggle__label">{getLocalMessage('mode')}</label>
         </div>
     );
 }
