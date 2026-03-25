@@ -1,10 +1,9 @@
 @import "../../theme";
 
-// ── Размеры ────────────────────────────────────────────────────
-@cb-size:   @size-control-inner;         // внешний диаметр кружка
-@cb-icon:   @cb-size * 0.52;            // зона рисования иконки (52% от размера)
-@cb-line:   @cb-icon * 0.125;           // толщина линий крестика/галочки
-@cb-r:      @cb-icon * 0.38;            // полудлина одной черты крестика
+@cb-size: @size-control-inner;
+@cb-icon: @cb-size * 0.50;
+@cb-line: 1.5px;
+@cb-arm:  @cb-icon * 0.36;
 
 .checkbox {
   align-items: center;
@@ -17,7 +16,6 @@
   flex: none;
   height: @cb-size;
   justify-content: center;
-  overflow: hidden;
   position: relative;
   transition:
     background-color @time-fast,
@@ -31,84 +29,69 @@
     box-shadow: 0 0 0 3px @acc-d;
   }
 
-  // Нативный инпут скрыт, но остаётся в DOM для доступности
   &__input { display: none; }
 
-  // ── Иконка-контейнер (строго ограничен) ─────────────────────
+  // Контейнер иконки — абсолютно по центру родителя
   &__checkmark {
     border-radius: 50%;
     box-sizing: border-box;
     display: block;
+    flex: none;
     height: @cb-icon;
     overflow: hidden;
-    position: relative;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     transition: background-color @time-fast;
     width: @cb-icon;
 
-    // ── КРЕСТИК (unchecked) — две диагональные черты ──────────
+    // Крестик: обе черты через translate(-50%,-50%) — точно по центру
     &::before,
     &::after {
       background-color: @mut;
-      border-radius: (@cb-line / 2);
+      border-radius: 1px;
       content: "";
-      display: block;
       height: @cb-line;
       left: 50%;
-      margin-left: -@cb-r;
-      margin-top: -(@cb-line / 2);
       position: absolute;
       top: 50%;
-      transition:
-        background-color @time-fast,
-        transform        @time-fast,
-        width            @time-fast,
-        height           @time-fast,
-        left             @time-fast,
-        top              @time-fast,
-        margin           @time-fast;
-      width: @cb-r * 2;
+      transition: background-color @time-fast, transform @time-fast,
+                  width @time-fast, height @time-fast, left @time-fast, top @time-fast;
+      width: @cb-arm * 2;
     }
-    &::before { transform: rotate(45deg); }
-    &::after  { transform: rotate(-45deg); }
+    &::before { transform: translate(-50%, -50%) rotate(45deg); }
+    &::after  { transform: translate(-50%, -50%) rotate(-45deg); }
   }
 
-  // ── ГАЛОЧКА (checked) ─────────────────────────────────────────
+  // Галочка
   &__input:checked + &__checkmark {
     background-color: @acc;
 
-    // Короткое левое плечо (низ галочки)
     &::before {
       background-color: #fff;
-      border-radius: (@cb-line / 2);
+      width:  @cb-icon * 0.30;
       height: @cb-line;
-      width:  @cb-icon * 0.33;
-      left:   @cb-icon * 0.10;
-      top:    @cb-icon * 0.56;
-      margin: 0;
+      left:   @cb-icon * 0.15;
+      top:    @cb-icon * 0.55;
       transform: rotate(40deg);
       transform-origin: left center;
     }
-
-    // Длинное правое плечо (верх галочки)
     &::after {
       background-color: #fff;
-      border-radius: (@cb-line / 2);
+      width:  @cb-icon * 0.55;
       height: @cb-line;
-      width:  @cb-icon * 0.60;
-      left:   @cb-icon * 0.28;
+      left:   @cb-icon * 0.30;
       top:    @cb-icon * 0.42;
-      margin: 0;
       transform: rotate(-48deg);
       transform-origin: left center;
     }
   }
 
-  // Hover при checked
   &:hover &__input:checked + &__checkmark {
     background-color: lighten(@acc, 5%);
   }
 
-  // Текстовый контент (используется в CheckBox с children)
   &__content {
     color: @txt;
     display: inline-block;

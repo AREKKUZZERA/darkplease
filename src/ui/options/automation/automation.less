@@ -1,21 +1,26 @@
 .automation {
     &__time-picker-control {
-        align-items: center;
         display: flex;
         flex-direction: row;
-        gap: 0.5rem;
 
-        .time-range-picker { flex: 1; min-width: 0; }
+        .checkbox {
+            border-right: none;
+            flex: none;
+        }
+
         .time-range-picker .time-range-picker__input--start {
             border-left: @size-border-inner solid @color-border2;
         }
     }
 
     &__location-control {
-        align-items: center;
         display: flex;
         flex-direction: row;
-        gap: 0.5rem;
+
+        .checkbox {
+            border-right: none;
+            flex: none;
+        }
 
         &__latitude,
         &__longitude {
@@ -36,23 +41,25 @@
     }
 
     &__system-control {
-        align-items: center;
         display: flex;
         flex-direction: row;
-        gap: 0.5rem;
 
-        &__checkbox { flex: none; }
+        &__checkbox {
+            flex: none;
+            border-right: none;
+        }
 
         &__button {
+            border-left-width: @size-border-inner;
             flex: auto;
-            text-align: left;
 
             &:not(&--active) {
                 color: @color-input-fore;
             }
         }
 
-        &:hover &__button {
+        &:hover &__button,
+        &:hover &__checkbox {
             background-color: @dp-surface3;
         }
 
@@ -69,7 +76,7 @@
             height: @size-control-inner + 2 * @size-border;
             margin-bottom: @size-control-inner + @size-border;
             width: 100%;
-
+    
             &__selected {
                 background-color: transparent;
                 background-position: center right 0.25rem + @size-border;
@@ -79,16 +86,20 @@
                 transition: background-color @time-fast;
                 width: calc(100% - 2 * @size-border);
 
-                &:hover { background-color: @dp-surface3; }
+                &:hover {
+                    background-color: @dp-surface3;
+                }
             }
-
+    
             &--open .dropdown__list {
                 border: @size-border solid @color-border2;
                 margin-top: 0;
                 padding-top: @size-border;
             }
-
-            &__list__item { height: @size-control-inner; }
+    
+            &__list__item {
+                height: @size-control-inner;
+            }
         }
     }
 }

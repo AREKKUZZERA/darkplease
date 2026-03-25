@@ -12,7 +12,7 @@
   box-sizing: border-box;
   border: 1px solid @b2;
   border-radius: @dp-radius;
-  padding: 10px @indent-header;
+  padding: 10px 13px;
   gap: 8px;
   position: relative;
   width: 100%;
@@ -100,18 +100,16 @@
   &__more-site-settings   { height: 14rem; }
   &__more-toggle-settings { height: 17rem; }
 
-  // ── Выпадающее меню (общий контейнер) ────────────────────────
   &__more-settings {
     background-color: fadeout(@bg, 5%);
     border-bottom: 1px solid @b1;
     border-top: 1px solid @b1;
-    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     left: 0;
     position: absolute;
     top: 100%;
-    transition: height @time-slow, opacity @time-slow;
+    transition: all @time-slow;
     width: 100%;
     z-index: 999;
 
@@ -121,18 +119,16 @@
       pointer-events: none;
     }
 
-    // ── Заголовок меню ─────────────────────────────────────────
     &__top {
       align-items: center;
-      box-sizing: border-box;
       color: @acc;
       display: flex;
-      flex: none;
+      flex: auto;
+      font-size: @size-text-large;
       height: @size-control-inner;
       justify-content: space-between;
       overflow: hidden;
-      padding: 0 0 0 @indent-header;
-      width: 100%;
+      padding-left: @popup-content-padding;
 
       &__text {
         line-height: @size-text-large-height;
@@ -145,58 +141,44 @@
       &__close {
         color: @acc;
         cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-size: @size-control-inner * 0.6;
+        display: inline-block;
+        font-size: @size-control-inner * 3 / 4;
         height: @size-control-inner;
+        line-height: @size-control-inner;
+        text-align: center;
         user-select: none;
         width: @size-control-inner;
         border-radius: @dp-radius-xs;
         transition: background-color @time-fast;
-        flex-shrink: 0;
         &:hover { background-color: @acc-d; }
       }
     }
 
-    // ── Контент меню ───────────────────────────────────────────
     &__content {
-      box-sizing: border-box;
-      display: flex;
       flex: auto;
+      overflow: hidden;
+      padding: @indent-small @popup-content-padding @indent-large;
+      display: flex;
       flex-direction: column;
       gap: @indent-small;
-      overflow: hidden;
-      padding: @indent-small @indent-header @indent-large;
-      width: 100%;
     }
 
-    // ── Строка с элементами управления ────────────────────────
     &__line {
-      align-items: center;
-      box-sizing: border-box;
       display: flex;
       flex-direction: row;
-      gap: @indent-small;
-      width: 100%;
-
-      // Для TimeRangePicker — разделитель между инпутами
-      .time-range-picker {
-        flex: 1;
-        min-width: 0;
-      }
-      .time-range-picker__input--start {
+      .checkbox { border-right: none; flex: none; }
+      .time-range-picker .time-range-picker__input--start {
         border-left: 1px solid @b1;
       }
     }
 
-    // ── Текстовые описания ────────────────────────────────────
     &__description,
     &__location-description {
       font-size: @size-text-small;
       line-height: @size-text-small-height;
       margin: 0;
       text-align: center;
+      white-space: nowrap;
       color: @mut;
     }
 
@@ -209,7 +191,6 @@
       color: @acc;
     }
 
-    // Градиентный хвост снизу
     &::after {
       background-image: linear-gradient(to bottom, fadeout(@bg, 5%), fadeout(@bg, 100%));
       content: "";
@@ -223,67 +204,41 @@
       width: 100%;
     }
 
-    // ── Поля локации (lat/lon) ────────────────────────────────
     &__location {
-      &__latitude,
-      &__longitude {
-        flex: 1;
-        text-align: center;
-        text-indent: 0;
-        min-width: 0;
+      margin-top: @indent-small;
+      &__latitude, &__longitude {
+        flex: auto; text-align: center; text-indent: 0; width: 100%;
       }
-      &__latitude  { border-right: none; }
+      &__latitude  { border-left: 1px solid @b1; border-right: none; }
       &__longitude { border-left: 1px solid @b1; }
     }
 
-    // ── Строки: системная тема / по умолчанию / определение ───
-    // Теперь чекбокс круглый и отдельный — убираем слитный стиль,
-    // делаем обычную flex-строку с gap
     &__system-dark-mode,
     &__enabled-by-default,
     &__detect-dark-theme {
-      align-items: center;
-      display: flex;
-      flex-direction: row;
-      gap: @indent-small;
-      width: 100%;
-
-      &__checkbox {
-        flex: none;
-      }
-
+      display: flex; flex-direction: row; gap: 0;
+      &__checkbox { flex: none; }
       &__button {
-        flex: 1;
-        min-width: 0;
-        text-align: left;
+        border-left-width: 1px;
+        flex: auto;
         &:not(&--active) { color: @txt2; }
       }
-
-      &:hover &__button {
-        background-color: @s3;
-        border-color: @b3;
-      }
-      &:hover &__button--active {
-        background-color: lighten(@acc, 3%);
-      }
+      &:hover &__button,
+      &:hover &__checkbox { background-color: @s4; }
+      &:hover &__button--active { background-color: lighten(@acc, 3%); }
     }
 
-    // ── Обёртка шортката ──────────────────────────────────────
     &__shortcut-wrapper {
-      box-sizing: border-box;
-      display: flex;
+      display: inline-block;
       height: @size-control-inner + 2px;
       position: relative;
       width: 100%;
-
       svg {
         --icon-color: @mut;
         border-right: 1px solid @b1;
         height: @size-control-inner;
-        left: 1px;
-        pointer-events: none;
-        position: absolute;
-        top: 1px;
+        left: 1px; pointer-events: none;
+        position: absolute; top: 1px;
         width: @size-control-inner;
       }
       &--set svg { --icon-color: @txt; }
@@ -293,45 +248,41 @@
       background-color: @s2;
       border: 1px solid @b2;
       border-radius: @dp-radius-xs;
-      box-sizing: border-box;
       font-size: @size-text-normal;
       height: @size-control-inner;
       line-height: @size-control-inner;
       padding-left: @size-control-inner;
       position: relative;
-      transition: background-color @time-fast, border-color @time-fast;
+      transition: all @time-fast;
       white-space: nowrap;
-      width: 100%;
-      &:hover { background-color: @s3; border-color: @b3; }
+      width: calc(100% - 2px - @size-control-inner);
+      &:hover { background-color: @s3; }
     }
   }
 
   .shortcut { overflow: hidden; }
 
-  // ── Стрелка-хайлайт «New» ─────────────────────────────────
   &__more-new-highlight {
     height: 2rem;
     pointer-events: none;
     position: absolute;
-    right: 0;
-    top: 100%;
+    right: 0; top: 100%;
     width: 17rem;
 
     &__text {
       background: @acc;
-      bottom: 0;
-      border-radius: 4px;
-      color: @txt;
+      bottom: 0; color: @txt;
       display: inline-block;
-      font-size: @size-text-small;
       line-height: 0.75rem;
       padding: 0.25rem;
       position: absolute;
       right: 0.5rem;
+      border-radius: 4px;
+      font-size: @size-text-small;
     }
 
     &__lines {
-      path   { fill: none; stroke: @acc; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2; }
+      path { fill: none; stroke: @acc; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2; }
       circle { fill: @acc; stroke: none; }
     }
   }
