@@ -30,11 +30,11 @@ export default function UpDown(props: UpDownProps) {
         const s = Math.round(x / props.step) * props.step;
         const exp = Math.floor(Math.log10(props.step));
         if (exp >= 0) {
-            const m = 10 ** exp;
-            return Math.round(s / m) * m;
+            const mult = 10 ** exp;
+            return Math.round(s / mult) * mult;
         }
-        const m = 10 ** -exp;
-        return Math.round(s * m) / m;
+        const mult = 10 ** -exp;
+        return Math.round(s * mult) / mult;
     }
 
     function clamp(x: number) {
@@ -76,9 +76,9 @@ export default function UpDown(props: UpDownProps) {
                     <span class="updown__icon updown__icon-up"></span>
                 </Button>
             </div>
-            <label class="updown__value-text">
+            <div class="updown__value-text" aria-label={props.name}>
                 {valueText}
-            </label>
+            </div>
         </div>
     );
 }

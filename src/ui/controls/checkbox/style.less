@@ -1,51 +1,120 @@
 @import "../../theme";
 
+// ── Размеры ────────────────────────────────────────────────────
+@cb-size:   @size-control-inner;         // внешний диаметр кружка
+@cb-icon:   @cb-size * 0.52;            // зона рисования иконки (52% от размера)
+@cb-line:   @cb-icon * 0.125;           // толщина линий крестика/галочки
+@cb-r:      @cb-icon * 0.38;            // полудлина одной черты крестика
+
 .checkbox {
-  align-items: stretch;
+  align-items: center;
   background-color: @s2;
-  border: 1px solid @b2;
-  border-radius: @dp-radius-xs;
+  border: 1.5px solid @b3;
+  border-radius: 50%;
+  box-sizing: border-box;
   cursor: pointer;
   display: inline-flex;
   flex: none;
-  flex-direction: row;
-  height: @size-control-inner;
-  transition: background-color @time-fast, border-color @time-fast;
-  width: @size-control-inner;
+  height: @cb-size;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  transition:
+    background-color @time-fast,
+    border-color     @time-fast,
+    box-shadow       @time-fast;
+  width: @cb-size;
 
-  &:hover { background-color: @s3; border-color: @b3; }
+  &:hover {
+    background-color: @s3;
+    border-color: @acc;
+    box-shadow: 0 0 0 3px @acc-d;
+  }
 
+  // Нативный инпут скрыт, но остаётся в DOM для доступности
   &__input { display: none; }
 
+  // ── Иконка-контейнер (строго ограничен) ─────────────────────
   &__checkmark {
-    display: inline-block;
-    height: 100%;
+    border-radius: 50%;
+    box-sizing: border-box;
+    display: block;
+    height: @cb-icon;
+    overflow: hidden;
     position: relative;
-    width: @size-control-inner;
+    transition: background-color @time-fast;
+    width: @cb-icon;
 
-    &::before, &::after {
+    // ── КРЕСТИК (unchecked) — две диагональные черты ──────────
+    &::before,
+    &::after {
       background-color: @mut;
+      border-radius: (@cb-line / 2);
       content: "";
-      display: inline-block;
-      height: @size-control-inner * 0.1;
-      left: @size-control-inner * 0.125;
+      display: block;
+      height: @cb-line;
+      left: 50%;
+      margin-left: -@cb-r;
+      margin-top: -(@cb-line / 2);
       position: absolute;
-      top: @size-control-inner * 0.425;
-      transition: all @time-fast;
-      width: @size-control-inner * 0.75;
+      top: 50%;
+      transition:
+        background-color @time-fast,
+        transform        @time-fast,
+        width            @time-fast,
+        height           @time-fast,
+        left             @time-fast,
+        top              @time-fast,
+        margin           @time-fast;
+      width: @cb-r * 2;
     }
-    &::before { transform: skewY(45deg); }
-    &::after  { transform: skewY(-45deg); }
+    &::before { transform: rotate(45deg); }
+    &::after  { transform: rotate(-45deg); }
   }
 
+  // ── ГАЛОЧКА (checked) ─────────────────────────────────────────
   &__input:checked + &__checkmark {
     background-color: @acc;
-    border-radius: @dp-radius-xs - 1px;
 
-    &::before, &::after { background-color: #fff; }
-    &::before { top: @size-control-inner * 0.55; width: @size-control-inner * 0.25; }
-    &::after  { left: @size-control-inner * 0.375; width: @size-control-inner * 0.5; }
+    // Короткое левое плечо (низ галочки)
+    &::before {
+      background-color: #fff;
+      border-radius: (@cb-line / 2);
+      height: @cb-line;
+      width:  @cb-icon * 0.33;
+      left:   @cb-icon * 0.10;
+      top:    @cb-icon * 0.56;
+      margin: 0;
+      transform: rotate(40deg);
+      transform-origin: left center;
+    }
+
+    // Длинное правое плечо (верх галочки)
+    &::after {
+      background-color: #fff;
+      border-radius: (@cb-line / 2);
+      height: @cb-line;
+      width:  @cb-icon * 0.60;
+      left:   @cb-icon * 0.28;
+      top:    @cb-icon * 0.42;
+      margin: 0;
+      transform: rotate(-48deg);
+      transform-origin: left center;
+    }
   }
 
-  &:hover &__input:checked + &__checkmark { background-color: lighten(@acc, 4%); }
+  // Hover при checked
+  &:hover &__input:checked + &__checkmark {
+    background-color: lighten(@acc, 5%);
+  }
+
+  // Текстовый контент (используется в CheckBox с children)
+  &__content {
+    color: @txt;
+    display: inline-block;
+    font-size: @size-text-normal;
+    line-height: @size-text-normal-height;
+    margin-left: @indent-small;
+    user-select: none;
+  }
 }

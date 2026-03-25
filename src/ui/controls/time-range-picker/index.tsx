@@ -44,6 +44,8 @@ export default function TimeRangePicker(props: TimePickerProps) {
             <TextBox
                 class="time-range-picker__input time-range-picker__input--start"
                 type="time"
+                id="time-range-start"
+                name="time-range-start"
                 placeholder="18:00"
                 onrender={setStartTime}
                 onchange={(e) => onStartTimeChange((e.target as HTMLInputElement).value)}
@@ -59,6 +61,8 @@ export default function TimeRangePicker(props: TimePickerProps) {
             <TextBox
                 class="time-range-picker__input time-range-picker__input--end"
                 type="time"
+                id="time-range-end"
+                name="time-range-end"
                 placeholder="09:00"
                 onrender={setEndTime}
                 onchange={(e) => onEndTimeChange((e.target as HTMLInputElement).value)}

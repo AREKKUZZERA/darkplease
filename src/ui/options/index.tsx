@@ -16,7 +16,7 @@ function renderBody(data: ExtensionData, actions: Connector) {
 
 async function start(): Promise<void> {
     const connector = new Connector();
-    window.addEventListener('unload', () => connector.disconnect(), {passive: true});
+    window.addEventListener('pagehide', () => connector.disconnect(), {passive: true});
 
     const data = await connector.getData();
     renderBody(data, connector);

@@ -45,7 +45,7 @@ async function start() {
     }
 
     const connector = new Connector();
-    window.addEventListener('unload', () => connector.disconnect());
+    window.addEventListener('pagehide', () => connector.disconnect(), {passive: true});
 
     const [data, fonts, installation] = await Promise.all([
         connector.getData(),

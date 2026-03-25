@@ -2,13 +2,21 @@
 
 .message-box {
     background-color: @color-back;
-    border-bottom: @size-border solid @color-border2;
-    border-top: @size-border solid @color-border2;
+    border: @size-border solid @color-border2;
+    border-radius: @dp-radius-sm;
     display: flex;
     flex-direction: column;
     padding: @indent-large;
+    min-width: 12rem;
+    max-width: 18rem;
+    width: 100%;
+    margin: 0 auto;
 
     &__caption {
+        color: @txt;
+        font-size: @size-text-normal;
+        line-height: @size-text-normal-height;
+        margin: 0 0 @indent-small;
         text-align: center;
     }
 
@@ -16,18 +24,15 @@
         display: flex;
         flex-direction: row;
         justify-content: center;
+        gap: @indent-small;
         margin-top: @indent-small;
     }
 
     &__button {
         min-width: 4rem;
-
-        &:not(:first-child) {
-            margin-left: @indent-small;
-        }
     }
 
     &__button-ok {
-        border-color: gray;
+        border-color: @color-border2;
     }
 }

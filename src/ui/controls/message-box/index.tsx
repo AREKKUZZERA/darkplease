@@ -15,9 +15,9 @@ export default function MessageBox(props: MessageBoxProps) {
     return (
         <Overlay.Portal key={props.portalKey} onOuterClick={props.onCancel}>
             <div class="message-box">
-                <label class="message-box__caption">
+                <p class="message-box__caption">
                     {props.caption}
-                </label>
+                </p>
                 <div class="message-box__buttons">
                     <Button class="message-box__button message-box__button-ok" onclick={props.onOK}>
                         OK

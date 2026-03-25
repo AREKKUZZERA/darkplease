@@ -12,7 +12,7 @@ function renderBody(data: ExtensionData, actions: ExtensionActions) {
 
 async function start() {
     const connector = new Connector();
-    window.addEventListener('unload', () => connector.disconnect(), {passive: true});
+    window.addEventListener('pagehide', () => connector.disconnect(), {passive: true});
 
     const data = await connector.getData();
     renderBody(data, connector);
