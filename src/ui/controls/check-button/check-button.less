@@ -7,23 +7,37 @@
         width: 100%;
     }
 
+    // Override checkbox base styles for button-style layout
     .checkbox {
         width: 100%;
-        border-radius: @dp-radius-xs;
         height: @size-control-inner;
-        border-color: @color-border2;
+        border-radius: @dp-radius-xs;
+        border: 1.5px solid @color-border2;
+        background-color: @s2;
         display: flex;
         flex-direction: row;
         align-items: stretch;
+        justify-content: flex-start;
 
+        &:hover {
+            background-color: @s3;
+            border-color: @b3;
+            box-shadow: none;
+        }
+
+        // Checkmark cell: fixed-width left slot, static in flow
         &__checkmark {
-            flex-shrink: 0;
+            flex: 0 0 @size-control-inner;
             width: @size-control-inner;
-            height: @size-control-inner;
+            height: 100%;
             background-color: @dp-surface3;
-            border-radius: @dp-radius-xs - 2px;
+            border-radius: (@dp-radius-xs - 2px);
+            // Reset absolute positioning from base checkbox style
+            position: static;
+            top: auto;
+            left: auto;
+            transform: none;
             transition: background-color @time-fast;
-            position: relative;
 
             &::before,
             &::after {
@@ -31,12 +45,14 @@
             }
         }
 
+        // Text: centered in remaining space
         &__content {
             align-items: center;
             display: flex;
             flex: 1;
-            height: @size-control-inner;
+            height: 100%;
             justify-content: center;
+            margin-left: 0;
             -moz-user-select: none;
             user-select: none;
             font-size: @size-text-small;

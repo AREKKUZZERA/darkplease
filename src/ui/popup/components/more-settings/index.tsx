@@ -72,11 +72,9 @@ export default function MoreSettings({data, actions, fonts, onMoreSiteSettingsCl
                     />
                 ) : null}
                 <Button onclick={openSettings} class="more-settings__settings-button">
-                    <span class="more-settings__settings-button__wrapper">
-                        <SettingsIcon class="more-settings__settings-button__icon" />
-                        <span class="more-settings__settings-button__text">
-                            {getLocalMessage('all_settings')}
-                        </span>
+                    <SettingsIcon class="more-settings__settings-button__icon" />
+                    <span class="more-settings__settings-button__text">
+                        {getLocalMessage('all_settings')}
                     </span>
                 </Button>
             </div>
