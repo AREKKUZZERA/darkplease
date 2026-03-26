@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "DARK PLEASE!",
-    "version": "2.3.0",
+    "version": "2.5.0",
     "author": "AREKKUZZERA",
     "description": "__MSG_extension_description__",
     "default_locale": "en",
