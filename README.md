@@ -11,7 +11,7 @@
   <img src="https://img.shields.io/badge/license-MIT-111111?style=for-the-badge" />
   <img src="https://img.shields.io/badge/Chrome-111111?style=for-the-badge&logo=googlechrome&logoColor=white" />
 </p>
-
+ 
 ---
 
 **DARK PLEASE!** applies dark mode to any website automatically using dynamic theme generation. The extension ships with a fully custom UI, per-site controls, automation, keyboard shortcuts, and deep theme customization — all without requiring website-specific configuration.
