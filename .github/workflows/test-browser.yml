@@ -49,7 +49,7 @@ jobs:
 
     steps:
       - name: Check out code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Install Chrome
         uses: browser-actions/setup-chrome@latest
@@ -62,7 +62,7 @@ jobs:
           { echo CHROME_BIN="$(which chrome)"; echo CHROME_TEST=1; } | tee -a "$GITHUB_ENV"
 
       - name: Node setup
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ inputs.node_version || '22.x' }}
           cache: npm
@@ -80,7 +80,7 @@ jobs:
         run: xvfb-run --auto-servernum npm run test:chrome-mv3 -- --json --outputFile=test-results-chrome-mv3.json
 
       - name: Upload test results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: test-results-chrome-${{ matrix.chrome }}-coverage-${{ matrix.coverage }}
           path: test-results-*
