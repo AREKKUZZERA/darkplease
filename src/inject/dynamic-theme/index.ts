@@ -94,6 +94,10 @@ function stopStylePositionWatchers() {
 function injectStaticStyle(style: HTMLStyleElement, prevNode: Node | null, watchAlias: string, callback?: () => void) {
     const mode = getStyleInjectionMode();
     if (mode === 'next') {
+        // document.head may be null in rare race conditions (e.g. very early injection)
+        if (!document.head) {
+            return;
+        }
         document.head.insertBefore(style, prevNode ? prevNode.nextSibling : document.head.firstChild);
         setupNodePositionWatcher(style, watchAlias, callback);
     } else if (mode === 'away') {
@@ -149,8 +153,14 @@ function createStaticStyleOverrides() {
         `   --darkplease-selection-text: ${selectionColors?.foregroundColorSelection ?? 'initial'};`,
         `}`,
     ].join('\n');
-    injectStaticStyle(variableStyle, inlineStyle, 'variables', () => registerVariablesSheet(variableStyle.sheet!));
-    registerVariablesSheet(variableStyle.sheet!);
+    injectStaticStyle(variableStyle, inlineStyle, 'variables', () => {
+        if (variableStyle.sheet) {
+            registerVariablesSheet(variableStyle.sheet);
+        }
+    });
+    if (variableStyle.sheet) {
+        registerVariablesSheet(variableStyle.sheet);
+    }
 
     const rootVarsStyle = createOrUpdateStyle('darkplease--root-vars');
     injectStaticStyle(rootVarsStyle, variableStyle, 'root-vars');

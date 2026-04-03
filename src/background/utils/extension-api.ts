@@ -6,6 +6,11 @@ export function canInjectScript(url: string | null | undefined): boolean {
     if (url === 'about:blank') {
         return false;
     }
+    // Never inject into local file:// URLs — the extension should not modify
+    // local HTML files opened directly from the filesystem
+    if (url && url.startsWith('file:///')) {
+        return false;
+    }
     if (isFirefox) {
         return Boolean(url
             && !url.startsWith('about:')

@@ -10,6 +10,14 @@ function hasBuiltInDarkTheme() {
         return true;
     }
 
+    // Check body color-scheme too
+    if (document.body) {
+        const bodyStyle = getComputedStyle(document.body);
+        if (bodyStyle.colorScheme === 'dark') {
+            return true;
+        }
+    }
+
     const CELL_SIZE = 256;
     const MAX_ROW_COUNT = 4;
     const winWidth = innerWidth;
@@ -29,7 +37,9 @@ function hasBuiltInDarkTheme() {
             const style = element === document.documentElement ? rootStyle : getComputedStyle(element);
             const bgColor = parseColorWithCache(style.backgroundColor);
             if (!bgColor) {
-                return false;
+                // Can't determine color at this point — skip this sample rather than
+                // returning false and incorrectly claiming no dark theme exists
+                continue;
             }
             if (bgColor.r === 24 && bgColor.g === 26 && bgColor.b === 27) {
                 // For some websites changes to CSSStyleSheet.disabled and HTMLStyleElement.textContent
@@ -42,16 +52,20 @@ function hasBuiltInDarkTheme() {
                 if (bgLightness > 0.5) {
                     return false;
                 }
-            } else {
+            } else if ((bgColor.a ?? 0) > 0) {
+                // Semi-transparent: check text color
                 const textColor = parseColorWithCache(style.color);
                 if (!textColor) {
-                    return false;
+                    // Skip this sample, can't determine
+                    continue;
                 }
                 const textLightness = getSRGBLightness(textColor.r, textColor.g, textColor.b);
                 if (textLightness < 0.5) {
                     return false;
                 }
             }
+            // Fully transparent elements (bgColor.a === 0) are skipped — they don't
+            // reveal the page background color on their own
         }
     }
 
@@ -76,9 +90,21 @@ function runCheck(callback: (hasDarkTheme: boolean) => void) {
         return;
     }
 
+    // Check common dark-mode class/attribute patterns used by popular frameworks
+    const root = document.documentElement;
+    const body = document.body;
     if (
-        document.documentElement.classList.contains('dark') ||
-        document.body?.classList.contains('dark') ||
+        root.classList.contains('dark') ||
+        root.classList.contains('dark-mode') ||
+        root.classList.contains('dark-theme') ||
+        root.getAttribute('data-theme')?.toLowerCase() === 'dark' ||
+        root.getAttribute('data-color-scheme')?.toLowerCase() === 'dark' ||
+        root.getAttribute('data-bs-theme')?.toLowerCase() === 'dark' ||
+        root.getAttribute('color-scheme')?.toLowerCase() === 'dark' ||
+        body?.classList.contains('dark') ||
+        body?.classList.contains('dark-mode') ||
+        body?.classList.contains('dark-theme') ||
+        body?.getAttribute('data-theme')?.toLowerCase() === 'dark' ||
         document.documentElement.dataset.theme?.toLocaleLowerCase() === 'dark'
     ) {
         callback(true);

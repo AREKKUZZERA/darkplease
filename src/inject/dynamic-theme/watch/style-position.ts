@@ -230,12 +230,15 @@ export function watchForStylePositions(
 
     addDOMReadyListener(() => {
         // Some shadow roots could be created using templates
-        forEach(document.body.children, (el) => {
-            if (el.shadowRoot && !observedRoots.has(el)) {
-                subscribeForShadowRootChanges(el);
-                deepObserve(el.shadowRoot);
-            }
-        });
+        // document.body may still be null at this point on some pages
+        if (document.body) {
+            forEach(document.body.children, (el) => {
+                if (el.shadowRoot && !observedRoots.has(el)) {
+                    subscribeForShadowRootChanges(el);
+                    deepObserve(el.shadowRoot);
+                }
+            });
+        }
     });
 }
 

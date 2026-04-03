@@ -572,7 +572,12 @@ export class VariablesStore {
     }
 
     putRootVars(styleElement: HTMLStyleElement, theme: Theme): void {
-        const sheet = styleElement.sheet!;
+        const sheet = styleElement.sheet;
+        // sheet can be null if the style element is not yet attached to the document
+        // (e.g. when document.head is not ready) — bail out to avoid a TypeError
+        if (!sheet) {
+            return;
+        }
         if (sheet.cssRules.length > 0) {
             sheet.deleteRule(0);
         }
