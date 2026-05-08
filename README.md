@@ -129,14 +129,6 @@ The detector is designed to be conservative:
 
 This keeps sites with native dark themes stable while still allowing DARK PLEASE! to generate a theme for light-only pages.
 
-## Development Notes
-
-- Keep changes scoped; site-specific problems usually belong in `src/config/*`.
-- Prefer detector improvements over adding broad one-off exclusions.
-- Use focused static checks for small changes.
-- Use browser tests when changing injection, tab lifecycle, or rendering behavior.
-- Commit messages should follow Conventional Commits, for example `fix(detector): improve native dark theme detection`.
-
 ## Acknowledgements
 
 Derived from [Dark Reader](https://github.com/darkreader/darkreader). Original work is copyright Dark Reader contributors and licensed under MIT. This repository contains UI changes, extension behavior changes, bundled configuration, and project-specific modifications built on top of that foundation.
