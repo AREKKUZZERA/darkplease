@@ -2,6 +2,7 @@ import type {Theme} from '../../definitions';
 import {forEach, push} from '../../utils/array';
 import {isShadowDomSupported} from '../../utils/platform';
 import {throttle} from '../../utils/throttle';
+import {encodeTextAsBase64} from '../../utils/text';
 import {getDuration} from '../../utils/time';
 import {getAbsoluteURL} from '../../utils/url';
 import {iterateShadowHosts, createOptimizedTreeObserver, isReadyStateComplete, addReadyStateCompleteListener, addDOMReadyListener, isDOMReady} from '../utils/dom';
@@ -459,7 +460,7 @@ export function overrideInlineStyle(element: HTMLElement, theme: Theme, ignoreIn
             const analyzeSVGAsImage = () => {
                 let svgString = svg.outerHTML;
                 svgString = svgString.replaceAll('<style class="darkplease darkplease--sync" media="screen"></style>', '');
-                const dataURL = `data:image/svg+xml;base64,${btoa(svgString)}`;
+                const dataURL = `data:image/svg+xml;base64,${encodeTextAsBase64(svgString)}`;
                 getImageDetails(dataURL).then((details) => {
                     if (
                         (details.isDark && details.isTransparent) ||

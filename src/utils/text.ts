@@ -85,6 +85,28 @@ export function getHashCode(text: string): number {
     return hash;
 }
 
+export function encodeTextAsBase64(text: string): string {
+    const bytes = new TextEncoder().encode(text);
+    let binary = '';
+    const chunkSize = 0x8000;
+    for (let i = 0; i < bytes.length; i += chunkSize) {
+        const chunk = bytes.subarray(i, i + chunkSize);
+        for (let j = 0; j < chunk.length; j++) {
+            binary += String.fromCharCode(chunk[j]);
+        }
+    }
+    return btoa(binary);
+}
+
+export function decodeBase64ToText(base64: string): string {
+    const binary = atob(base64);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) {
+        bytes[i] = binary.charCodeAt(i);
+    }
+    return new TextDecoder().decode(bytes);
+}
+
 export function escapeRegExpSpecialChars(input: string): string {
     return input.replaceAll(/[\^$.*+?\(\)\[\]{}|\-\\]/g, '\\$&');
 }

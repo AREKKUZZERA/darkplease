@@ -3,7 +3,7 @@ import {getSVGFilterMatrixValue} from '../../generators/svg-filter';
 import AsyncQueue from '../../utils/async-queue';
 import {getSRGBLightness} from '../../utils/color';
 import {loadAsBlob, loadAsDataURL} from '../../utils/network';
-import {getHashCode} from '../../utils/text';
+import {decodeBase64ToText, encodeTextAsBase64, getHashCode} from '../../utils/text';
 import {addReadyStateCompleteListener, isReadyStateComplete} from '../utils/dom';
 import {logWarn} from '../utils/log';
 
@@ -40,7 +40,7 @@ export async function getImageDetails(url: string): Promise<ImageDetails> {
                         if (svgText.includes('%')) {
                             svgText = decodeURIComponent(svgText);
                         }
-                        svgText = atob(svgText);
+                        svgText = decodeBase64ToText(svgText);
                     } else if (svgText.startsWith('%3c')) {
                         svgText = decodeURIComponent(svgText);
                     }
@@ -58,7 +58,7 @@ export async function getImageDetails(url: string): Promise<ImageDetails> {
                             if (viewBox.length === 4 && !viewBox.some((x) => isNaN(x))) {
                                 const width = viewBox[2] - viewBox[0];
                                 const height = viewBox[3] - viewBox[1];
-                                dataURL = `data:image/svg+xml;base64,${btoa(`<svg width="${width}" height="${height}" ${svgText.slice(5)}`)}`;
+                                dataURL = `data:image/svg+xml;base64,${encodeTextAsBase64(`<svg width="${width}" height="${height}" ${svgText.slice(5)}`)}`;
                             }
                         }
                     }
@@ -283,14 +283,10 @@ export function getFilteredImageURL({dataURL, width, height, useViewBox}: ImageD
     ].join('');
 
     if (!isBlobURLSupported) {
-        return `data:image/svg+xml;base64,${btoa(svg)}`;
+        return `data:image/svg+xml;base64,${encodeTextAsBase64(svg)}`;
     }
 
-    const bytes = new Uint8Array(svg.length);
-    for (let i = 0; i < svg.length; i++) {
-        bytes[i] = svg.charCodeAt(i);
-    }
-    const blob = new Blob([bytes], {type: 'image/svg+xml'});
+    const blob = new Blob([svg], {type: 'image/svg+xml'});
     const objectURL = URL.createObjectURL(blob);
     objectURLs.add(objectURL);
     return objectURL;
