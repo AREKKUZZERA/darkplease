@@ -19,7 +19,7 @@ declare const __THUNDERBIRD__: boolean;
 
 interface TabManagerOptions {
     getConnectionMessage: (tabURl: string, url: string, isTopFrame: boolean, topFrameHasDarkTheme?: boolean) => Promise<MessageBGtoCS>;
-    getTabMessage: (tabURL: string, url: string, isTopFrame: boolean) => MessageBGtoCS;
+    getTabMessage: (tabURL: string, url: string, isTopFrame: boolean, documentHasDarkTheme?: boolean, topFrameHasDarkTheme?: boolean) => MessageBGtoCS;
     onColorSchemeChange: (isDark: boolean) => void;
 }
 
@@ -163,8 +163,10 @@ export default class TabManager {
                     const documentId: string | null = __CHROMIUM_MV3__ ? sender.documentId! : (sender.documentId! || null);
                     const isTopFrame: boolean = (__CHROMIUM_MV2__ || __CHROMIUM_MV3__) ? (frameId === 0 || message.data.isTopFrame) : frameId === 0;
                     TabManager.stateManager.loadState().then(() => {
-                        if (TabManager.tabs[tabId][frameId].timestamp < TabManager.timestamp) {
-                            const response = TabManager.getTabMessage(tabURL, url, isTopFrame);
+                        const frame = TabManager.tabs[tabId][frameId];
+                        if (frame.timestamp < TabManager.timestamp) {
+                            const topFrameHasDarkTheme = isTopFrame ? false : TabManager.tabs[tabId]?.[0]?.darkThemeDetected;
+                            const response = TabManager.getTabMessage(tabURL, url, isTopFrame, frame.darkThemeDetected, topFrameHasDarkTheme);
                             response.scriptId = message.scriptId!;
                             TabManager.sendDocumentMessage(tabId, documentId!, response, frameId!);
                         }
@@ -174,7 +176,7 @@ export default class TabManager {
                             url,
                             isTop: isTopFrame || undefined,
                             state: DocumentState.ACTIVE,
-                            darkThemeDetected: false,
+                            darkThemeDetected: frame.darkThemeDetected,
                             timestamp: TabManager.timestamp,
                         };
                         TabManager.stateManager.saveState();
@@ -456,7 +458,7 @@ export default class TabManager {
                 const frames = TabManager.tabs[tab.id!];
                 Object.entries(frames)
                     .filter(([, {state}]) => state === DocumentState.ACTIVE || state === DocumentState.PASSIVE)
-                    .forEach(async ([id, {url, documentId, scriptId, isTop}]) => {
+                    .forEach(async ([id, {url, documentId, scriptId, isTop, darkThemeDetected}]) => {
                         const frameId = Number(id);
                         const tabURL = await TabManager.getTabURL(tab);
 
@@ -465,7 +467,8 @@ export default class TabManager {
                             return;
                         }
 
-                        const message = TabManager.getTabMessage(tabURL, url!, isTop || false);
+                        const topFrameHasDarkTheme = isTop ? false : frames[0]?.darkThemeDetected;
+                        const message = TabManager.getTabMessage(tabURL, url!, isTop || false, darkThemeDetected, topFrameHasDarkTheme);
                         message.scriptId = scriptId;
 
                         if (tab.active && isTop) {

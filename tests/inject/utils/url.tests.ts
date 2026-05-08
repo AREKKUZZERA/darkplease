@@ -1,5 +1,5 @@
 import type {UserSettings} from '../../../src/definitions';
-import {isURLEnabled, isURLMatched, isPDF, getURLHostOrProtocol, getAbsoluteURL} from '../../../src/utils/url';
+import {isDocumentURLEnabled, isURLEnabled, isURLMatched, isPDF, getURLHostOrProtocol, getAbsoluteURL} from '../../../src/utils/url';
 
 it('URL is enabled', () => {
     function fillUserSettings(settings: Partial<UserSettings>): UserSettings {
@@ -185,6 +185,17 @@ it('URL is enabled', () => {
     )).toBe(false);
 
     // Dark theme detection
+    expect(isDocumentURLEnabled(
+        'https://github.com/',
+        fillUserSettings({disabledFor: [], enabledFor: [], enabledByDefault: true, detectDarkTheme: true}),
+        {isProtected: false, isInDarkList: false, isDarkThemeDetected: true},
+    )).toBe(false);
+    expect(isDocumentURLEnabled(
+        'https://github.com/',
+        fillUserSettings({disabledFor: [], enabledFor: [], enabledByDefault: true, detectDarkTheme: true}),
+        {isProtected: false, isInDarkList: false, isDarkThemeDetected: false},
+        true,
+    )).toBe(false);
     expect(isURLEnabled(
         'https://github.com/',
         fillUserSettings({disabledFor: [], enabledFor: [], enabledByDefault: true, detectDarkTheme: true}),

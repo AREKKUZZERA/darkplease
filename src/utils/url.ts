@@ -431,6 +431,16 @@ export function isURLEnabled(url: string, userSettings: UserSettings, {isProtect
     return !isURLInDisabledList;
 }
 
+export function isDocumentURLEnabled(
+    url: string,
+    userSettings: UserSettings,
+    tabInfo: Partial<TabInfo>,
+    topFrameHasDarkTheme = false,
+    isAllowedFileSchemeAccess = false,
+): boolean {
+    return !topFrameHasDarkTheme && isURLEnabled(url, userSettings, tabInfo, isAllowedFileSchemeAccess);
+}
+
 export function isLocalFile(url: string): boolean {
     return Boolean(url) && url.startsWith('file:');
 }

@@ -14,7 +14,7 @@ import {PromiseBarrier} from '../utils/promise-barrier';
 import {StateManager} from '../utils/state-manager';
 import {getActiveTab} from '../utils/tabs';
 import {isInTimeIntervalLocal, nextTimeInterval, isNightAtLocation, nextTimeChangeAtLocation, getDuration} from '../utils/time';
-import {isURLInList, getURLHostOrProtocol, isURLEnabled, isPDF} from '../utils/url';
+import {isURLInList, getURLHostOrProtocol, isDocumentURLEnabled, isPDF} from '../utils/url';
 
 import ConfigManager from './config-manager';
 import DevTools from './devtools';
@@ -458,7 +458,7 @@ export class Extension {
 
     private static async getConnectionMessage(tabURL: string, url: string, isTopFrame: boolean, topFrameHasDarkTheme?: boolean) {
         await Extension.loadData();
-        return Extension.getTabMessage(tabURL, url, isTopFrame, topFrameHasDarkTheme);
+        return Extension.getTabMessage(tabURL, url, isTopFrame, false, topFrameHasDarkTheme);
     }
 
     private static async loadData() {
@@ -650,10 +650,13 @@ export class Extension {
         };
     }
 
-    private static getTabMessage = (tabURL: string, url: string, isTopFrame: boolean, topFrameHasDarkTheme?: boolean): TabData => {
+    private static getTabMessage = (tabURL: string, url: string, isTopFrame: boolean, documentHasDarkTheme = false, topFrameHasDarkTheme = false): TabData => {
         const settings = UserStorage.settings;
-        const tabInfo = Extension.getTabInfo(tabURL);
-        if (Extension.isExtensionSwitchedOn() && isURLEnabled(tabURL, settings, tabInfo) && !topFrameHasDarkTheme) {
+        const tabInfo = {
+            ...Extension.getTabInfo(tabURL),
+            isDarkThemeDetected: documentHasDarkTheme,
+        };
+        if (Extension.isExtensionSwitchedOn() && isDocumentURLEnabled(tabURL, settings, tabInfo, topFrameHasDarkTheme)) {
             const custom = settings.customThemes.find(({url: urlList}) => isURLInList(tabURL, urlList));
             const preset = custom ? null : settings.presets.find(({urls}) => isURLInList(tabURL, urls));
             let theme = custom ? custom.theme : preset ? preset.theme : settings.theme;
