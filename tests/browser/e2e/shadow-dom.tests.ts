@@ -27,7 +27,8 @@ describe('Custom HTML elements', () => {
             ),
         });
 
-        await pageUtils.evaluateScript(async () => {
+        const tag = await pageUtils.evaluateScript(async () => {
+            const tag = `elem-with-async-${crypto.randomUUID()}`;
             class ElementWitAsync extends HTMLElement {
                 constructor() {
                     super();
@@ -43,13 +44,14 @@ describe('Custom HTML elements', () => {
                 }
             }
 
-            customElements.define('elem-with-async', ElementWitAsync);
-            const elem = document.createElement('elem-with-async');
+            customElements.define(tag, ElementWitAsync);
+            const elem = document.createElement(tag);
             document.body.appendChild(elem);
+            return tag;
         });
 
         await expectStyles([
-            [['elem-with-async', 'p'], 'color', 'rgb(255, 26, 26)'],
+            [[tag, 'p'], 'color', 'rgb(255, 26, 26)'],
         ]);
 
         await devtoolsUtils.paste(multiline(
@@ -62,7 +64,7 @@ describe('Custom HTML elements', () => {
         ));
 
         await expectStyles([
-            [['elem-with-async', 'p'], 'color', 'rgb(0, 128, 0)'],
+            [[tag, 'p'], 'color', 'rgb(0, 128, 0)'],
         ]);
 
         await devtoolsUtils.reset();

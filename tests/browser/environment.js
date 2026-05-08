@@ -544,14 +544,22 @@ export default class CustomJestEnvironment extends TestEnvironment {
             promises.push(promise);
         }
 
+        const closeMessageServer = () => new Promise((resolve) => {
+            if (!this.messageServer) {
+                resolve();
+                return;
+            }
+            this.messageServer.close(() => resolve());
+        });
+
         // Note: this.browser.close() will close all tabs, so no need to close them
         // explicitly
-        promises.push([
+        promises.push(
             this.testServer?.close(),
             this.corsServer?.close(),
-            this.messageServer?.close(),
+            closeMessageServer(),
             this.browser?.close(),
-        ]);
+        );
         await Promise.all(promises);
     }
 }
