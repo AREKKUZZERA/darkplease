@@ -4,16 +4,42 @@ import {isSystemDarkModeEnabled} from '../utils/media-query';
 
 const COLOR_SCHEME_META_SELECTOR = 'meta[name="color-scheme"]';
 
+function isDarkColorScheme(colorScheme: string) {
+    return colorScheme.trim().toLowerCase() === 'dark';
+}
+
+function hasDarkModeMarker() {
+    const root = document.documentElement;
+    const body = document.body;
+    const hasDarkClass = (element: Element | null) => Boolean(
+        element?.classList.contains('dark') ||
+        element?.classList.contains('dark-mode') ||
+        element?.classList.contains('dark-theme')
+    );
+    const hasDarkAttribute = (element: Element | null) => {
+        if (!element) {
+            return false;
+        }
+        return (
+            element.getAttribute('data-theme')?.toLowerCase() === 'dark' ||
+            element.getAttribute('data-color-scheme')?.toLowerCase() === 'dark' ||
+            element.getAttribute('data-bs-theme')?.toLowerCase() === 'dark' ||
+            element.getAttribute('color-scheme')?.toLowerCase() === 'dark'
+        );
+    };
+
+    return hasDarkClass(root) || hasDarkAttribute(root) || hasDarkClass(body) || hasDarkAttribute(body);
+}
+
 function hasBuiltInDarkTheme() {
     const rootStyle = getComputedStyle(document.documentElement);
-    if (rootStyle.filter.includes('invert(1)') || rootStyle.colorScheme === 'dark') {
+    if (rootStyle.filter.includes('invert(1)') || isDarkColorScheme(rootStyle.colorScheme)) {
         return true;
     }
 
-    // Check body color-scheme too
     if (document.body) {
         const bodyStyle = getComputedStyle(document.body);
-        if (bodyStyle.colorScheme === 'dark') {
+        if (isDarkColorScheme(bodyStyle.colorScheme)) {
             return true;
         }
     }
@@ -85,28 +111,14 @@ function hasBuiltInDarkTheme() {
 function runCheck(callback: (hasDarkTheme: boolean) => void) {
     const colorSchemeMeta = document.querySelector(COLOR_SCHEME_META_SELECTOR) as HTMLMetaElement;
     if (colorSchemeMeta) {
-        const isMetaDark = colorSchemeMeta.content === 'dark' || (colorSchemeMeta.content.includes('dark') && isSystemDarkModeEnabled());
-        callback(isMetaDark);
-        return;
+        const schemes = colorSchemeMeta.content.toLowerCase().split(/\s+/);
+        if ((schemes.length === 1 && schemes[0] === 'dark') || (schemes.includes('dark') && isSystemDarkModeEnabled())) {
+            callback(true);
+            return;
+        }
     }
 
-    // Check common dark-mode class/attribute patterns used by popular frameworks
-    const root = document.documentElement;
-    const body = document.body;
-    if (
-        root.classList.contains('dark') ||
-        root.classList.contains('dark-mode') ||
-        root.classList.contains('dark-theme') ||
-        root.getAttribute('data-theme')?.toLowerCase() === 'dark' ||
-        root.getAttribute('data-color-scheme')?.toLowerCase() === 'dark' ||
-        root.getAttribute('data-bs-theme')?.toLowerCase() === 'dark' ||
-        root.getAttribute('color-scheme')?.toLowerCase() === 'dark' ||
-        body?.classList.contains('dark') ||
-        body?.classList.contains('dark-mode') ||
-        body?.classList.contains('dark-theme') ||
-        body?.getAttribute('data-theme')?.toLowerCase() === 'dark' ||
-        document.documentElement.dataset.theme?.toLocaleLowerCase() === 'dark'
-    ) {
+    if (hasDarkModeMarker() && hasBuiltInDarkTheme()) {
         callback(true);
         return;
     }
@@ -173,8 +185,15 @@ export function runDarkThemeDetector(callback: (hasDarkTheme: boolean) => void, 
             callback(true);
             return;
         }
+        if (hint.systemTheme) {
+            callback(false);
+            return;
+        }
         detectUsingHint(hint, () => callback(true));
-        return;
+        if (canCheckForStyle()) {
+            runCheck(callback);
+            return;
+        }
     }
 
     if (canCheckForStyle()) {
@@ -184,7 +203,7 @@ export function runDarkThemeDetector(callback: (hasDarkTheme: boolean) => void, 
 
     observer = new MutationObserver(() => {
         if (canCheckForStyle()) {
-            stopDarkThemeDetector();
+            stopStyleCheckDetector();
             runCheck(callback);
         }
     });
@@ -193,7 +212,7 @@ export function runDarkThemeDetector(callback: (hasDarkTheme: boolean) => void, 
     if (document.readyState !== 'complete') {
         readyStateListener = () => {
             if (document.readyState === 'complete') {
-                stopDarkThemeDetector();
+                stopStyleCheckDetector();
                 runCheck(callback);
             }
         };
@@ -203,6 +222,11 @@ export function runDarkThemeDetector(callback: (hasDarkTheme: boolean) => void, 
 }
 
 export function stopDarkThemeDetector(): void {
+    stopStyleCheckDetector();
+    stopDetectingUsingHint();
+}
+
+function stopStyleCheckDetector() {
     if (observer) {
         observer.disconnect();
         observer = null;
@@ -211,7 +235,6 @@ export function stopDarkThemeDetector(): void {
         document.removeEventListener('readystatechange', readyStateListener);
         readyStateListener = null;
     }
-    stopDetectingUsingHint();
 }
 
 let hintTargetObserver: MutationObserver;

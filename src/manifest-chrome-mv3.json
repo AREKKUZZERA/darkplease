@@ -21,7 +21,8 @@
     "content_scripts": [
         {
             "matches": [
-                "<all_urls>"
+                "http://*/*",
+                "https://*/*"
             ],
             "js": [
                 "inject/proxy.js"
@@ -33,7 +34,8 @@
         },
         {
             "matches": [
-                "<all_urls>"
+                "http://*/*",
+                "https://*/*"
             ],
             "js": [
                 "inject/fallback.js",
@@ -46,7 +48,8 @@
         },
         {
             "matches": [
-                "<all_urls>"
+                "http://*/*",
+                "https://*/*"
             ],
             "js": [
                 "inject/color-scheme-watcher.js"

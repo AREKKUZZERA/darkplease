@@ -177,6 +177,12 @@ it('URL is enabled', () => {
         fillUserSettings({enableForPDF: false, disabledFor: ['leetcode.com/problems/'], enabledFor: [], enabledByDefault: true}),
         {isProtected: false, isInDarkList: false},
     )).toBe(true);
+    expect(isURLEnabled(
+        'file:///Users/index.html',
+        fillUserSettings({disabledFor: [], enabledFor: ['file:///Users/index.html'], enabledByDefault: true}),
+        {isProtected: false, isInDarkList: false},
+        true,
+    )).toBe(false);
 
     // Dark theme detection
     expect(isURLEnabled(

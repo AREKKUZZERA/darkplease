@@ -102,52 +102,74 @@ function onMessage(message: MessageBGtoCS | MessageUItoCS | DebugMessageBGtoCS) 
         case MessageTypeBGtoCS.ADD_STATIC_THEME: {
             const {css, detectDarkTheme, detectorHints} = message.data;
             removeDynamicTheme();
-            createOrUpdateStyle(css, message.type === MessageTypeBGtoCS.ADD_STATIC_THEME ? 'static' : 'filter');
-            writeEnabledForHost(true);
+            const applyStyle = () => {
+                createOrUpdateStyle(css, message.type === MessageTypeBGtoCS.ADD_STATIC_THEME ? 'static' : 'filter');
+                writeEnabledForHost(true);
+            };
             if (detectDarkTheme) {
                 runDarkThemeDetector((hasDarkTheme) => {
                     if (hasDarkTheme) {
                         removeStyle();
                         onDarkThemeDetected();
+                    } else {
+                        applyStyle();
                     }
                 }, detectorHints);
+            } else {
+                applyStyle();
             }
             break;
         }
         case MessageTypeBGtoCS.ADD_SVG_FILTER: {
             const {css, svgMatrix, svgReverseMatrix, detectDarkTheme, detectorHints} = message.data;
             removeDynamicTheme();
-            createOrUpdateSVGFilter(svgMatrix, svgReverseMatrix);
-            createOrUpdateStyle(css, 'filter');
-            writeEnabledForHost(true);
+            const applySVGFilter = () => {
+                createOrUpdateSVGFilter(svgMatrix, svgReverseMatrix);
+                createOrUpdateStyle(css, 'filter');
+                writeEnabledForHost(true);
+            };
             if (detectDarkTheme) {
                 runDarkThemeDetector((hasDarkTheme) => {
                     if (hasDarkTheme) {
                         removeStyle();
                         removeSVGFilter();
                         onDarkThemeDetected();
+                    } else {
+                        applySVGFilter();
                     }
                 }, detectorHints);
+            } else {
+                applySVGFilter();
             }
             break;
         }
         case MessageTypeBGtoCS.ADD_DYNAMIC_THEME: {
             const {theme, fixes, isIFrame, detectDarkTheme, detectorHints} = message.data;
             removeStyle();
-            createOrUpdateDynamicTheme(theme, fixes, isIFrame);
-            writeEnabledForHost(true);
+            const markReadyForTesting = () => {
+                if (__TEST__) {
+                    darkpleaseDynamicThemeStateForTesting = 'ready';
+                    sendMessageForTesting('darkplease-dynamic-theme-ready');
+                    sendMessageForTesting(`darkplease-dynamic-theme-ready-${document.location.pathname}`);
+                }
+            };
+            const applyDynamicTheme = () => {
+                createOrUpdateDynamicTheme(theme, fixes, isIFrame);
+                writeEnabledForHost(true);
+                markReadyForTesting();
+            };
             if (detectDarkTheme) {
                 runDarkThemeDetector((hasDarkTheme) => {
                     if (hasDarkTheme) {
                         removeDynamicTheme();
                         onDarkThemeDetected();
+                        markReadyForTesting();
+                    } else {
+                        applyDynamicTheme();
                     }
                 }, detectorHints);
-            }
-            if (__TEST__) {
-                darkpleaseDynamicThemeStateForTesting = 'ready';
-                sendMessageForTesting('darkplease-dynamic-theme-ready');
-                sendMessageForTesting(`darkplease-dynamic-theme-ready-${document.location.pathname}`);
+            } else {
+                applyDynamicTheme();
             }
             break;
         }

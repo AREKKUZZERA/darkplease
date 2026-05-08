@@ -401,8 +401,8 @@ function isInListOptimized(url: string, list: string[]) {
     return isURLInIndexedList(url, index);
 }
 
-export function isURLEnabled(url: string, userSettings: UserSettings, {isProtected, isInDarkList, isDarkThemeDetected}: Partial<TabInfo>, isAllowedFileSchemeAccess = true): boolean {
-    if (isLocalFile(url) && !isAllowedFileSchemeAccess) {
+export function isURLEnabled(url: string, userSettings: UserSettings, {isProtected, isInDarkList, isDarkThemeDetected}: Partial<TabInfo>, _isAllowedFileSchemeAccess = false): boolean {
+    if (isLocalFile(url)) {
         return false;
     }
     if (isProtected && !userSettings.enableForProtectedPages) {
@@ -432,7 +432,7 @@ export function isURLEnabled(url: string, userSettings: UserSettings, {isProtect
 }
 
 export function isLocalFile(url: string): boolean {
-    return Boolean(url) && url.startsWith('file:///');
+    return Boolean(url) && url.startsWith('file:');
 }
 
 interface URLTrieNode<T = any> {

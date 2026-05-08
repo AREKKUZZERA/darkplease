@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "DARK PLEASE!",
-    "version": "2.5.1",
+    "version": "2.5.2",
     "author": "AREKKUZZERA",
     "description": "__MSG_extension_description__",
     "default_locale": "en",
@@ -25,7 +25,8 @@
     "content_scripts": [
         {
             "matches": [
-                "<all_urls>"
+                "http://*/*",
+                "https://*/*"
             ],
             "js": [
                 "inject/fallback.js",

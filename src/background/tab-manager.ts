@@ -407,6 +407,7 @@ export default class TabManager {
 
     static async updateContentScript(options: {runOnProtectedPages: boolean}): Promise<void> {
         (await queryTabs({discarded: false}))
+            .filter((tab) => tab.url && !tab.url.startsWith('file:'))
             .filter((tab) => __CHROMIUM_MV3__ || options.runOnProtectedPages || canInjectScript(tab.url))
             .filter((tab) => !TabManager.tabs[tab.id!])
             .forEach((tab) => {

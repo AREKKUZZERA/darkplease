@@ -8,7 +8,7 @@ export function canInjectScript(url: string | null | undefined): boolean {
     }
     // Never inject into local file:// URLs — the extension should not modify
     // local HTML files opened directly from the filesystem
-    if (url && url.startsWith('file:///')) {
+    if (url && url.startsWith('file:')) {
         return false;
     }
     if (isFirefox) {
