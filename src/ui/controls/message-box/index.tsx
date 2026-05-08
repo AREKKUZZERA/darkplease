@@ -5,7 +5,7 @@ import Overlay from '../overlay';
 
 interface MessageBoxProps {
     caption: string;
-    onOK?: () => void;
+    onOK?: () => void | Promise<void>;
     onCancel?: () => void;
     hideCancel?: boolean;
     portalKey?: any;

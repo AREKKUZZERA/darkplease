@@ -107,9 +107,7 @@ export function DynamicPerSiteEditor(props: DevtoolsProps): Malevic.Child {
                 <ConfigEditor
                     text={fixText}
                     apply={apply}
-                    reset={() => {
-                        props.actions.resetDevDynamicThemeFixes();
-                    }}
+                    reset={() => props.actions.resetDevDynamicThemeFixes()}
                     delete={async () => {
                         const index = store.fixes.indexOf(store.currentFix!);
                         store.fixes.splice(index, 1);

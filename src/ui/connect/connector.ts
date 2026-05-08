@@ -116,8 +116,12 @@ export default class Connector implements ExtensionActions {
         return await this.sendRequest<void>(MessageTypeUItoBG.APPLY_DEV_DYNAMIC_THEME_FIXES, text);
     }
 
-    resetDevDynamicThemeFixes(): void {
-        chrome.runtime.sendMessage<MessageUItoBG>({type: MessageTypeUItoBG.RESET_DEV_DYNAMIC_THEME_FIXES});
+    async resetDevDynamicThemeFixes(): Promise<void> {
+        if (isFirefox) {
+            chrome.runtime.sendMessage<MessageUItoBG>({type: MessageTypeUItoBG.RESET_DEV_DYNAMIC_THEME_FIXES});
+            return;
+        }
+        return await this.sendRequest<void>(MessageTypeUItoBG.RESET_DEV_DYNAMIC_THEME_FIXES);
     }
 
     async applyDevInversionFixes(text: string): Promise<void> {
@@ -127,8 +131,12 @@ export default class Connector implements ExtensionActions {
         return await this.sendRequest<void>(MessageTypeUItoBG.APPLY_DEV_INVERSION_FIXES, text);
     }
 
-    resetDevInversionFixes(): void {
-        chrome.runtime.sendMessage<MessageUItoBG>({type: MessageTypeUItoBG.RESET_DEV_INVERSION_FIXES});
+    async resetDevInversionFixes(): Promise<void> {
+        if (isFirefox) {
+            chrome.runtime.sendMessage<MessageUItoBG>({type: MessageTypeUItoBG.RESET_DEV_INVERSION_FIXES});
+            return;
+        }
+        return await this.sendRequest<void>(MessageTypeUItoBG.RESET_DEV_INVERSION_FIXES);
     }
 
     async applyDevStaticThemes(text: string): Promise<void> {
@@ -138,8 +146,12 @@ export default class Connector implements ExtensionActions {
         return await this.sendRequest<void>(MessageTypeUItoBG.APPLY_DEV_STATIC_THEMES, text);
     }
 
-    resetDevStaticThemes(): void {
-        chrome.runtime.sendMessage<MessageUItoBG>({type: MessageTypeUItoBG.RESET_DEV_STATIC_THEMES});
+    async resetDevStaticThemes(): Promise<void> {
+        if (isFirefox) {
+            chrome.runtime.sendMessage<MessageUItoBG>({type: MessageTypeUItoBG.RESET_DEV_STATIC_THEMES});
+            return;
+        }
+        return await this.sendRequest<void>(MessageTypeUItoBG.RESET_DEV_STATIC_THEMES);
     }
 
     async hideHighlights(ids: string[]): Promise<void> {

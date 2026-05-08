@@ -149,6 +149,7 @@ export default class Messenger {
             }
             case MessageTypeUItoBG.RESET_DEV_DYNAMIC_THEME_FIXES:
                 Messenger.adapter.resetDevDynamicThemeFixes();
+                sendResponse({});
                 break;
             case MessageTypeUItoBG.APPLY_DEV_INVERSION_FIXES: {
                 const error = Messenger.adapter.applyDevInversionFixes(data);
@@ -157,6 +158,7 @@ export default class Messenger {
             }
             case MessageTypeUItoBG.RESET_DEV_INVERSION_FIXES:
                 Messenger.adapter.resetDevInversionFixes();
+                sendResponse({});
                 break;
             case MessageTypeUItoBG.APPLY_DEV_STATIC_THEMES: {
                 const error = Messenger.adapter.applyDevStaticThemes(data);
@@ -165,6 +167,7 @@ export default class Messenger {
             }
             case MessageTypeUItoBG.RESET_DEV_STATIC_THEMES:
                 Messenger.adapter.resetDevStaticThemes();
+                sendResponse({});
                 break;
             case MessageTypeUItoBG.HIDE_HIGHLIGHTS:
                 Messenger.adapter.hideHighlights(data);

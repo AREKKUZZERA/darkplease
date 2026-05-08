@@ -36,11 +36,11 @@ export interface ExtensionActions {
     toggleActiveTab(): void;
     loadConfig(options: {local: boolean}): void;
     applyDevDynamicThemeFixes(text: string): Promise<void>;
-    resetDevDynamicThemeFixes(): void;
+    resetDevDynamicThemeFixes(): Promise<void>;
     applyDevInversionFixes(text: string): Promise<void>;
-    resetDevInversionFixes(): void;
+    resetDevInversionFixes(): Promise<void>;
     applyDevStaticThemes(text: string): Promise<void>;
-    resetDevStaticThemes(): void;
+    resetDevStaticThemes(): Promise<void>;
     hideHighlights(ids: string[]): void;
 }
 

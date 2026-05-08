@@ -3,10 +3,7 @@ import {getSRGBLightness, parseColorWithCache} from '../utils/color';
 import {isSystemDarkModeEnabled} from '../utils/media-query';
 
 const COLOR_SCHEME_META_SELECTOR = 'meta[name="color-scheme"]';
-
-function isDarkColorScheme(colorScheme: string) {
-    return colorScheme.trim().toLowerCase().split(/\s+/)[0] === 'dark';
-}
+const STYLE_SELECTOR = 'style:not(.darkplease), link[rel~="stylesheet"]';
 
 function hasDarkModeMarker() {
     const root = document.documentElement;
@@ -33,15 +30,8 @@ function hasDarkModeMarker() {
 
 function hasBuiltInDarkTheme() {
     const rootStyle = getComputedStyle(document.documentElement);
-    if (rootStyle.filter.includes('invert(1)') || isDarkColorScheme(rootStyle.colorScheme)) {
+    if (rootStyle.filter.includes('invert(1)')) {
         return true;
-    }
-
-    if (document.body) {
-        const bodyStyle = getComputedStyle(document.body);
-        if (isDarkColorScheme(bodyStyle.colorScheme)) {
-            return true;
-        }
     }
 
     const CELL_SIZE = 256;
@@ -104,18 +94,7 @@ function hasBuiltInDarkTheme() {
     if (darkSamples + lightSamples > 0) {
         return darkSamples > lightSamples;
     }
-
-    const rootColor = parseColorWithCache(rootStyle.backgroundColor);
-    if (!rootColor) {
-        return false;
-    }
-    const bodyColor = document.body ? parseColorWithCache(getComputedStyle(document.body).backgroundColor) : {r: 0, g: 0, b: 0, a: 0};
-    if (!bodyColor) {
-        return false;
-    }
-    const rootLightness = (1 - rootColor.a!) + rootColor.a! * getSRGBLightness(rootColor.r, rootColor.g, rootColor.b);
-    const finalLightness = (1 - bodyColor.a!) * rootLightness + bodyColor.a! * getSRGBLightness(bodyColor.r, bodyColor.g, bodyColor.b);
-    return finalLightness < 0.5;
+    return false;
 }
 
 function runCheck(callback: (hasDarkTheme: boolean) => void) {
@@ -153,6 +132,15 @@ function hasSomeStyle() {
     }
     if (document.documentElement.style.backgroundColor || (document.body && document.body.style.backgroundColor)) {
         return true;
+    }
+    if (document.querySelector(STYLE_SELECTOR)) {
+        return true;
+    }
+    const walker = document.createTreeWalker(document.documentElement, NodeFilter.SHOW_ELEMENT);
+    for (let node = walker.currentNode as Element | null; node; node = walker.nextNode() as Element | null) {
+        if (node.shadowRoot?.querySelector(STYLE_SELECTOR)) {
+            return true;
+        }
     }
     for (const style of document.styleSheets) {
         if (style && style.ownerNode && !((style.ownerNode as HTMLElement).classList && (style.ownerNode as HTMLElement).classList.contains('darkplease'))) {

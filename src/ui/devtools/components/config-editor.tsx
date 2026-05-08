@@ -9,7 +9,7 @@ interface ConfigEditorProps {
     header?: string;
     text: string;
     apply?: (text: string) => Promise<void>;
-    reset?: () => void;
+    reset?: () => Promise<void>;
     delete?: () => void;
 }
 
@@ -17,7 +17,7 @@ export function ConfigEditor(props: ConfigEditorProps): Malevic.Child {
     const context = getContext();
     const store = context.getStore({
         dialogMessage: '',
-        dialogAction: null as (() => void) | null,
+        dialogAction: null as (() => void | Promise<void>) | null,
         errorText: '',
     });
 
@@ -62,17 +62,17 @@ export function ConfigEditor(props: ConfigEditorProps): Malevic.Child {
         context.refresh();
     }
 
-    function showDialog(message: string, action: () => void): void {
+    function showDialog(message: string, action: () => void | Promise<void>): void {
         store.dialogMessage = message;
         store.dialogAction = action;
         context.refresh();
     }
 
-    function reset(): void {
+    async function reset(): Promise<void> {
         store.dialogMessage = '';
         store.dialogAction = null;
         store.errorText = '';
-        props.reset!();
+        await props.reset!();
         context.refresh();
     }
 

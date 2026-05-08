@@ -110,8 +110,8 @@ integrity/        extension integrity assets
 
 The detector is designed to be conservative:
 
-- Respect explicit dark `color-scheme` declarations.
-- Treat `color-scheme: dark light` as dark when dark is the active first scheme.
+- Respect explicit dark color-scheme metadata.
+- Treat explicit dark color-scheme metadata as a fast native dark-mode signal.
 - Respect system-driven dark metadata when the system preference is dark.
 - Look for common dark-mode classes and attributes.
 - Sample visible page backgrounds instead of relying on a single element.

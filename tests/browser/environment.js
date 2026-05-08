@@ -375,6 +375,7 @@ export default class CustomJestEnvironment extends TestEnvironment {
      */
     async createMessageServer() {
         const awaitForEvent = this.awaitForEvent.bind(this);
+        const getPagePathname = () => new URL(this.page.url()).pathname;
 
         // Puppeteer cannot evaluate scripts in moz-extension:// pages
         // https://github.com/puppeteer/puppeteer/issues/6616
@@ -464,7 +465,8 @@ export default class CustomJestEnvironment extends TestEnvironment {
             }
 
             async function applyDevtoolsConfig(type, fixes) {
-                const promise = awaitForEvent('darkplease-dynamic-theme-ready');
+                const pathname = getPagePathname();
+                const promise = awaitForEvent(`darkplease-dynamic-theme-ready-${pathname}`);
                 await Promise.all([
                     sendToDevTools(type, fixes),
                     promise,

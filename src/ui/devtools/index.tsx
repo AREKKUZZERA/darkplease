@@ -91,11 +91,23 @@ if (__TEST__) {
                     (buttonApply as HTMLButtonElement).click();
                     respond({id});
                     break;
-                case 'devtools-reset':
-                    respond({id});
+                case 'devtools-reset': {
+                    const oldValue = textarea.value;
                     (buttonReset as HTMLButtonElement).click();
                     (document.querySelector('button.message-box__button-ok') as HTMLButtonElement).click();
+                    let attempts = 10;
+                    const waitForReset = () => {
+                        const nextTextArea: HTMLTextAreaElement | null = document.querySelector('.config-editor textarea.editor');
+                        if (!nextTextArea || nextTextArea.value !== oldValue || attempts === 0) {
+                            respond({id, data: nextTextArea ? nextTextArea.value !== oldValue : false});
+                            return;
+                        }
+                        attempts--;
+                        requestIdleCallback(waitForReset, {timeout: 500});
+                    };
+                    waitForReset();
                     break;
+                }
             }
         } catch (err) {
             respond({id, error: String(err)});

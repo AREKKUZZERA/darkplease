@@ -63,7 +63,7 @@ async function build({platforms, debug, watch, log: logging, test, version}) {
             reload.reload({type: reload.FULL});
             log.ok('Watching...');
         } else {
-            log.ok('MISSION PASSED! RESPECT +');
+            log.ok('BUILD PASSED! GG');
         }
     } catch (err) {
         console.log(err);
@@ -88,7 +88,7 @@ async function api(debug, watch) {
             await bundleAPI.watch();
             log.ok('Watching...');
         }
-        log.ok('MISSION PASSED! RESPECT +');
+        log.ok('BUILD PASSED! GG');
     } catch (err) {
         console.log(err);
         log.error('MISSION FAILED!');

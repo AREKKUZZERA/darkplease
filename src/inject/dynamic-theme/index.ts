@@ -676,6 +676,7 @@ export function createOrUpdateDynamicTheme(theme: Theme, dynamicThemeFixes: Dyna
 
 let prevTheme: Theme | null = null;
 let prevFixes: DynamicThemeFix | null = null;
+let prevFixesText: string | null = null;
 
 /**
  * Note: This function should be directly used only in API builds, it is exported by this fle
@@ -683,6 +684,11 @@ let prevFixes: DynamicThemeFix | null = null;
  * extension should use only createOrUpdateDynamicTheme()
  */
 export function createOrUpdateDynamicThemeInternal(themeConfig: Theme, dynamicThemeFixes: DynamicThemeFix | null, iframe: boolean): void {
+    const fixesText = JSON.stringify(dynamicThemeFixes);
+    if (prevTheme && prevFixesText !== null && fixesText !== prevFixesText) {
+        removeDynamicTheme();
+    }
+
     theme = themeConfig;
     fixes = dynamicThemeFixes;
 
@@ -712,7 +718,7 @@ export function createOrUpdateDynamicThemeInternal(themeConfig: Theme, dynamicTh
             }
         }
 
-        if (onlyColorsChanged && JSON.stringify(fixes) !== JSON.stringify(prevFixes)) {
+        if (onlyColorsChanged && fixesText !== prevFixesText) {
             onlyColorsChanged = false;
         }
 
@@ -795,6 +801,7 @@ export function createOrUpdateDynamicThemeInternal(themeConfig: Theme, dynamicTh
 
     prevTheme = theme;
     prevFixes = fixes;
+    prevFixesText = fixesText;
 }
 
 function removeProxy() {
@@ -859,4 +866,5 @@ export function cleanDynamicThemeCache(): void {
     releaseVariablesSheet();
     prevTheme = null;
     prevFixes = null;
+    prevFixesText = null;
 }
