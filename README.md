@@ -32,16 +32,6 @@ The extension tries to avoid fighting a website's own dark mode. It checks page 
 - Bundled config files for dark sites, detector hints, inversion fixes, dynamic theme fixes, static themes, and color schemes.
 - Popup, options page, devtools editors, and import/export for settings.
 
-## Current Target
-
-- Extension version: `2.5.2`
-- Primary build target: Chrome MV3
-- Source language: TypeScript
-- UI framework: Malevic
-- Styling: Less
-- Build system: Rollup-based project scripts
-- Validation: ESLint, Jest, Karma/browser tests
-
 ## Getting Started
 
 ```bash
