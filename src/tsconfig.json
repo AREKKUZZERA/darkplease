@@ -1,9 +1,8 @@
 {
     "compilerOptions": {
         "target": "ES2019",
-        "baseUrl": "./",
         "module": "ES2015",
-        "moduleResolution": "node",
+        "moduleResolution": "bundler",
         "lib": [
             "ES2022",
             "Dom",
@@ -13,7 +12,6 @@
             "chrome"
         ],
         "allowJs": true,
-        "downlevelIteration": true,
         "noImplicitAny": true,
         "noUnusedLocals": true,
         "resolveJsonModule": true,

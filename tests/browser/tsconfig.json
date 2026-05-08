@@ -1,9 +1,9 @@
 {
     "compilerOptions": {
         "target": "ES2019",
-        "module": "CommonJS",
+        "module": "ES2020",
         "lib": [
-            "ES2015",
+            "ES2022",
             "Dom"
         ],
         "types": [
@@ -12,11 +12,10 @@
             "puppeteer-core"
         ],
         "allowJs": true,
-        "downlevelIteration": true,
         "esModuleInterop": true,
         "jsx": "react",
         "jsxFactory": "m",
-        "moduleResolution": "Node",
+        "moduleResolution": "bundler",
         "noEmit": true,
         "noImplicitAny": true,
     }

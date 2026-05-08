@@ -13,11 +13,10 @@
             "jasmine"
         ],
         "allowJs": true,
-        "downlevelIteration": true,
         "esModuleInterop": true,
         "jsx": "react",
         "jsxFactory": "m",
-        "moduleResolution": "Node",
+        "moduleResolution": "bundler",
         "noEmit": true,
         "noImplicitAny": true,
         "removeComments": false,

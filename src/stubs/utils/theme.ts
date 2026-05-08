@@ -1,5 +1,5 @@
-import type {Theme} from 'definitions';
-import type {HSLA} from 'utils/color';
+import type {Theme} from '../../definitions';
+import type {HSLA} from '../../utils/color';
 
 export function getBackgroundPoles(_theme: Theme): [string, string] {
     return ['', ''];
