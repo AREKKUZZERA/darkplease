@@ -123,7 +123,6 @@ describe('Toggling the extension', () => {
         await emulateColorScheme('dark');
     });
 
-    // Note: this test is relevant only to Firefox and Thunderbird
     it('should ignore color watcher messages from subframes', async () => {
         const darkPageExpectations: StyleExpectations = [
             ['document', 'background-color', 'rgb(24, 26, 27)'],
@@ -242,6 +241,6 @@ describe('Toggling the extension', () => {
         await loadBasicPage('Dynamic styles');
 
         const numStyles = await pageUtils.evaluateScript(() => document.styleSheets.length);
-        expect(numStyles).toBe(product === 'firefox' ? 10 : 1);
+        expect(numStyles).toBe(1);
     });
 });

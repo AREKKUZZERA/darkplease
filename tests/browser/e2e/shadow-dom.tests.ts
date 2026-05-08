@@ -10,12 +10,6 @@ describe('Custom HTML elements', () => {
     jest.retryTimes(10, {logErrorsBeforeRetry: true});
 
     it('Asynchronous define', async () => {
-        // Temporarily disable this test on Firefox
-        if (product === 'firefox') {
-            expect(true);
-            return;
-        }
-
         await loadTestPage({
             '/': multiline(
                 '<!DOCTYPE html>',

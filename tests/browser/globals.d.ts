@@ -26,10 +26,8 @@ declare global {
         changeSettings: (settings: Partial<UserSettings>) => Promise<void>;
         collectData: () => Promise<ExtensionData>;
         changeChromeStorage: (region: 'local' | 'sync', data: {[key: string]: any}) => Promise<void>;
-        getColorScheme: () => Promise<ColorScheme>;
         getChromeStorage: (region: 'local' | 'sync', keys: string[]) => Promise<{[key: string]: any}>;
         getManifest: () => Promise<chrome.runtime.Manifest>;
-        createTab: (url: string) => Promise<void>;
         onDownload: (callback: (p: {ok: boolean}) => void) => void;
     };
     const pageUtils: {
@@ -39,5 +37,5 @@ declare global {
     const awaitForEvent: (uuid: string) => Promise<void>;
     const expectPageStyles: (expect: jest.Expect, expectations: StyleExpectations) => Promise<void>;
     const getColorScheme: () => Promise<ColorScheme>;
-    const product: 'firefox';
+    const product: 'chrome-mv3';
 }

@@ -34,12 +34,10 @@ export function configureKarma(config, env) {
         ],
         plugins: [
             'karma-chrome-launcher',
-            'karma-firefox-launcher',
-            process.platform === 'darwin' ? 'karma-safari-launcher' : null,
             'karma-rollup-preprocessor',
             'karma-jasmine',
             'karma-spec-reporter',
-        ].filter(Boolean),
+        ],
         preprocessors: {
             '**/*.+(ts|tsx)': ['rollup'],
         },
@@ -78,8 +76,8 @@ export function configureKarma(config, env) {
         logLevel: config.LOG_INFO,
         autoWatch: true,
         browsers: headless
-            ? ['ChromeHeadless', 'FirefoxHeadless']
-            : ['Chrome', 'Firefox', process.platform === 'darwin' ? 'Safari' : null].filter(Boolean),
+            ? ['ChromeHeadless']
+            : ['Chrome'],
         singleRun: true,
         concurrency: 1,
     };
@@ -95,26 +93,11 @@ export function configureKarma(config, env) {
         options.customLaunchers = {};
         options.browsers = [];
 
-        // CHROME_TEST and FIREFOX_TEST are used in CI
-        const chrome = env.CHROME_TEST;
-        const firefox = env.FIREFOX_TEST;
-        const all = !chrome && !firefox;
-        // Chrome
-        if (chrome || all) {
-            options.customLaunchers['CIChromeHeadless'] = {
-                base: 'ChromeHeadless',
-                flags: ['--no-sandbox', '--disable-setuid-sandbox'],
-            };
-            options.browsers.push('CIChromeHeadless');
-        }
-
-        // Firefox
-        if (firefox || all) {
-            options.customLaunchers['CIFirefoxHeadless'] = {
-                base: 'FirefoxHeadless',
-            };
-            options.browsers.push('CIFirefoxHeadless');
-        }
+        options.customLaunchers['CIChromeHeadless'] = {
+            base: 'ChromeHeadless',
+            flags: ['--no-sandbox', '--disable-setuid-sandbox'],
+        };
+        options.browsers.push('CIChromeHeadless');
 
         options.autoWatch = false;
         options.singleRun = true;
