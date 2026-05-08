@@ -5,7 +5,7 @@ import {isSystemDarkModeEnabled} from '../utils/media-query';
 const COLOR_SCHEME_META_SELECTOR = 'meta[name="color-scheme"]';
 
 function isDarkColorScheme(colorScheme: string) {
-    return colorScheme.trim().toLowerCase() === 'dark';
+    return colorScheme.trim().toLowerCase().split(/\s+/)[0] === 'dark';
 }
 
 function hasDarkModeMarker() {
@@ -52,6 +52,8 @@ function hasBuiltInDarkTheme() {
     const stepY = Math.floor(winHeight / Math.min(MAX_ROW_COUNT, Math.ceil(winHeight / CELL_SIZE)));
 
     const processedElements = new Set<Element>();
+    let darkSamples = 0;
+    let lightSamples = 0;
 
     for (let y = Math.floor(stepY / 2); y < winHeight; y += stepY) {
         for (let x = Math.floor(stepX / 2); x < winWidth; x += stepX) {
@@ -76,7 +78,9 @@ function hasBuiltInDarkTheme() {
             if (bgColor.a === 1) {
                 const bgLightness = getSRGBLightness(bgColor.r, bgColor.g, bgColor.b);
                 if (bgLightness > 0.5) {
-                    return false;
+                    lightSamples++;
+                } else {
+                    darkSamples++;
                 }
             } else if ((bgColor.a ?? 0) > 0) {
                 // Semi-transparent: check text color
@@ -87,12 +91,18 @@ function hasBuiltInDarkTheme() {
                 }
                 const textLightness = getSRGBLightness(textColor.r, textColor.g, textColor.b);
                 if (textLightness < 0.5) {
-                    return false;
+                    lightSamples++;
+                } else {
+                    darkSamples++;
                 }
             }
             // Fully transparent elements (bgColor.a === 0) are skipped — they don't
             // reveal the page background color on their own
         }
+    }
+
+    if (darkSamples + lightSamples > 0) {
+        return darkSamples > lightSamples;
     }
 
     const rootColor = parseColorWithCache(rootStyle.backgroundColor);
@@ -112,7 +122,7 @@ function runCheck(callback: (hasDarkTheme: boolean) => void) {
     const colorSchemeMeta = document.querySelector(COLOR_SCHEME_META_SELECTOR) as HTMLMetaElement;
     if (colorSchemeMeta) {
         const schemes = colorSchemeMeta.content.toLowerCase().split(/\s+/);
-        if ((schemes.length === 1 && schemes[0] === 'dark') || (schemes.includes('dark') && isSystemDarkModeEnabled())) {
+        if (schemes[0] === 'dark' || (schemes.includes('dark') && isSystemDarkModeEnabled())) {
             callback(true);
             return;
         }
@@ -175,36 +185,45 @@ function canCheckForStyle() {
 
 export function runDarkThemeDetector(callback: (hasDarkTheme: boolean) => void, hints: DetectorHint[]): void {
     stopDarkThemeDetector();
+    let didDetect = false;
+    const detectOnce = (hasDarkTheme: boolean) => {
+        if (didDetect) {
+            return;
+        }
+        didDetect = true;
+        stopDarkThemeDetector();
+        callback(hasDarkTheme);
+    };
     if (hints && hints.length > 0) {
         const hint = hints[0];
         if (hint.noDarkTheme) {
-            callback(false);
+            detectOnce(false);
             return;
         }
         if (hint.systemTheme && isSystemDarkModeEnabled()) {
-            callback(true);
+            detectOnce(true);
             return;
         }
         if (hint.systemTheme) {
-            callback(false);
+            detectOnce(false);
             return;
         }
-        detectUsingHint(hint, () => callback(true));
+        detectUsingHint(hint, () => detectOnce(true));
         if (canCheckForStyle()) {
-            runCheck(callback);
+            runCheck(detectOnce);
             return;
         }
     }
 
     if (canCheckForStyle()) {
-        runCheck(callback);
+        runCheck(detectOnce);
         return;
     }
 
     observer = new MutationObserver(() => {
         if (canCheckForStyle()) {
             stopStyleCheckDetector();
-            runCheck(callback);
+            runCheck(detectOnce);
         }
     });
     observer.observe(document.documentElement, {childList: true});
@@ -213,7 +232,7 @@ export function runDarkThemeDetector(callback: (hasDarkTheme: boolean) => void, 
         readyStateListener = () => {
             if (document.readyState === 'complete') {
                 stopStyleCheckDetector();
-                runCheck(callback);
+                runCheck(detectOnce);
             }
         };
         // readystatechange event is not cancellable and does not bubble
